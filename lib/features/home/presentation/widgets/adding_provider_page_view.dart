@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wainfih_data/features/home/presentation/views/details_section.dart';
 import 'package:wainfih_data/features/home/presentation/views/image_section.dart';
-import 'package:wainfih_data/features/home/presentation/views/location_section.dart';
+import 'package:wainfih_data/features/map/presentation/manager/location_cubit.dart';
+import 'package:wainfih_data/features/map/presentation/views/map_section.dart';
+
+import '../../../map/data/location_remote_data_source.dart';
+import '../../../map/data/location_repo_impl.dart';
 
 class AddingProviderPageView extends StatelessWidget {
   const AddingProviderPageView({
@@ -28,6 +33,10 @@ class AddingProviderPageView extends StatelessWidget {
   List<Widget> _addingSteps() => [
     const DetailsSection(),
     const ImageSection(),
-    const LocationSection(),
+    BlocProvider(
+      create: (context) =>
+          LocationCubit(LocationRepoImpl(LocationRemoteDataSourceImpl())),
+      child: const MapSection(),
+    ),
   ];
 }

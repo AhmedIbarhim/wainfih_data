@@ -16,7 +16,7 @@ class ActiveStepItem extends StatelessWidget {
         CircleAvatar(
           radius: 11.5.toRadius,
           backgroundColor: AppColors.primaryColor,
-          child: const Icon(Icons.check, color: Colors.white),
+          child: Icon(Icons.check, color: Colors.white, size: 20.0.toRadius),
         ),
         Text(
           text,
