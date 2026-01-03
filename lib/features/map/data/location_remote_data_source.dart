@@ -1,19 +1,19 @@
 import 'package:geolocator/geolocator.dart';
 
-import '../domain/location_entity.dart';
+import '../domain/location_model.dart';
 
 abstract class LocationRemoteDataSource {
-  Future<LocationEntity> getCurrentLocation();
+  Future<LocationModel> getCurrentLocation();
 }
 
 class LocationRemoteDataSourceImpl implements LocationRemoteDataSource {
   @override
-  Future<LocationEntity> getCurrentLocation() async {
+  Future<LocationModel> getCurrentLocation() async {
     final position = await Geolocator.getCurrentPosition(
       locationSettings: const LocationSettings(accuracy: LocationAccuracy.high),
     );
 
-    return LocationEntity(
+    return LocationModel(
       latitude: position.latitude,
       longitude: position.longitude,
     );

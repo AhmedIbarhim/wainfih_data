@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 
-import 'failure.dart';
-import 'location_entity.dart';
+import '../../../core/errors/failure.dart';
+import 'location_model.dart';
 
 abstract class LocationRepo {
-  Future<Either<Failure, LocationEntity>> getCurrentLocation();
+  Future<Either<Failure, LocationModel>> getCurrentLocation();
 }

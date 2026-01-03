@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:wainfih_data/features/home/presentation/widgets/image_field.dart';
+import 'package:wainfih_data/features/images/presentation/widgets/image_field.dart';
 
 class ImageSection extends StatefulWidget {
   const ImageSection({super.key});
