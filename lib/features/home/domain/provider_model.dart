@@ -1,12 +1,14 @@
 import 'dart:io';
 
+import 'package:latlong2/latlong.dart';
+
 import '../../details/domain/details_model.dart';
 import '../../map/domain/location_model.dart';
 
 class ProviderModel {
   DetailsModel? details;
   List<File>? images;
-  LocationModel? location;
+  LatLng? location;
   ProviderModel({this.details, this.images, this.location});
 
   toJson() {

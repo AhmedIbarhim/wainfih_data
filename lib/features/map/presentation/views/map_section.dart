@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:wainfih_data/core/theme/app_colors.dart';
+import 'package:wainfih_data/features/home/domain/provider_model.dart';
 import '../../data/end_points.dart';
 import '../manager/location_cubit.dart';
 import '../manager/location_states.dart';
@@ -14,8 +14,11 @@ class MapSection extends StatefulWidget {
   State<MapSection> createState() => _MapSectionState();
 }
 
-class _MapSectionState extends State<MapSection> {
-  LatLng? currentLocation;
+class _MapSectionState extends State<MapSection>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   double currentZoom = 15.0;
   final MapController controller = MapController();
 
@@ -30,11 +33,15 @@ class _MapSectionState extends State<MapSection> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if (currentLocation != null) {
-            controller.move(currentLocation!, currentZoom);
+          if (context.read<ProviderModel>().location != null) {
+            controller.move(
+              context.read<ProviderModel>().location!,
+              currentZoom,
+            );
           }
         },
         mini: true,
@@ -48,15 +55,16 @@ class _MapSectionState extends State<MapSection> {
           }
 
           if (state is LocationSuccess) {
-            currentLocation ??= state.location.toLatLng;
+            context.read<ProviderModel>().location ??= state.location
+                .toLatLng();
             return FlutterMap(
               mapController: controller,
               options: MapOptions(
-                initialCenter: currentLocation!,
+                initialCenter: context.read<ProviderModel>().location!,
                 initialZoom: currentZoom,
                 onTap: (tapPosition, point) {
                   setState(() {
-                    currentLocation = point;
+                    context.read<ProviderModel>().location = point;
                   });
                   // controller.move(point, currentZoom);
                 },
@@ -75,7 +83,7 @@ class _MapSectionState extends State<MapSection> {
                 MarkerLayer(
                   markers: [
                     Marker(
-                      point: currentLocation!,
+                      point: context.read<ProviderModel>().location!,
                       child: const Icon(
                         Icons.location_on,
                         color: Colors.red,

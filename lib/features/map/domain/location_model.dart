@@ -4,7 +4,7 @@ class LocationModel {
   final double latitude;
   final double longitude;
 
-  LatLng get toLatLng => LatLng(latitude, longitude);
+  LatLng toLatLng() => LatLng(latitude, longitude);
 
   const LocationModel({required this.latitude, required this.longitude});
 
@@ -13,6 +13,10 @@ class LocationModel {
       latitude: map['latitude'],
       longitude: map['longitude'],
     );
+  }
+
+  factory LocationModel.fromLatLng(LatLng point) {
+    return LocationModel(latitude: point.latitude, longitude: point.longitude);
   }
 
   Map<String, dynamic> toJson() {

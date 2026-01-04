@@ -1,7 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wainfih_data/features/images/presentation/widgets/image_field.dart';
+
+import '../../../home/domain/provider_model.dart';
 
 class ImageSection extends StatefulWidget {
   const ImageSection({super.key});
@@ -16,6 +19,12 @@ class _ImageSectionState extends State<ImageSection>
   bool get wantKeepAlive => true;
 
   List<File?> images = [];
+
+  @override
+  void initState() {
+    super.initState();
+    images = context.read<ProviderModel>().images!;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +42,13 @@ class _ImageSectionState extends State<ImageSection>
                 onFileChanged: (image) {
                   if (index < images.length) {
                     if (image == null) {
-                      images.removeAt(index);
+                      context.read<ProviderModel>().images!.removeAt(index);
                     } else {
-                      images[index] = image;
+                      context.read<ProviderModel>().images![index] = image;
                     }
                   } else {
                     if (image != null) {
-                      images.add(image);
+                      context.read<ProviderModel>().images!.add(image);
                     }
                   }
                   setState(() {});

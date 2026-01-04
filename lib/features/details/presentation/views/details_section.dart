@@ -16,9 +16,13 @@ class DetailsSection extends StatefulWidget {
   State<DetailsSection> createState() => _DetailsSectionState();
 }
 
-class _DetailsSectionState extends State<DetailsSection> {
+class _DetailsSectionState extends State<DetailsSection>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ValueListenableBuilder<AutovalidateMode>(
       valueListenable: widget.valueListenable,
       builder: (context, value, child) {
