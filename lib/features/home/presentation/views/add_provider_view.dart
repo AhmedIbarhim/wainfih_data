@@ -89,7 +89,7 @@ class __BodyState extends State<_Body> {
                 } else if (currentIndex == 1) {
                   _handleImagesValidation();
                 } else {
-                  _handleLocationValidation();
+                  _submitRequest();
                 }
               }
             },
@@ -116,13 +116,12 @@ class __BodyState extends State<_Body> {
   }
 
   void _handleDetailsInputValidation() {
-    // if (formKey.currentState!.validate()) {
-    //   formKey.currentState!.save();
-    //   _moveToNextStep();
-    // } else {
-    //   valueNotifier.value = AutovalidateMode.onUserInteraction;
-    // }
-    _moveToNextStep();
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
+      _moveToNextStep();
+    } else {
+      valueNotifier.value = AutovalidateMode.onUserInteraction;
+    }
   }
 
   void _handleImagesValidation() {
@@ -134,9 +133,9 @@ class __BodyState extends State<_Body> {
     }
   }
 
-  void _handleLocationValidation() {
-    // To Handle Location Validation Later
+  void _submitRequest() {
+    // To Handle submit Later
 
-    _moveToNextStep();
+    Navigator.pop(context);
   }
 }
