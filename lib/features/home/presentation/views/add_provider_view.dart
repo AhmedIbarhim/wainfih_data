@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wainfih_data/core/components/custom_button.dart';
+import 'package:wainfih_data/features/details/domain/details_model.dart';
 import 'package:wainfih_data/features/home/domain/provider_model.dart';
 import 'package:wainfih_data/features/home/presentation/widgets/adding_provider_steps.dart';
 import '../../../../core/components/custom_app_bar.dart';
@@ -16,7 +17,10 @@ class AddProviderView extends StatefulWidget {
 }
 
 class _AddProviderViewState extends State<AddProviderView> {
-  ProviderModel providerModel = ProviderModel(images: []);
+  ProviderModel providerModel = ProviderModel(
+    details: DetailsModel(),
+    images: [],
+  );
 
   @override
   Widget build(BuildContext context) {
