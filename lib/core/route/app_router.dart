@@ -3,6 +3,7 @@ import 'package:wainfih_data/features/home/presentation/views/home_view.dart';
 import 'package:wainfih_data/features/splash/presentation/splash_view.dart';
 
 import '../../features/home/presentation/views/add_provider_view.dart';
+import '../../features/home/presentation/views/my_provider_view.dart';
 import 'routes.dart';
 
 abstract class AppRouter {
@@ -16,6 +17,9 @@ abstract class AppRouter {
 
       case Routes.addProvider:
         return MaterialPageRoute(builder: (_) => const AddProviderView());
+
+      case Routes.myProviders:
+        return MaterialPageRoute(builder: (_) => const MyProviderView());
       default:
         return MaterialPageRoute(builder: (_) => const Placeholder());
     }
