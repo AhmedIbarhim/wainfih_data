@@ -30,7 +30,7 @@ class MainMaterialApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(),
+      // theme: ThemeData.dark(),
       navigatorKey: ConnectivityController.navigatorKey,
       onGenerateRoute: AppRouter.generateRoute,
       localizationsDelegates: [

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:latlong2/latlong.dart';
 
-import '../../details/domain/details_model.dart';
+import '../../details/data/models/details_model.dart';
 import '../../map/domain/location_model.dart';
 
 class ProviderModel {

@@ -2,7 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wainfih_data/core/components/custom_text_form_field.dart';
+import 'package:wainfih_data/features/details/presentation/widgets/request_form_drop_down.dart';
+import 'package:wainfih_data/features/details/presentation/widgets/request_form_mobile_field.dart';
 import 'package:wainfih_data/features/home/domain/provider_model.dart';
+
+import '../widgets/request_form_text_field.dart';
 
 class DetailsSection extends StatefulWidget {
   const DetailsSection({
@@ -35,44 +39,57 @@ class _DetailsSectionState extends State<DetailsSection>
               spacing: 20,
               children: [
                 const SizedBox(height: 40),
-                CustomTextFormField(
-                  label: "الاسم",
+                RequestFormTextField(
+                  controller: TextEditingController(),
+                  label: "اسم مقدم الخدمة",
                   onSaved: (value) =>
                       context.read<ProviderModel>().details!.name = value,
                 ),
-                CustomTextFormField(
+                RequestFormDropDown(
+                  items: [
+                    DropdownMenuItem(value: "1", child: Text("1")),
+                    DropdownMenuItem(value: "2", child: Text("2")),
+                  ],
+                  value: context.read<ProviderModel>().details!.category,
+                  onChanged: (value) =>
+                      context.read<ProviderModel>().details!.category = value,
                   label: "نوع الخدمة",
                   onSaved: (value) =>
                       context.read<ProviderModel>().details!.category = value,
                 ),
-                CustomTextFormField(
-                  label: "وصف الخدمة",
-                  maxLines: 3,
-                  onSaved: (value) =>
-                      context.read<ProviderModel>().details!.description =
-                          value,
-                ),
-                CustomTextFormField(
+                // CustomTextFormField(
+                //   label: "وصف الخدمة",
+                //   maxLines: 3,
+                //   onSaved: (value) =>
+                //       context.read<ProviderModel>().details!.description =
+                //           value,
+                // ),
+                RequestFormMobileField(
+                  controller: TextEditingController(),
                   label: "رقم الجوال",
-                  keyboardType: TextInputType.phone,
                   onSaved: (value) =>
                       context.read<ProviderModel>().details!.phone = value,
                 ),
-                CustomTextFormField(
+                RequestFormTextField(
+                  controller: TextEditingController(),
                   label: "البريد الالكتروني",
+                  // required: false,
                   keyboardType: TextInputType.emailAddress,
                   onSaved: (value) =>
                       context.read<ProviderModel>().details!.email = value,
                 ),
-                CustomTextFormField(
+                RequestFormTextField(
+                  controller: TextEditingController(),
                   label: "العنوان",
                   onSaved: (value) =>
                       context.read<ProviderModel>().details!.address = value,
                 ),
-                CustomTextFormField(
+                RequestFormTextField(
+                  controller: TextEditingController(),
                   label: "المدينة",
                   onSaved: (value) =>
-                      context.read<ProviderModel>().details!.city = value,
+                      context.read<ProviderModel>().details!.city!.cityNameAr =
+                          value!,
                 ),
               ],
             ),

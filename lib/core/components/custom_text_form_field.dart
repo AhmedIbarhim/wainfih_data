@@ -12,6 +12,7 @@ class CustomTextFormField extends StatelessWidget {
     this.obscureText = false,
     this.onSaved,
     this.maxLines,
+    this.required = true,
   });
 
   final String label;
@@ -21,6 +22,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextEditingController? controller;
   final void Function(String?)? onSaved;
   final int? maxLines;
+  final bool required;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class CustomTextFormField extends StatelessWidget {
       onSaved: onSaved,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return 'هذا الحقل مطلوب';
+          return required ? 'هذا الحقل مطلوب' : null;
         }
         return null;
       },

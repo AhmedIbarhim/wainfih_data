@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:wainfih_data/core/theme/app_colors.dart';
 import 'package:wainfih_data/features/home/domain/provider_model.dart';
 import '../../data/end_points.dart';
@@ -19,6 +20,7 @@ class _MapSectionState extends State<MapSection>
   @override
   bool get wantKeepAlive => true;
 
+  late LatLng currentLocation;
   double currentZoom = 15.0;
   final MapController controller = MapController();
 
@@ -34,73 +36,55 @@ class _MapSectionState extends State<MapSection>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if (context.read<ProviderModel>().location != null) {
-            controller.move(
-              context.read<ProviderModel>().location!,
-              currentZoom,
-            );
-          }
-        },
-        mini: true,
-        backgroundColor: Colors.white60,
-        child: const Icon(Icons.my_location, color: AppColors.primaryColor),
-      ),
-      body: BlocBuilder<LocationCubit, LocationState>(
-        builder: (context, state) {
-          if (state is LocationLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
+    return BlocBuilder<LocationCubit, LocationState>(
+      builder: (context, state) {
+        if (state is LocationSuccess) {
+          currentLocation = state.location.toLatLng();
+        }
 
-          if (state is LocationSuccess) {
-            context.read<ProviderModel>().location ??= state.location
-                .toLatLng();
-            return FlutterMap(
-              mapController: controller,
-              options: MapOptions(
-                initialCenter: context.read<ProviderModel>().location!,
-                initialZoom: currentZoom,
-                onTap: (tapPosition, point) {
-                  setState(() {
-                    context.read<ProviderModel>().location = point;
-                  });
-                  // controller.move(point, currentZoom);
-                },
-                onPositionChanged: (position, hasGesture) {
-                  setState(() {
-                    currentZoom = position.zoom;
-                  });
-                },
-              ),
-              children: [
-                TileLayer(
-                  urlTemplate: EndPoints.mapUrl,
-                  maxZoom: 20,
-                  minZoom: 1,
-                ),
-                MarkerLayer(
-                  markers: [
-                    Marker(
-                      point: context.read<ProviderModel>().location!,
-                      child: const Icon(
-                        Icons.location_on,
-                        color: Colors.red,
-                        size: 50,
-                      ),
+        Widget body;
+
+        if (state is LocationLoading) {
+          body = const Center(child: CircularProgressIndicator());
+        } else if (state is LocationSuccess) {
+          context.read<ProviderModel>().location ??= state.location.toLatLng();
+          body = FlutterMap(
+            mapController: controller,
+            options: MapOptions(
+              initialCenter: context.read<ProviderModel>().location!,
+              initialZoom: currentZoom,
+              onTap: (tapPosition, point) {
+                setState(() {
+                  context.read<ProviderModel>().location = point;
+                });
+                // controller.move(point, currentZoom);
+              },
+              onPositionChanged: (position, hasGesture) {
+                setState(() {
+                  currentZoom = position.zoom;
+                });
+              },
+            ),
+            children: [
+              TileLayer(urlTemplate: EndPoints.mapUrl, maxZoom: 20, minZoom: 1),
+              MarkerLayer(
+                markers: [
+                  Marker(
+                    point: context.read<ProviderModel>().location!,
+                    child: const Icon(
+                      Icons.location_on,
+                      color: Colors.red,
+                      size: 50,
                     ),
-                  ],
-                ),
-              ],
-            );
-          }
-
-          if (state is LocationError) {
-            return Center(child: Text(state.message));
-          }
-
-          return Center(
+                  ),
+                ],
+              ),
+            ],
+          );
+        } else if (state is LocationError) {
+          body = Center(child: Text(state.message));
+        } else {
+          body = Center(
             child: ElevatedButton(
               onPressed: () {
                 context.read<LocationCubit>().getCurrentLocation();
@@ -108,8 +92,21 @@ class _MapSectionState extends State<MapSection>
               child: const Text('Get Current Location'),
             ),
           );
-        },
-      ),
+        }
+
+        return Scaffold(
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              context.read<ProviderModel>().location = currentLocation;
+              controller.move(currentLocation, currentZoom);
+            },
+            mini: true,
+            backgroundColor: Colors.white60,
+            child: const Icon(Icons.my_location, color: AppColors.primaryColor),
+          ),
+          body: body,
+        );
+      },
     );
   }
 }

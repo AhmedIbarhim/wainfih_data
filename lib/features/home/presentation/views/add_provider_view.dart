@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:wainfih_data/core/components/custom_button.dart';
-import 'package:wainfih_data/features/details/domain/details_model.dart';
+import 'package:wainfih_data/features/details/data/models/details_model.dart';
 import 'package:wainfih_data/features/home/domain/provider_model.dart';
 import 'package:wainfih_data/features/home/presentation/widgets/adding_provider_steps.dart';
 import '../../../../core/components/custom_app_bar.dart';
-import '../../../../core/components/custom_snack_bar.dart';
 import '../../../../core/helpers/handle_location_permission.dart';
 import '../widgets/adding_provider_page_view.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +31,7 @@ class _AddProviderViewState extends State<AddProviderView> {
 }
 
 class _Body extends StatefulWidget {
-  const _Body({super.key});
+  const _Body();
 
   @override
   State<_Body> createState() => __BodyState();
@@ -120,21 +119,23 @@ class __BodyState extends State<_Body> {
   }
 
   void _handleDetailsInputValidation() {
-    if (formKey.currentState!.validate()) {
-      formKey.currentState!.save();
-      _moveToNextStep();
-    } else {
-      valueNotifier.value = AutovalidateMode.onUserInteraction;
-    }
+    // if (formKey.currentState!.validate()) {
+    //   formKey.currentState!.save();
+    //   _moveToNextStep();
+    // } else {
+    //   valueNotifier.value = AutovalidateMode.onUserInteraction;
+    // }
+    _moveToNextStep();
   }
 
   void _handleImagesValidation() {
-    if (context.read<ProviderModel>().images!.isEmpty) {
-      showErrorSnackBar(context, "يجب اضافة صورة");
-      return;
-    } else {
-      _moveToNextStep();
-    }
+    // if (context.read<ProviderModel>().images!.isEmpty) {
+    //   showErrorSnackBar(context, "يجب اضافة صورة");
+    //   return;
+    // } else {
+    //   _moveToNextStep();
+    // }
+    _moveToNextStep();
   }
 
   void _submitRequest() {

@@ -1,3 +1,5 @@
+import 'city_model.dart';
+
 class DetailsModel {
   String? name;
   String? category;
@@ -5,7 +7,7 @@ class DetailsModel {
   String? email;
   String? phone;
   String? address;
-  String? city;
+  CityModel? city;
 
   DetailsModel({
     this.name,
@@ -25,7 +27,7 @@ class DetailsModel {
       'email': email,
       'phone': phone,
       'address': address,
-      'city': city,
+      'city': city?.toJson(),
     };
   }
 
@@ -37,7 +39,7 @@ class DetailsModel {
       email: json['email'],
       phone: json['phone'],
       address: json['address'],
-      city: json['city'],
+      city: CityModel.fromJson(json['city']),
     );
   }
 }

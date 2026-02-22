@@ -1,13 +1,11 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:wainfih_data/no_connection_view.dart';
 
 class ConnectivityController {
+  ConnectivityController._();
   static final ConnectivityController _instance = ConnectivityController._();
   factory ConnectivityController() => _instance;
-  ConnectivityController._();
 
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   ValueNotifier<bool> isOnline = ValueNotifier<bool>(true);
