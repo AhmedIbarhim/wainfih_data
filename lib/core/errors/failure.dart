@@ -6,3 +6,13 @@ abstract class Failure {
 class LocationFailure extends Failure {
   const LocationFailure(super.message);
 }
+
+class ServerFailure extends Failure {
+  final FailureInfo info;
+  ServerFailure(this.info) : super(info.exception ?? "Server Error");
+}
+
+class FailureInfo {
+  final String? exception;
+  FailureInfo({this.exception});
+}

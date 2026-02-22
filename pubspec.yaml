@@ -35,9 +35,11 @@ dependencies:
   dartz: ^0.10.1
   dio: ^5.9.0
   dropdown_search: ^6.0.2
+  equatable: ^2.0.8
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
+  flutter_countdown_timer: ^4.1.0
   flutter_localizations:
     sdk: flutter
   flutter_map: ^8.2.2
@@ -48,6 +50,8 @@ dependencies:
   google_fonts: ^6.3.3
   image_picker: ^1.2.1
   latlong2: ^0.9.1
+  pinput: ^6.0.2
+  shared_preferences: ^2.5.4
   skeletonizer: ^2.1.2
   talker_dio_logger: ^5.1.13
 

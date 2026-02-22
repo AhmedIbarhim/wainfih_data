@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:wainfih_data/core/services/api_service.dart';
+import 'package:wainfih_data/core/networking/api_service.dart';
 
 import '../../../../core/errors/failure.dart';
 import '../models/city_model.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wainfih_data/core/components/custom_button.dart';
+import 'package:wainfih_data/core/components/main_button.dart';
 import 'package:wainfih_data/features/details/data/models/details_model.dart';
 import 'package:wainfih_data/features/home/domain/provider_model.dart';
 import 'package:wainfih_data/features/home/presentation/widgets/adding_provider_steps.dart';
@@ -83,9 +83,9 @@ class __BodyState extends State<_Body> {
             valueListenable: valueNotifier,
           ),
           const SizedBox(height: 20),
-          CustomButton(
+          MainButton(
             text: _getButtonText(),
-            onPressed: () {
+            onTap: () {
               {
                 if (currentIndex == 0) {
                   _handleDetailsInputValidation();
