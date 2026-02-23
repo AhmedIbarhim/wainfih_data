@@ -9,17 +9,18 @@ import '../widgets/adding_provider_page_view.dart';
 import 'package:provider/provider.dart';
 
 class AddProviderView extends StatefulWidget {
-  const AddProviderView({super.key});
+  const AddProviderView({super.key, this.providerModel});
+
+  final ProviderModel? providerModel;
 
   @override
   State<AddProviderView> createState() => _AddProviderViewState();
 }
 
 class _AddProviderViewState extends State<AddProviderView> {
-  ProviderModel providerModel = ProviderModel(
-    details: DetailsModel(),
-    images: [],
-  );
+  ProviderModel get providerModel =>
+      widget.providerModel ??
+      ProviderModel(details: DetailsModel(), images: []);
 
   @override
   Widget build(BuildContext context) {

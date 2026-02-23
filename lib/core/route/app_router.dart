@@ -6,8 +6,9 @@ import 'package:wainfih_data/features/auth/presentation/views/login_view.dart';
 import 'package:wainfih_data/features/auth/presentation/views/register_view.dart';
 import 'package:wainfih_data/features/auth/presentation/views/verification_view.dart';
 import 'package:wainfih_data/features/auth/presentation/managers/auth_cubit/auth_cubit.dart';
+import '../../features/home/domain/provider_model.dart';
 import '../../features/home/presentation/views/add_provider_view.dart';
-import '../../features/home/presentation/views/my_provider_view.dart';
+import '../../features/my_providers/presentation/views/my_provider_view.dart';
 import '../di/service_locator.dart';
 import 'routes.dart';
 
@@ -45,7 +46,11 @@ abstract class AppRouter {
         return MaterialPageRoute(builder: (_) => const HomeView());
 
       case Routes.addProvider:
-        return MaterialPageRoute(builder: (_) => const AddProviderView());
+        return MaterialPageRoute(
+          builder: (_) => AddProviderView(
+            providerModel: settings.arguments as ProviderModel?,
+          ),
+        );
 
       case Routes.myProviders:
         return MaterialPageRoute(builder: (_) => const MyProviderView());
