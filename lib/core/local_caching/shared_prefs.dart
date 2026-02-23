@@ -32,4 +32,6 @@ class SharedPrefs {
 
   static List<String> getStringList(String key) =>
       _instance.getStringList(key) ?? [];
+
+  static Future<bool> clear() async => await _instance.clear();
 }

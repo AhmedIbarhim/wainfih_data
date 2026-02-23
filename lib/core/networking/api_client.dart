@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
 
-class APIService {
+class APIClient {
   late final Dio _dio;
 
-  APIService({
+  APIClient({
     String? baseUrl,
     Duration connectTimeout = const Duration(seconds: 30),
     Duration receiveTimeout = const Duration(seconds: 30),

@@ -43,12 +43,7 @@ class LoginView extends StatelessWidget {
               BlocConsumer<AuthCubit, AuthState>(
                 listener: (context, state) {
                   if (state is OtpSentSuccess) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const VerificationView(),
-                      ),
-                    );
+                    Navigator.pushNamed(context, Routes.verification);
                   } else if (state is AuthFailure) {
                     ScaffoldMessenger.of(
                       context,

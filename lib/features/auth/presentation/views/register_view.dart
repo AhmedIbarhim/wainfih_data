@@ -68,14 +68,16 @@ class RegisterView extends StatelessWidget {
                     text: "إنشاء حساب",
                     isLoading: state is AuthLoading,
                     onTap: () {
-                      final name = _nameController.text.trim();
-                      final phone = _phoneController.text.trim();
-                      if (name.isNotEmpty && phone.isNotEmpty) {
-                        context.read<AuthCubit>().register(
-                          mobileNumber: phone,
-                          username: name,
-                        );
-                      }
+                      // final name = _nameController.text.trim();
+                      // final phone = _phoneController.text.trim();
+                      // if (name.isNotEmpty && phone.isNotEmpty) {
+                      //   context.read<AuthCubit>().register(
+                      //     mobileNumber: phone,
+                      //     username: name,
+                      //   );
+                      // }
+
+                      Navigator.pushNamed(context, Routes.login);
                     },
                   );
                 },

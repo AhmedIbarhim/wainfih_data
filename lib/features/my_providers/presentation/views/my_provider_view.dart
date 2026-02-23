@@ -1,31 +1,146 @@
 import 'package:flutter/material.dart';
 import '../../../../core/components/custom_app_bar.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../../details/data/models/city_model.dart';
 import '../../../details/data/models/details_model.dart';
 import '../../../home/domain/provider_model.dart';
 import '../widgets/provider_card.dart';
 
-class MyProviderView extends StatelessWidget {
+class MyProviderView extends StatefulWidget {
   const MyProviderView({super.key});
+
+  @override
+  State<MyProviderView> createState() => _MyProviderViewState();
+}
+
+enum FilterPeriod { all, day, week, month }
+
+class _MyProviderViewState extends State<MyProviderView> {
+  FilterPeriod selectedPeriod = FilterPeriod.all;
+
+  List<ProviderModel> get filteredProviders {
+    final now = DateTime.now();
+    return dummyProviders.where((provider) {
+      if (provider.createdAt == null) return selectedPeriod == FilterPeriod.all;
+
+      final difference = now.difference(provider.createdAt!);
+
+      switch (selectedPeriod) {
+        case FilterPeriod.all:
+          return true;
+        case FilterPeriod.day:
+          return difference.inDays == 0 && now.day == provider.createdAt!.day;
+        case FilterPeriod.week:
+          return difference.inDays <= 7;
+        case FilterPeriod.month:
+          return difference.inDays <= 30;
+      }
+    }).toList();
+  }
+
+  int _getCountForPeriod(FilterPeriod period) {
+    final now = DateTime.now();
+    return dummyProviders.where((provider) {
+      if (provider.createdAt == null) return period == FilterPeriod.all;
+
+      final difference = now.difference(provider.createdAt!);
+
+      switch (period) {
+        case FilterPeriod.all:
+          return true;
+        case FilterPeriod.day:
+          return difference.inDays == 0 && now.day == provider.createdAt!.day;
+        case FilterPeriod.week:
+          return difference.inDays <= 7;
+        case FilterPeriod.month:
+          return difference.inDays <= 30;
+      }
+    }).length;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildCustomAppBar(context, title: "مقدمي الخدمة الخاصة بي"),
-      body: ProvidersListView(),
+      body: Column(
+        children: [
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Row(
+              children: [
+                _buildFilterChip("الكل", FilterPeriod.all),
+                const SizedBox(width: 8),
+                _buildFilterChip("اليوم", FilterPeriod.day),
+                const SizedBox(width: 8),
+                _buildFilterChip("هذا الأسبوع", FilterPeriod.week),
+                const SizedBox(width: 8),
+                _buildFilterChip("هذا الشهر", FilterPeriod.month),
+              ],
+            ),
+          ),
+          Expanded(child: ProvidersListView(providers: filteredProviders)),
+        ],
+      ),
+    );
+  }
 
-      // Center(
-      //   child: Text(
-      //     "لم يتم إضافة مقدمي خدمة بعد",
-      //     style: AppTextStyles.semiBold16.copyWith(color: Colors.grey),
-      //   ),
-      // ),
+  Widget _buildFilterChip(String label, FilterPeriod period) {
+    final isSelected = selectedPeriod == period;
+    final count = _getCountForPeriod(period);
+
+    return ChoiceChip(
+      label: Text('$label ($count)'),
+      selected: isSelected,
+      onSelected: (selected) {
+        if (selected) {
+          setState(() {
+            selectedPeriod = period;
+          });
+        }
+      },
+      selectedColor: AppColors.primaryColor,
+      labelStyle: TextStyle(
+        color: isSelected ? Colors.white : Colors.black,
+        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+      ),
+      showCheckmark: false,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+        side: BorderSide(
+          color: isSelected ? AppColors.primaryColor : Colors.grey.shade300,
+        ),
+      ),
+    );
+  }
+}
+
+class ProvidersListView extends StatelessWidget {
+  final List<ProviderModel> providers;
+  const ProvidersListView({super.key, required this.providers});
+
+  @override
+  Widget build(BuildContext context) {
+    if (providers.isEmpty) {
+      return Center(
+        child: Text(
+          "لا يوجد نتائج",
+          style: TextStyle(color: Colors.grey.shade600, fontSize: 16),
+        ),
+      );
+    }
+    return ListView.builder(
+      itemCount: providers.length,
+      padding: const EdgeInsets.only(bottom: 16),
+      itemBuilder: (_, index) => ProviderCard(provider: providers[index]),
     );
   }
 }
 
 final List<ProviderModel> dummyProviders = [
   ProviderModel(
+    createdAt: DateTime.now(),
+    status: 'pending',
     details: DetailsModel(
       name: 'سباك السلام',
       category: 'سباكة',
@@ -37,11 +152,13 @@ final List<ProviderModel> dummyProviders = [
     ),
   ),
   ProviderModel(
+    createdAt: DateTime.now().subtract(const Duration(days: 2)),
+    status: 'accepted',
     details: DetailsModel(
       name: 'النور للكهرباء',
       category: 'كهرباء',
       description:
-          'أعمال كهرباء وتشطيبات وصيانة أعطال الكهرباء للمنازل والمحلات',
+          'أعمال كهرباء وتشتشطيبات وصيانة أعطال الكهرباء للمنازل والمحلات',
       phone: '01198765432',
       address: 'سموحة',
       city: CityModel(
@@ -52,6 +169,8 @@ final List<ProviderModel> dummyProviders = [
     ),
   ),
   ProviderModel(
+    createdAt: DateTime.now().subtract(const Duration(days: 10)),
+    status: 'rejected',
     details: DetailsModel(
       name: 'النجار ',
       category: 'نجارة',
@@ -62,6 +181,8 @@ final List<ProviderModel> dummyProviders = [
     ),
   ),
   ProviderModel(
+    createdAt: DateTime.now().subtract(const Duration(days: 45)),
+    status: 'pending',
     details: DetailsModel(
       name: 'الهدى للتكييفات',
       category: 'تكييف وتبريد',
@@ -72,15 +193,3 @@ final List<ProviderModel> dummyProviders = [
     ),
   ),
 ];
-
-class ProvidersListView extends StatelessWidget {
-  const ProvidersListView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: dummyProviders.length,
-      itemBuilder: (_, index) => ProviderCard(provider: dummyProviders[index]),
-    );
-  }
-}

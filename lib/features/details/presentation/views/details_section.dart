@@ -56,13 +56,14 @@ class _DetailsSectionState extends State<DetailsSection>
                   onSaved: (value) =>
                       context.read<ProviderModel>().details!.category = value,
                 ),
-                // CustomTextFormField(
-                //   label: "وصف الخدمة",
-                //   maxLines: 3,
-                //   onSaved: (value) =>
-                //       context.read<ProviderModel>().details!.description =
-                //           value,
-                // ),
+                RequestFormTextField(
+                  controller: TextEditingController(),
+                  label: "وصف الخدمة",
+                  maxLines: 3,
+                  onSaved: (value) =>
+                      context.read<ProviderModel>().details!.description =
+                          value,
+                ),
                 RequestFormMobileField(
                   controller: TextEditingController(),
                   label: "رقم الجوال",

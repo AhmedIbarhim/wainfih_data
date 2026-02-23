@@ -1,19 +1,19 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import '../../../../core/errors/failure.dart';
-import '../../../../core/networking/api_service.dart';
+import '../../../../core/networking/api_client.dart';
 import '../models/user_model.dart';
 
 class AuthRepo {
-  final APIService apiService;
+  final APIClient apiClient;
 
-  AuthRepo(this.apiService);
+  AuthRepo(this.apiClient);
 
   Future<Either<Failure, String>> sendOtp({
     required String mobileNumber,
   }) async {
     try {
-      final response = await apiService.post(
+      final response = await apiClient.post(
         '/auth/sendOtp',
         data: {'mobileNumber': mobileNumber},
       );
@@ -31,7 +31,7 @@ class AuthRepo {
     required String username,
   }) async {
     try {
-      await apiService.post(
+      await apiClient.post(
         '/auth/mobileSignUp',
         data: {'mobileNumber': mobileNumber, 'username': username},
       );
@@ -48,7 +48,7 @@ class AuthRepo {
     required String otp,
   }) async {
     try {
-      final response = await apiService.post(
+      final response = await apiClient.post(
         '/auth/verifyMobile',
         data: {'mobileNumber': mobileNumber, 'otp': int.tryParse(otp) ?? 0},
       );

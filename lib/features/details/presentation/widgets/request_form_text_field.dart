@@ -4,11 +4,11 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/screen_util.dart';
 
 class RequestFormTextField extends StatelessWidget {
-  RequestFormTextField({
+  const RequestFormTextField({
     super.key,
     required this.controller,
     required this.label,
-
+    this.maxLines = 1,
     this.keyboardType,
     this.validator,
     this.onSaved,
@@ -16,7 +16,7 @@ class RequestFormTextField extends StatelessWidget {
 
   final TextEditingController controller;
   final String label;
-
+  final int? maxLines;
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
   final void Function(String?)? onSaved;
@@ -37,6 +37,7 @@ class RequestFormTextField extends StatelessWidget {
       ),
       child: TextFormField(
         controller: controller,
+        maxLines: maxLines,
         keyboardType: keyboardType,
         onSaved: onSaved,
         validator: validator,

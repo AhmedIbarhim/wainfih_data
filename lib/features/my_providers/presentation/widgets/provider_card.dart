@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:wainfih_data/core/route/routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../home/domain/provider_model.dart';
+import 'request_status_widget.dart';
 
 class ProviderCard extends StatelessWidget {
   final ProviderModel provider;
@@ -70,7 +70,9 @@ class ProviderCard extends StatelessWidget {
                   const Icon(Icons.location_on_outlined, size: 18),
                   const SizedBox(width: 4),
                   Expanded(
-                    child: Text('${d?.city ?? ''} - ${d?.address ?? ''}'),
+                    child: Text(
+                      '${d?.city?.cityNameAr ?? ''} - ${d?.address ?? ''}',
+                    ),
                   ),
                 ],
               ),
@@ -83,6 +85,36 @@ class ProviderCard extends StatelessWidget {
                     Text(d!.phone!),
                   ],
                 ),
+              const Divider(height: 24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  if (provider.createdAt != null)
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.calendar_today_outlined,
+                          size: 16,
+                          color: Colors.grey,
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          '${provider.createdAt!.year}-${provider.createdAt!.month.toString().padLeft(2, '0')}-${provider.createdAt!.day.toString().padLeft(2, '0')}',
+                          style: const TextStyle(
+                            color: Colors.grey,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  // if (provider.status != null)
+                  RequestStatusWidget(
+                    status:
+                        RequestStatus.fromString(provider.status) ??
+                        RequestStatus.pending,
+                  ),
+                ],
+              ),
             ],
           ),
         ),

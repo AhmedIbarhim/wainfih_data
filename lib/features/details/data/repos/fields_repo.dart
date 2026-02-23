@@ -1,13 +1,13 @@
 import 'package:dartz/dartz.dart';
-import 'package:wainfih_data/core/networking/api_service.dart';
+import 'package:wainfih_data/core/networking/api_client.dart';
 
 import '../../../../core/errors/failure.dart';
 import '../models/city_model.dart';
 
 class FieldsRepo {
-  final APIService apiService;
+  final APIClient apiClient;
 
-  FieldsRepo(this.apiService);
+  FieldsRepo(this.apiClient);
 
   Future<Either<Failure, List<CityModel>>> getAllCities({
     int? page,
