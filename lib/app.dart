@@ -5,14 +5,24 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'core/helpers/connectivity_controller.dart';
 import 'core/route/app_router.dart';
 import 'generated/l10n.dart';
+import 'no_connection_view.dart';
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   const App({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    ConnectivityController().checkInternetConnection();
+  State<App> createState() => _AppState();
+}
 
+class _AppState extends State<App> {
+  @override
+  void initState() {
+    super.initState();
+    ConnectivityController().checkInternetConnection();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       minTextAdapt: true,
@@ -41,6 +51,21 @@ class MainMaterialApp extends StatelessWidget {
       ],
       supportedLocales: S.delegate.supportedLocales,
       locale: const Locale('ar'),
+      builder: (context, child) {
+        return Stack(
+          children: [
+            if (child != null) child,
+            ValueListenableBuilder<bool>(
+              valueListenable: ConnectivityController().isOnline,
+              builder: (context, isOnline, _) {
+                return isOnline
+                    ? const SizedBox.shrink()
+                    : const NoConnectionView();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

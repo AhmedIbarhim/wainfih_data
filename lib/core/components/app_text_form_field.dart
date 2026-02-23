@@ -37,13 +37,16 @@ class AppTextFormField extends StatelessWidget {
         TextFormField(
           controller: controller,
           keyboardType: keyboardType,
+          onTapOutside: (_) {
+            FocusScope.of(context).unfocus();
+          },
           onChanged: onChanged,
           validator: validator,
           decoration: InputDecoration(
             hintText: hintText,
             prefixIcon: isPhone ? const Icon(Icons.phone_android) : null,
             filled: true,
-            fillColor: AppColors.colorF8F8F8,
+            fillColor: AppColors.textFieldBackground,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: const BorderSide(color: AppColors.basicBorderColor),

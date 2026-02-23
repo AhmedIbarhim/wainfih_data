@@ -37,7 +37,7 @@ class _VerificationViewState extends State<VerificationView> {
         color: AppColors.textPrimary,
       ),
       decoration: BoxDecoration(
-        color: AppColors.colorF8F8F8,
+        color: AppColors.textFieldBackground,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: AppColors.basicBorderColor),
       ),

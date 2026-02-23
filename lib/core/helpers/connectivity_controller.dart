@@ -1,6 +1,6 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:wainfih_data/no_connection_view.dart';
 
 class ConnectivityController {
   ConnectivityController._();
@@ -9,23 +9,39 @@ class ConnectivityController {
 
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   ValueNotifier<bool> isOnline = ValueNotifier<bool>(true);
-  bool isNoConnectionShown = false;
+
+  StreamSubscription<List<ConnectivityResult>>? _connectivitySubscription;
 
   void checkInternetConnection() {
-    Connectivity().onConnectivityChanged.listen((
-      List<ConnectivityResult> result,
-    ) {
-      bool newValue = !result.contains(ConnectivityResult.none);
-      if (!newValue && !isNoConnectionShown) {
-        navigatorKey.currentState?.push(
-          MaterialPageRoute(builder: (_) => const NoConnectionView()),
-        );
-        isNoConnectionShown = true;
-      } else if (newValue && isNoConnectionShown) {
-        navigatorKey.currentState?.pop();
-        isNoConnectionShown = false;
-      }
-      isOnline.value = newValue;
+    if (_connectivitySubscription != null) return;
+
+    // Check initial state
+    Connectivity().checkConnectivity().then((resultList) {
+      _handleConnectivityChange(resultList);
     });
+
+    _connectivitySubscription = Connectivity().onConnectivityChanged.listen(
+      _handleConnectivityChange,
+    );
+  }
+
+  void _handleConnectivityChange(List<ConnectivityResult> result) {
+    bool newValue =
+        result.isNotEmpty && !result.allContains(ConnectivityResult.none);
+    isOnline.value = newValue;
+  }
+
+  void dispose() {
+    _connectivitySubscription?.cancel();
+    _connectivitySubscription = null;
+  }
+}
+
+extension on List<ConnectivityResult> {
+  bool allContains(ConnectivityResult value) {
+    for (var element in this) {
+      if (element != value) return false;
+    }
+    return true;
   }
 }

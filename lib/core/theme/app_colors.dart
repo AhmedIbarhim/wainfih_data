@@ -28,7 +28,7 @@ abstract class AppColors {
   static const Color blueBlack40 = Color(0xFFE4E5E7);
   static const Color lightWarningColor = Color(0xffFFF6EE);
   static const Color rateStarColor = Color(0xffE4A70A);
-  static const Color colorF8F8F8 = Color(0xffF8F8F8);
+  static const Color textFieldBackground = Color(0xffF8F8F8);
 
   static const Color black = Color(0xff000000);
   static const Color lightGreen = Color(0xff49c366);
