@@ -60,7 +60,10 @@ class LoginView extends StatelessWidget {
                       //   context.read<AuthCubit>().sendOtp(phone);
                       // }
 
-                      Navigator.pushNamed(context, Routes.verification);
+                      Navigator.pushReplacementNamed(
+                        context,
+                        Routes.verification,
+                      );
                     },
                   );
                 },
@@ -72,7 +75,7 @@ class LoginView extends StatelessWidget {
                   const Text("ليس لديك حساب؟"),
                   TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, Routes.register);
+                      Navigator.pushReplacementNamed(context, Routes.register);
                     },
                     child: const Text(
                       "إنشاء حساب",

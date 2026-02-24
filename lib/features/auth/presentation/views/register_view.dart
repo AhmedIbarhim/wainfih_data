@@ -77,7 +77,7 @@ class RegisterView extends StatelessWidget {
                       //   );
                       // }
 
-                      Navigator.pushNamed(context, Routes.login);
+                      Navigator.pushReplacementNamed(context, Routes.login);
                     },
                   );
                 },

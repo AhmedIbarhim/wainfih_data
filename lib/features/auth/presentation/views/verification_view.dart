@@ -109,7 +109,7 @@ class _VerificationViewState extends State<VerificationView> {
                         //   );
                         // }
 
-                        Navigator.pushNamed(context, Routes.home);
+                        Navigator.pushReplacementNamed(context, Routes.home);
                       },
                     );
                   },

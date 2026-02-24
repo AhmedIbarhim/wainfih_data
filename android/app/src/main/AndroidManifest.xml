@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+<uses-permission android:name="android.permission.INTERNET" />
     <application
         android:label="Wainfih Data"
         android:name="${applicationName}"
@@ -31,6 +32,13 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+         <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCBWbLd9irc4PCEchf4WEMdIY8Io-PnScc"/>
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
     </application>
     <!-- Permissions for image picker -->
     <uses-permission android:name="android.permission.CAMERA" />

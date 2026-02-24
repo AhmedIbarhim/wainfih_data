@@ -6,16 +6,11 @@ Future<bool> handleLocationPermission(BuildContext context) async {
   LocationPermission permission;
   serviceEnabled = await Geolocator.isLocationServiceEnabled();
   if (!serviceEnabled) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text(
-          'Location services are disabled. Please enable the services',
-        ),
-      ),
-    );
+    _showLocationServiceDialog(context);
     return false;
   }
   permission = await Geolocator.checkPermission();
+
   if (permission == LocationPermission.denied) {
     permission = await Geolocator.requestPermission();
     if (permission == LocationPermission.denied) {
@@ -36,4 +31,32 @@ Future<bool> handleLocationPermission(BuildContext context) async {
     return false;
   }
   return true;
+}
+
+Future<void> _showLocationServiceDialog(BuildContext context) async {
+  await showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text(
+          "خدمات الموقع معطلة. يرجى تفعيل الخدمات",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        content: Text(
+          "يرجى تفعيل خدمات الموقع لاستخدام هذه الميزة",
+          style: TextStyle(fontWeight: FontWeight.w500),
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () async {
+              await Geolocator.openLocationSettings();
+
+              Navigator.of(context).pop();
+            },
+            child: Text("فتح الإعدادات"),
+          ),
+        ],
+      );
+    },
+  );
 }
