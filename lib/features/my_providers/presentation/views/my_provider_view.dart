@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../../../core/components/custom_app_bar.dart';
+import '../../../../core/enums/fitler_period_enum.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../details/data/models/city_model.dart';
-import '../../../details/data/models/details_model.dart';
 import '../../../home/domain/provider_model.dart';
-import '../widgets/provider_card.dart';
+import '../../../../core/utils/date_filter_utils.dart';
+import '../widgets/providers_list_view.dart';
 
 class MyProviderView extends StatefulWidget {
   const MyProviderView({super.key});
@@ -13,66 +13,8 @@ class MyProviderView extends StatefulWidget {
   State<MyProviderView> createState() => _MyProviderViewState();
 }
 
-enum FilterPeriod { all, day, week, month }
-
 class _MyProviderViewState extends State<MyProviderView> {
   FilterPeriod selectedPeriod = FilterPeriod.all;
-
-  List<ProviderModel> get filteredProviders {
-    final now = DateTime.now();
-    return dummyProviders.where((provider) {
-      if (provider.createdAt == null) return selectedPeriod == FilterPeriod.all;
-
-      final difference = now.difference(provider.createdAt!);
-
-      switch (selectedPeriod) {
-        case FilterPeriod.all:
-          return true;
-        case FilterPeriod.day:
-          return difference.inDays == 0 && now.day == provider.createdAt!.day;
-        case FilterPeriod.week:
-          final startOfWeek = now.subtract(
-            Duration(days: (now.weekday % 7 + 1) % 7),
-          );
-          final startOfNextWeek = startOfWeek.add(const Duration(days: 7));
-          return provider.createdAt!.isAfter(
-                startOfWeek.subtract(const Duration(seconds: 1)),
-              ) &&
-              provider.createdAt!.isBefore(startOfNextWeek);
-        case FilterPeriod.month:
-          return provider.createdAt!.year == now.year &&
-              provider.createdAt!.month == now.month;
-      }
-    }).toList();
-  }
-
-  int _getCountForPeriod(FilterPeriod period) {
-    final now = DateTime.now();
-    return dummyProviders.where((provider) {
-      if (provider.createdAt == null) return period == FilterPeriod.all;
-
-      final difference = now.difference(provider.createdAt!);
-
-      switch (period) {
-        case FilterPeriod.all:
-          return true;
-        case FilterPeriod.day:
-          return difference.inDays == 0 && now.day == provider.createdAt!.day;
-        case FilterPeriod.week:
-          final startOfWeek = now.subtract(
-            Duration(days: (now.weekday % 7 + 1) % 7),
-          );
-          final startOfNextWeek = startOfWeek.add(const Duration(days: 7));
-          return provider.createdAt!.isAfter(
-                startOfWeek.subtract(const Duration(seconds: 1)),
-              ) &&
-              provider.createdAt!.isBefore(startOfNextWeek);
-        case FilterPeriod.month:
-          return provider.createdAt!.year == now.year &&
-              provider.createdAt!.month == now.month;
-      }
-    }).length;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,83 +71,38 @@ class _MyProviderViewState extends State<MyProviderView> {
       ),
     );
   }
-}
 
-class ProvidersListView extends StatelessWidget {
-  final List<ProviderModel> providers;
-  const ProvidersListView({super.key, required this.providers});
+  List<ProviderModel> get filteredProviders {
+    return dummyProviders.where((provider) {
+      if (provider.createdAt == null) return selectedPeriod == FilterPeriod.all;
 
-  @override
-  Widget build(BuildContext context) {
-    if (providers.isEmpty) {
-      return Center(
-        child: Text(
-          "لا يوجد نتائج",
-          style: TextStyle(color: Colors.grey.shade600, fontSize: 16),
-        ),
-      );
-    }
-    return ListView.builder(
-      itemCount: providers.length,
-      padding: const EdgeInsets.only(bottom: 16),
-      itemBuilder: (_, index) => ProviderCard(provider: providers[index]),
-    );
+      switch (selectedPeriod) {
+        case FilterPeriod.all:
+          return true;
+        case FilterPeriod.day:
+          return DateFilterUtils.isToday(provider.createdAt!);
+        case FilterPeriod.week:
+          return DateFilterUtils.isThisWeek(provider.createdAt!);
+        case FilterPeriod.month:
+          return DateFilterUtils.isThisMonth(provider.createdAt!);
+      }
+    }).toList();
+  }
+
+  int _getCountForPeriod(FilterPeriod period) {
+    return dummyProviders.where((provider) {
+      if (provider.createdAt == null) return period == FilterPeriod.all;
+
+      switch (period) {
+        case FilterPeriod.all:
+          return true;
+        case FilterPeriod.day:
+          return DateFilterUtils.isToday(provider.createdAt!);
+        case FilterPeriod.week:
+          return DateFilterUtils.isThisWeek(provider.createdAt!);
+        case FilterPeriod.month:
+          return DateFilterUtils.isThisMonth(provider.createdAt!);
+      }
+    }).length;
   }
 }
-
-final List<ProviderModel> dummyProviders = [
-  ProviderModel(
-    createdAt: DateTime.now(),
-    status: 'pending',
-    details: DetailsModel(
-      name: 'سباك السلام',
-      category: 'سباكة',
-      description: 'خدمات سباكة وصيانة لجميع المنازل والشركات بأسعار مناسبة',
-      phone: '01012345678',
-      email: 'alsalam.plumbing@gmail.com',
-      address: 'مدينة نصر',
-      city: CityModel(id: 1, cityNameAr: 'القاهرة', cityNameEn: 'Cairo'),
-    ),
-  ),
-  ProviderModel(
-    createdAt: DateTime.now().subtract(const Duration(days: 2)),
-    status: 'accepted',
-    details: DetailsModel(
-      name: 'النور للكهرباء',
-      category: 'كهرباء',
-      description:
-          'أعمال كهرباء وتشتشطيبات وصيانة أعطال الكهرباء للمنازل والمحلات',
-      phone: '01198765432',
-      address: 'سموحة',
-      city: CityModel(
-        id: 1,
-        cityNameAr: 'الإسكندرية',
-        cityNameEn: 'Alexandria',
-      ),
-    ),
-  ),
-  ProviderModel(
-    createdAt: DateTime.now().subtract(const Duration(days: 10)),
-    status: 'rejected',
-    details: DetailsModel(
-      name: 'النجار ',
-      category: 'نجارة',
-      description: 'تصنيع وتركيب الأثاث المودرن والكلاسيك بأفضل الخامات',
-      phone: '01234567890',
-      address: 'الدقي',
-      city: CityModel(id: 1, cityNameAr: 'الجيزة', cityNameEn: 'Giza'),
-    ),
-  ),
-  ProviderModel(
-    createdAt: DateTime.now().subtract(const Duration(days: 45)),
-    status: 'pending',
-    details: DetailsModel(
-      name: 'الهدى للتكييفات',
-      category: 'تكييف وتبريد',
-      description: 'تركيب وصيانة جميع أنواع التكييفات بخدمة سريعة وضمان',
-      phone: '01055556666',
-      address: 'شبرا',
-      city: CityModel(id: 1, cityNameAr: 'القاهرة', cityNameEn: 'Cairo'),
-    ),
-  ),
-];
