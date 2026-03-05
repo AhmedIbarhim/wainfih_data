@@ -31,9 +31,17 @@ class _MyProviderViewState extends State<MyProviderView> {
         case FilterPeriod.day:
           return difference.inDays == 0 && now.day == provider.createdAt!.day;
         case FilterPeriod.week:
-          return difference.inDays <= 7;
+          final startOfWeek = now.subtract(
+            Duration(days: (now.weekday % 7 + 1) % 7),
+          );
+          final startOfNextWeek = startOfWeek.add(const Duration(days: 7));
+          return provider.createdAt!.isAfter(
+                startOfWeek.subtract(const Duration(seconds: 1)),
+              ) &&
+              provider.createdAt!.isBefore(startOfNextWeek);
         case FilterPeriod.month:
-          return difference.inDays <= 30;
+          return provider.createdAt!.year == now.year &&
+              provider.createdAt!.month == now.month;
       }
     }).toList();
   }
@@ -51,9 +59,17 @@ class _MyProviderViewState extends State<MyProviderView> {
         case FilterPeriod.day:
           return difference.inDays == 0 && now.day == provider.createdAt!.day;
         case FilterPeriod.week:
-          return difference.inDays <= 7;
+          final startOfWeek = now.subtract(
+            Duration(days: (now.weekday % 7 + 1) % 7),
+          );
+          final startOfNextWeek = startOfWeek.add(const Duration(days: 7));
+          return provider.createdAt!.isAfter(
+                startOfWeek.subtract(const Duration(seconds: 1)),
+              ) &&
+              provider.createdAt!.isBefore(startOfNextWeek);
         case FilterPeriod.month:
-          return difference.inDays <= 30;
+          return provider.createdAt!.year == now.year &&
+              provider.createdAt!.month == now.month;
       }
     }).length;
   }
