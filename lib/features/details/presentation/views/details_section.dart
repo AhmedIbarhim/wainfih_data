@@ -42,7 +42,7 @@ class _DetailsSectionState extends State<DetailsSection>
                   controller: TextEditingController(),
                   label: "اسم مقدم الخدمة",
                   onSaved: (value) =>
-                      context.read<ProviderModel>().details!.name = value,
+                      context.read<ProviderModel>().details!.nameAr = value,
                 ),
                 RequestFormDropDown(
                   items: [

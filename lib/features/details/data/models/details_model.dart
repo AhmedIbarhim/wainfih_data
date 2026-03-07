@@ -1,7 +1,8 @@
 import 'city_model.dart';
 
 class DetailsModel {
-  String? name;
+  String? nameAr;
+  String? nameEn;
   String? category;
   String? description;
   String? email;
@@ -10,7 +11,8 @@ class DetailsModel {
   CityModel? city;
 
   DetailsModel({
-    this.name,
+    this.nameAr,
+    this.nameEn,
     this.category,
     this.description,
     this.email,
@@ -21,7 +23,8 @@ class DetailsModel {
 
   Map<String, dynamic> toJson() {
     return {
-      'name': name,
+      'nameAr': nameAr,
+      'nameEn': nameEn,
       'category': category,
       'description': description,
       'email': email,
@@ -33,7 +36,8 @@ class DetailsModel {
 
   factory DetailsModel.fromJson(Map<String, dynamic> json) {
     return DetailsModel(
-      name: json['name'],
+      nameAr: json['nameAr'],
+      nameEn: json['nameEn'],
       category: json['category'],
       description: json['description'],
       email: json['email'],

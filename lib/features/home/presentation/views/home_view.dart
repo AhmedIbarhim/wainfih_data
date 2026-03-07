@@ -48,6 +48,7 @@ class HomeView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              const Spacer(),
               PopupMenuButton<String>(
                 icon: const Icon(Icons.more_vert, color: Colors.white),
                 onSelected: (value) async {
@@ -115,11 +116,6 @@ class HomeView extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
-              const Spacer(),
-              Text(
-                "Wainfih",
-                style: AppTextStyles.bold23.copyWith(color: Colors.white),
               ),
             ],
           ),

@@ -32,7 +32,7 @@ final List<ProviderModel> dummyProviders = [
     createdAt: DateTime.now(),
     status: 'pending',
     details: DetailsModel(
-      name: 'سباك السلام',
+      nameAr: 'سباك السلام',
       category: 'سباكة',
       description: 'خدمات سباكة وصيانة لجميع المنازل والشركات بأسعار مناسبة',
       phone: '01012345678',
@@ -45,7 +45,7 @@ final List<ProviderModel> dummyProviders = [
     createdAt: DateTime.now().subtract(const Duration(days: 2)),
     status: 'accepted',
     details: DetailsModel(
-      name: 'النور للكهرباء',
+      nameAr: 'النور للكهرباء',
       category: 'كهرباء',
       description:
           'أعمال كهرباء وتشتشطيبات وصيانة أعطال الكهرباء للمنازل والمحلات',
@@ -62,7 +62,7 @@ final List<ProviderModel> dummyProviders = [
     createdAt: DateTime.now().subtract(const Duration(days: 10)),
     status: 'rejected',
     details: DetailsModel(
-      name: 'النجار ',
+      nameAr: 'النجار ',
       category: 'نجارة',
       description: 'تصنيع وتركيب الأثاث المودرن والكلاسيك بأفضل الخامات',
       phone: '01234567890',
@@ -74,7 +74,7 @@ final List<ProviderModel> dummyProviders = [
     createdAt: DateTime.now().subtract(const Duration(days: 45)),
     status: 'pending',
     details: DetailsModel(
-      name: 'الهدى للتكييفات',
+      nameAr: 'الهدى للتكييفات',
       category: 'تكييف وتبريد',
       description: 'تركيب وصيانة جميع أنواع التكييفات بخدمة سريعة وضمان',
       phone: '01055556666',

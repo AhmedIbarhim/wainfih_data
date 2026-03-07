@@ -29,7 +29,7 @@ class ProviderCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      d?.name ?? '',
+                      d?.nameAr ?? '',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
