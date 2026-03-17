@@ -29,7 +29,7 @@ class ProviderCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      d?.nameAr ?? '',
+                      d?.serviceProviderNameAr ?? '',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -71,18 +71,18 @@ class ProviderCard extends StatelessWidget {
                   const SizedBox(width: 4),
                   Expanded(
                     child: Text(
-                      '${d?.city?.cityNameAr ?? ''} - ${d?.address ?? ''}',
+                      '${d?.district?.districtNameAr ?? ''} - ${d?.address ?? ''}',
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: 8),
-              if (d?.phone != null)
+              if (d?.mobileNumber1 != null)
                 Row(
                   children: [
                     const Icon(Icons.phone_outlined, size: 18),
                     const SizedBox(width: 6),
-                    Text(d!.phone!),
+                    Text(d!.mobileNumber1!),
                   ],
                 ),
               const Divider(height: 24),

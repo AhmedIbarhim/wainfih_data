@@ -10,7 +10,10 @@ class ProviderModel {
   List<File>? images;
   LatLng? location;
   DateTime? createdAt;
+  double? lat;
+  double? lng;
   String? status;
+  int? typeId;
 
   ProviderModel({
     this.details,
@@ -19,6 +22,9 @@ class ProviderModel {
     this.id,
     this.createdAt,
     this.status,
+    this.lat,
+    this.lng,
+    this.typeId,
   });
 
   Map<String, dynamic> toJson() {
@@ -29,6 +35,9 @@ class ProviderModel {
       'createdAt': createdAt?.toIso8601String(),
       'status': status,
       'id': id,
+      'lat': lat,
+      'lng': lng,
+      'typeId': typeId,
     };
   }
 
@@ -48,6 +57,9 @@ class ProviderModel {
           : null,
       status: json['status'],
       id: json['id'],
+      lat: (json['lat'] as num?)?.toDouble() ?? 0,
+      lng: (json['lng'] as num?)?.toDouble() ?? 0,
+      typeId: json['typeId'] as int?,
     );
   }
 }

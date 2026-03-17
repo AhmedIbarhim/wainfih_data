@@ -42,7 +42,11 @@ class _DetailsSectionState extends State<DetailsSection>
                   controller: TextEditingController(),
                   label: "اسم مقدم الخدمة",
                   onSaved: (value) =>
-                      context.read<ProviderModel>().details!.nameAr = value,
+                      context
+                              .read<ProviderModel>()
+                              .details!
+                              .serviceProviderNameAr =
+                          value,
                 ),
                 RequestFormDropDown(
                   items: [
@@ -68,7 +72,8 @@ class _DetailsSectionState extends State<DetailsSection>
                   controller: TextEditingController(),
                   label: "رقم الجوال",
                   onSaved: (value) =>
-                      context.read<ProviderModel>().details!.phone = value,
+                      context.read<ProviderModel>().details!.mobileNumber1 =
+                          value,
                 ),
                 RequestFormTextField(
                   controller: TextEditingController(),
@@ -86,9 +91,13 @@ class _DetailsSectionState extends State<DetailsSection>
                 ),
                 RequestFormTextField(
                   controller: TextEditingController(),
-                  label: "المدينة",
+                  label: "الحي",
                   onSaved: (value) =>
-                      context.read<ProviderModel>().details!.city!.cityNameAr =
+                      context
+                              .read<ProviderModel>()
+                              .details!
+                              .district
+                              ?.districtNameAr =
                           value!,
                 ),
               ],
