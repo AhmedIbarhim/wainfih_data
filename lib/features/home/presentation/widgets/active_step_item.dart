@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../Core/utils/app_text_styles.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../../core/utils/screen_util.dart';
+import '../../../../core/extentions/screen_util.dart';
 
 class ActiveStepItem extends StatelessWidget {
   const ActiveStepItem({super.key, required this.text});

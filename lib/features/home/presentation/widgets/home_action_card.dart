@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wainfih_data/core/utils/screen_util.dart';
+import 'package:wainfih_data/core/extentions/screen_util.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/app_text_styles.dart';

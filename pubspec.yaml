@@ -36,6 +36,7 @@ dependencies:
   dio: ^5.9.0
   dropdown_search: ^6.0.2
   equatable: ^2.0.8
+  flash: ^3.1.1
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1

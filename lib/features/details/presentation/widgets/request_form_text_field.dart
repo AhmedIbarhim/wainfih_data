@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
-import '../../../../core/utils/screen_util.dart';
+import '../../../../core/extentions/screen_util.dart';
 
 class RequestFormTextField extends StatelessWidget {
   const RequestFormTextField({

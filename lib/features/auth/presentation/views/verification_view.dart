@@ -64,24 +64,32 @@ class _VerificationViewState extends State<VerificationView> {
                 ),
                 const SizedBox(height: 40),
                 Center(
-                  child: Pinput(
-                    length: 4,
-                    controller: _codeController,
-                    defaultPinTheme: defaultPinTheme,
-                    focusedPinTheme: defaultPinTheme.copyWith(
-                      decoration: defaultPinTheme.decoration!.copyWith(
-                        border: Border.all(color: AppColors.primaryColor),
+                  child: Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: Pinput(
+                      // onCompleted: (value) {
+                      //   Navigator.pushReplacementNamed(context, Routes.home);
+                      // },
+                      length: 4,
+                      controller: _codeController,
+                      defaultPinTheme: defaultPinTheme,
+                      focusedPinTheme: defaultPinTheme.copyWith(
+                        decoration: defaultPinTheme.decoration!.copyWith(
+                          border: Border.all(color: AppColors.primaryColor),
+                        ),
                       ),
-                    ),
-                    errorPinTheme: defaultPinTheme.copyWith(
-                      decoration: defaultPinTheme.decoration!.copyWith(
-                        border: Border.all(color: Colors.red),
+                      errorPinTheme: defaultPinTheme.copyWith(
+                        decoration: defaultPinTheme.decoration!.copyWith(
+                          border: Border.all(color: Colors.red),
+                        ),
                       ),
+                      validator: (s) {
+                        return s?.length == 4
+                            ? null
+                            : "يرجى إدخال الرمز كاملاً";
+                      },
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     ),
-                    validator: (s) {
-                      return s?.length == 4 ? null : "يرجى إدخال الرمز كاملاً";
-                    },
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                 ),
                 const SizedBox(height: 40),
