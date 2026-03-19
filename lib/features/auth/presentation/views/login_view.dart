@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/components/app_text_form_field.dart';
+import '../../../../core/components/custom_text_form_field.dart';
 import '../../../../core/components/main_button.dart';
 import '../../../../core/route/routes.dart';
 import '../managers/auth_cubit/auth_cubit.dart';
 import '../managers/auth_cubit/auth_state.dart';
-import 'verification_view.dart';
 
 class LoginView extends StatelessWidget {
   LoginView({super.key});
 
   final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +32,15 @@ class LoginView extends StatelessWidget {
                 style: TextStyle(fontSize: 16, color: Colors.grey),
               ),
               const SizedBox(height: 40),
-              AppTextFormField(
+              CustomTextFormField(
                 controller: _phoneController,
-                labelText: "رقم الجوال",
-                hintText: "أدخل رقم الجوال",
-                isPhone: true,
+                label: "رقم الجوال",
+                suffixIcon: const Icon(Icons.phone_android),
                 keyboardType: TextInputType.phone,
               ),
               const SizedBox(height: 40),
+              CustomPassWordField(controller: _passwordController),
+              const SizedBox(height: 80),
               BlocConsumer<AuthCubit, AuthState>(
                 listener: (context, state) {
                   if (state is OtpSentSuccess) {
@@ -60,30 +61,27 @@ class LoginView extends StatelessWidget {
                       //   context.read<AuthCubit>().sendOtp(phone);
                       // }
 
-                      Navigator.pushReplacementNamed(
-                        context,
-                        Routes.verification,
-                      );
+                      Navigator.pushReplacementNamed(context, Routes.home);
                     },
                   );
                 },
               ),
-              const Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text("ليس لديك حساب؟"),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(context, Routes.register);
-                    },
-                    child: const Text(
-                      "إنشاء حساب",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
-              ),
+              // const Spacer(),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     const Text("ليس لديك حساب؟"),
+              //     TextButton(
+              //       onPressed: () {
+              //         Navigator.pushReplacementNamed(context, Routes.register);
+              //       },
+              //       child: const Text(
+              //         "إنشاء حساب",
+              //         style: TextStyle(fontWeight: FontWeight.bold),
+              //       ),
+              //     ),
+              //   ],
+              // ),
             ],
           ),
         ),

@@ -14,7 +14,7 @@ class AuthRepo {
   }) async {
     try {
       final response = await apiClient.post(
-        '/auth/sendOtp',
+        '--------------',
         data: {'mobileNumber': mobileNumber},
       );
       // Assuming the response contains some message or success status

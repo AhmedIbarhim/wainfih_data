@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wainfih_data/features/home/presentation/views/home_view.dart';
 import 'package:wainfih_data/features/splash/presentation/splash_view.dart';
 import 'package:wainfih_data/features/auth/presentation/views/login_view.dart';
-import 'package:wainfih_data/features/auth/presentation/views/register_view.dart';
-import 'package:wainfih_data/features/auth/presentation/views/verification_view.dart';
 import 'package:wainfih_data/features/auth/presentation/managers/auth_cubit/auth_cubit.dart';
 import '../../features/home/domain/provider_model.dart';
 import '../../features/home/presentation/views/add_provider_view.dart';
@@ -27,20 +25,20 @@ abstract class AppRouter {
         );
 
       case Routes.register:
-        return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => locator<AuthCubit>(),
-            child: RegisterView(),
-          ),
-        );
+      // return MaterialPageRoute(
+      //   builder: (_) => BlocProvider(
+      //     create: (context) => locator<AuthCubit>(),
+      //     child: RegisterView(),
+      //   ),
+      // );
 
-      case Routes.verification:
-        return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => locator<AuthCubit>(),
-            child: const VerificationView(),
-          ),
-        );
+      // case Routes.verification:
+      //   return MaterialPageRoute(
+      //     builder: (_) => BlocProvider(
+      //       create: (context) => locator<AuthCubit>(),
+      //       child: const VerificationView(),
+      //     ),
+      //   );
 
       case Routes.home:
         return MaterialPageRoute(builder: (_) => const HomeView());

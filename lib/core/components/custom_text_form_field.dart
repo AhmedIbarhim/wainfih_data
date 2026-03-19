@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../theme/app_colors.dart';
 import '../utils/app_text_styles.dart';
 
 class CustomTextFormField extends StatelessWidget {
@@ -10,9 +10,6 @@ class CustomTextFormField extends StatelessWidget {
     this.keyboardType,
     this.suffixIcon,
     this.obscureText = false,
-    this.onSaved,
-    this.maxLines,
-    this.required = true,
   });
 
   final String label;
@@ -20,28 +17,25 @@ class CustomTextFormField extends StatelessWidget {
   final Widget? suffixIcon;
   final bool obscureText;
   final TextEditingController? controller;
-  final void Function(String?)? onSaved;
-  final int? maxLines;
-  final bool required;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-      onSaved: onSaved,
+      onTapOutside: (event) {
+        FocusScope.of(context).unfocus();
+      },
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return required ? 'هذا الحقل مطلوب' : null;
+          return 'هذا الحقل مطلوب';
         }
         return null;
       },
       keyboardType: keyboardType,
-      maxLines: maxLines,
       decoration: InputDecoration(
         filled: true,
-        border: buildBorder(),
-        enabledBorder: buildBorder(),
+        border: _buildBorder(),
+        enabledBorder: _buildBorder(),
         labelText: label,
         labelStyle: AppTextStyles.regular11,
         suffixIcon: suffixIcon,
@@ -50,10 +44,43 @@ class CustomTextFormField extends StatelessWidget {
     );
   }
 
-  OutlineInputBorder buildBorder() {
+  OutlineInputBorder _buildBorder() {
     return const OutlineInputBorder(
       borderSide: BorderSide(color: Colors.grey),
       borderRadius: BorderRadius.all(Radius.circular(8)),
+    );
+  }
+}
+
+class CustomPassWordField extends StatefulWidget {
+  const CustomPassWordField({super.key, this.controller});
+
+  final TextEditingController? controller;
+
+  @override
+  State<CustomPassWordField> createState() => _CustomPassWordFieldState();
+}
+
+class _CustomPassWordFieldState extends State<CustomPassWordField> {
+  bool _obscure = true;
+  @override
+  Widget build(BuildContext context) {
+    return CustomTextFormField(
+      controller: widget.controller,
+      label: 'كلمة المرور',
+      obscureText: _obscure,
+      keyboardType: TextInputType.visiblePassword,
+      suffixIcon: IconButton(
+        icon: Icon(
+          _obscure ? Icons.visibility : Icons.visibility_off,
+          color: AppColors.primaryColor,
+        ),
+        onPressed: () {
+          setState(() {
+            _obscure = !_obscure;
+          });
+        },
+      ),
     );
   }
 }
