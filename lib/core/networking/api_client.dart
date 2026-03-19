@@ -27,14 +27,11 @@ class APIClient {
   Dio get dio => _dio;
 
   void _addInterceptors() {
-    // Talker logger interceptor
     _dio.interceptors.add(TalkerDioLogger());
 
-    // Custom interceptor (auth, refresh token, etc.)
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          // Example: attach token
           // final token = await SecureStorage.getToken();
           // options.headers['Authorization'] = 'Bearer $token';
 
@@ -44,16 +41,12 @@ class APIClient {
           handler.next(response);
         },
         onError: (DioException e, handler) {
-          // Centralized error handling
+          // todo error handling
           handler.next(e);
         },
       ),
     );
   }
-
-  // ----------------------
-  // HTTP METHODS
-  // ----------------------
 
   Future<Response<T>> get<T>(
     String path, {
@@ -117,13 +110,3 @@ class APIClient {
     );
   }
 }
-
-/*
-USAGE:
-
-final apiClient = APIClient(
-  baseUrl: 'https://api.example.com',
-);
-
-final response = await apiClient.get('/users');
-*/
