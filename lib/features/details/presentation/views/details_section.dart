@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wainfih_data/features/details/presentation/widgets/request_form_drop_down.dart';
 import 'package:wainfih_data/features/details/presentation/widgets/request_form_mobile_field.dart';
-import 'package:wainfih_data/features/home/domain/provider_model.dart';
+import 'package:wainfih_data/features/adding_new_provider/domain/provider_model.dart';
 
 import '../widgets/request_form_text_field.dart';
 

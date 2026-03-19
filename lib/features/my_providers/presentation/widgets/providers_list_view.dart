@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../details/data/models/district_model.dart';
 import '../../../details/data/models/city_model.dart';
 import '../../../details/data/models/details_model.dart';
-import '../../../home/domain/provider_model.dart';
+import '../../../adding_new_provider/domain/provider_model.dart';
 import 'provider_card.dart';
 
 class ProvidersListView extends StatelessWidget {

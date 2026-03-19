@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:latlong2/latlong.dart' as ll;
 import 'package:wainfih_data/core/theme/app_colors.dart';
-import 'package:wainfih_data/features/home/domain/provider_model.dart';
+import 'package:wainfih_data/features/adding_new_provider/domain/provider_model.dart';
 import '../manager/location_cubit.dart';
 import '../manager/location_states.dart';
 

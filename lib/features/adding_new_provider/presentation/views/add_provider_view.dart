@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wainfih_data/core/components/main_button.dart';
 import 'package:wainfih_data/features/details/data/models/details_model.dart';
-import 'package:wainfih_data/features/home/domain/provider_model.dart';
-import 'package:wainfih_data/features/home/presentation/widgets/adding_provider_steps.dart';
+import 'package:wainfih_data/features/adding_new_provider/domain/provider_model.dart';
+import 'package:wainfih_data/features/adding_new_provider/presentation/widgets/adding_provider_steps.dart';
 import '../../../../core/components/custom_app_bar.dart';
 import '../../../../core/helpers/handle_location_permission.dart';
 import '../widgets/adding_provider_page_view.dart';

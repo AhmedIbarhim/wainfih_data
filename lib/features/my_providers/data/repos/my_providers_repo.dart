@@ -1,6 +1,6 @@
 import 'package:wainfih_data/core/networking/api_client.dart';
 
-import '../../../home/domain/provider_model.dart';
+import '../../../adding_new_provider/domain/provider_model.dart';
 
 class MyProvidersRepo {
   final APIClient apiClient;

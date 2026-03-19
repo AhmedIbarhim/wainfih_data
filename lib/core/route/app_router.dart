@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wainfih_data/features/home/presentation/views/home_view.dart';
+import 'package:wainfih_data/features/home/views/home_view.dart';
 import 'package:wainfih_data/features/splash/presentation/splash_view.dart';
 import 'package:wainfih_data/features/auth/presentation/views/login_view.dart';
 import 'package:wainfih_data/features/auth/presentation/managers/auth_cubit/auth_cubit.dart';
-import '../../features/home/domain/provider_model.dart';
-import '../../features/home/presentation/views/add_provider_view.dart';
+import '../../features/adding_new_provider/domain/provider_model.dart';
+import '../../features/adding_new_provider/presentation/views/add_provider_view.dart';
 import '../../features/my_providers/presentation/views/my_provider_view.dart';
 import '../di/service_locator.dart';
 import 'routes.dart';

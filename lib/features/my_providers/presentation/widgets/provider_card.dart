@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../home/domain/provider_model.dart';
+import '../../../adding_new_provider/domain/provider_model.dart';
 import 'request_status_widget.dart';
 
 class ProviderCard extends StatelessWidget {

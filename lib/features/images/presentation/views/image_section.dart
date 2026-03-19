@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wainfih_data/features/images/presentation/widgets/image_field.dart';
 
-import '../../../home/domain/provider_model.dart';
+import '../../../adding_new_provider/domain/provider_model.dart';
 
 class ImageSection extends StatefulWidget {
   const ImageSection({super.key});

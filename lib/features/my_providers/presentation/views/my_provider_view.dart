@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/components/custom_app_bar.dart';
 import '../../../../core/enums/fitler_period_enum.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../home/domain/provider_model.dart';
+import '../../../adding_new_provider/domain/provider_model.dart';
 import '../../../../core/utils/date_filter_utils.dart';
 import '../widgets/providers_list_view.dart';
 
