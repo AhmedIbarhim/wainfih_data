@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../../../../generated/l10n.dart';
 import 'step_item_switcher.dart';
 
 class AddingProviderSteps extends StatelessWidget {
@@ -12,8 +14,9 @@ class AddingProviderSteps extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final steps = _getAddingSteps(context);
     return Row(
-      children: List.generate(_getAddingSteps().length, (index) {
+      children: List.generate(steps.length, (index) {
         return Expanded(
           child: GestureDetector(
             onTap: () {
@@ -28,7 +31,7 @@ class AddingProviderSteps extends StatelessWidget {
             child: StepItemSwitcher(
               isActive: index <= currentIndex,
               index: index,
-              text: _getAddingSteps()[index],
+              text: steps[index],
             ),
           ),
         );
@@ -36,5 +39,8 @@ class AddingProviderSteps extends StatelessWidget {
     );
   }
 
-  List<String> _getAddingSteps() => ['التفاصيل', 'الصور', 'الموقع'];
+  List<String> _getAddingSteps(BuildContext context) {
+    final l = S.of(context);
+    return [l.stepBasicInfo, l.stepPhotoAndLocation, l.stepClassification];
+  }
 }

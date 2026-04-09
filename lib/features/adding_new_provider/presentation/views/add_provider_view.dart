@@ -1,114 +1,209 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:wainfih_data/core/components/main_button.dart';
-import 'package:wainfih_data/features/details/data/models/details_model.dart';
-import 'package:wainfih_data/features/adding_new_provider/domain/provider_model.dart';
-import 'package:wainfih_data/features/adding_new_provider/presentation/widgets/adding_provider_steps.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import '../../../../core/components/custom_app_bar.dart';
+import '../../../../core/components/custom_text_form_field.dart';
+import '../../../../core/components/main_button.dart';
 import '../../../../core/helpers/handle_location_permission.dart';
-import '../widgets/adding_provider_page_view.dart';
-import 'package:provider/provider.dart';
+import '../../../../core/route/routes.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/utils/app_text_styles.dart';
+import '../../../../generated/l10n.dart';
+import '../../../add_provider/data/models/upsert_provider_ui_model.dart';
+import '../../../add_provider/presentation/cubit/add_provider_cubit.dart';
+import '../../../add_provider/presentation/cubit/add_provider_state.dart';
+import '../../../images/presentation/widgets/image_field.dart';
+import '../../../lookups/data/models/category_model.dart';
+import '../../../lookups/data/models/city_model.dart';
+import '../../../lookups/data/models/district_model.dart';
+import '../../../lookups/data/models/sp_type_model.dart';
+import '../../../lookups/presentation/cubit/lookups_cubit.dart';
+import '../../../lookups/presentation/cubit/lookups_state.dart';
+import '../../../map/data/location_remote_data_source.dart';
+import '../../../map/data/location_repo_impl.dart';
+import '../../../map/presentation/manager/location_cubit.dart';
+import '../../../map/presentation/manager/location_states.dart';
+import '../../../my_providers/data/models/provider_list_model.dart';
+import '../widgets/adding_provider_steps.dart';
 
 class AddProviderView extends StatefulWidget {
-  const AddProviderView({super.key, this.providerModel});
+  const AddProviderView({super.key, this.provider});
 
-  final ProviderModel? providerModel;
+  final ProviderListModel? provider;
 
   @override
   State<AddProviderView> createState() => _AddProviderViewState();
 }
 
 class _AddProviderViewState extends State<AddProviderView> {
-  ProviderModel get providerModel =>
-      widget.providerModel ??
-      ProviderModel(details: DetailsModel(), images: []);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: buildCustomAppBar(context, title: "اضافة مقدم خدمة جديد"),
-      body: Provider.value(value: providerModel, child: _Body()),
-    );
-  }
-}
-
-class _Body extends StatefulWidget {
-  const _Body();
-
-  @override
-  State<_Body> createState() => __BodyState();
-}
-
-class __BodyState extends State<_Body> {
+  late UpsertProviderUiModel uiModel;
   late PageController pageController;
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  ValueNotifier<AutovalidateMode> valueNotifier = ValueNotifier(
-    AutovalidateMode.disabled,
-  );
+  final GlobalKey<FormState> _step1FormKey = GlobalKey<FormState>();
+  int currentIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    handleLocationPermission(context);
+    uiModel = widget.provider != null
+        ? UpsertProviderUiModel.fromProvider(widget.provider!)
+        : UpsertProviderUiModel.create();
     pageController = PageController();
     pageController.addListener(() {
-      setState(() {
-        currentIndex = pageController.page!.toInt();
-      });
+      final page = pageController.page?.toInt();
+      if (page != null && page != currentIndex) {
+        setState(() => currentIndex = page);
+      }
     });
+    handleLocationPermission(context);
   }
 
   @override
   void dispose() {
-    super.dispose();
+    uiModel.dispose();
     pageController.dispose();
-    valueNotifier.dispose();
+    super.dispose();
   }
-
-  int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsetsGeometry.all(16.0),
-      child: Column(
-        children: [
-          const SizedBox(height: 20),
-          AddingProviderSteps(
-            currentIndex: currentIndex,
-            pageController: pageController,
+    final l = S.of(context);
+    final title = uiModel.isEditing
+        ? l.editButton
+        : l.addProviderTitle;
+
+    return BlocListener<AddProviderCubit, AddProviderState>(
+      listener: (context, state) {
+        if (state is AddProviderSubmitSuccess) {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            Routes.myProviders,
+            (route) => route.settings.name == Routes.home,
+          );
+        } else if (state is AddProviderQueuedOffline) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(l.queuedOfflineMessage)),
+          );
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            Routes.home,
+            (route) => false,
+          );
+        } else if (state is AddProviderSubmitFailed) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.message)),
+          );
+        } else if (state is AddProviderImageUploaded) {
+          uiModel.imageJson.value = state.imageJson;
+          // Auto-submit after image upload completes
+          context.read<AddProviderCubit>().submit(uiModel);
+        } else if (state is AddProviderImageFailed) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.message)),
+          );
+        }
+      },
+      child: Scaffold(
+        appBar: buildCustomAppBar(context, title: title),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              AddingProviderSteps(
+                currentIndex: currentIndex,
+                pageController: pageController,
+              ),
+              const SizedBox(height: 20),
+              Expanded(
+                child: PageView(
+                  controller: pageController,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    _Step1BasicInfo(
+                      formKey: _step1FormKey,
+                      uiModel: uiModel,
+                    ),
+                    _Step2PhotoAndLocation(uiModel: uiModel),
+                    _Step3Classification(uiModel: uiModel),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+              BlocBuilder<AddProviderCubit, AddProviderState>(
+                builder: (context, state) {
+                  final isSubmitting = state is AddProviderSubmitting;
+                  final isUploading = state is AddProviderImageUploading;
+                  return MainButton(
+                    text: currentIndex == 2
+                        ? l.submitButton
+                        : l.nextButton,
+                    isLoading: isSubmitting || isUploading,
+                    onTap: () => _handleNext(context),
+                  );
+                },
+              ),
+              const SizedBox(height: 30),
+            ],
           ),
-          const SizedBox(height: 20),
-          AddingProviderPageView(
-            pageController: pageController,
-            formKey: formKey,
-            valueListenable: valueNotifier,
-          ),
-          const SizedBox(height: 20),
-          MainButton(
-            text: _getButtonText(),
-            onTap: () {
-              {
-                if (currentIndex == 0) {
-                  _handleDetailsInputValidation();
-                } else if (currentIndex == 1) {
-                  _handleImagesValidation();
-                } else {
-                  _submitRequest();
-                }
-              }
-            },
-          ),
-          const SizedBox(height: 30),
-        ],
+        ),
       ),
     );
   }
 
-  String _getButtonText() {
-    if (currentIndex == 2) {
-      return "حفظ";
+  void _handleNext(BuildContext context) {
+    final l = S.of(context);
+    if (currentIndex == 0) {
+      // Validate basic info
+      if (uiModel.nameAr.text.isEmpty && uiModel.nameEn.text.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l.validationAtLeastOneName)),
+        );
+        return;
+      }
+      if (uiModel.mobile1.text.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l.validationMobileRequired)),
+        );
+        return;
+      }
+      _moveToNextStep();
+    } else if (currentIndex == 1) {
+      // Validate photo and location
+      if (uiModel.imageFile.value == null && uiModel.imageJson.value == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l.validationImageRequired)),
+        );
+        return;
+      }
+      if (uiModel.location.value == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l.validationLocationRequired)),
+        );
+        return;
+      }
+      _moveToNextStep();
     } else {
-      return "التالي";
+      // Validate classification and submit
+      if (uiModel.selectedType.value == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l.validationTypeRequired)),
+        );
+        return;
+      }
+      if (uiModel.selectedDistrict.value == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l.validationDistrictRequired)),
+        );
+        return;
+      }
+      // Upload image first if needed, then submit
+      if (uiModel.imageFile.value != null && uiModel.imageJson.value == null) {
+        context.read<AddProviderCubit>().uploadImage(uiModel.imageFile.value!);
+        // submission will continue after image upload via listener
+      } else {
+        context.read<AddProviderCubit>().submit(uiModel);
+      }
     }
   }
 
@@ -118,30 +213,557 @@ class __BodyState extends State<_Body> {
       curve: Curves.easeIn,
     );
   }
+}
 
-  void _handleDetailsInputValidation() {
-    // if (formKey.currentState!.validate()) {
-    //   formKey.currentState!.save();
-    //   _moveToNextStep();
-    // } else {
-    //   valueNotifier.value = AutovalidateMode.onUserInteraction;
-    // }
-    _moveToNextStep();
+// --- Step 1: Basic Info ---
+class _Step1BasicInfo extends StatelessWidget {
+  const _Step1BasicInfo({
+    required this.formKey,
+    required this.uiModel,
+  });
+
+  final GlobalKey<FormState> formKey;
+  final UpsertProviderUiModel uiModel;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = S.of(context);
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const SizedBox(height: 20),
+          CustomTextFormField(
+            controller: uiModel.nameAr,
+            label: l.providerNameAr,
+          ),
+          const SizedBox(height: 16),
+          CustomTextFormField(
+            controller: uiModel.nameEn,
+            label: l.providerNameEn,
+          ),
+          const SizedBox(height: 16),
+          CustomTextFormField(
+            controller: uiModel.mobile1,
+            label: l.mobileNumber,
+            keyboardType: TextInputType.phone,
+            suffixIcon: const Icon(Icons.phone_android),
+          ),
+          const SizedBox(height: 16),
+          CustomTextFormField(
+            controller: uiModel.mobile2,
+            label: l.secondMobile,
+            keyboardType: TextInputType.phone,
+            suffixIcon: const Icon(Icons.phone_android),
+          ),
+          const SizedBox(height: 16),
+          CustomTextFormField(
+            controller: uiModel.contactPerson,
+            label: l.contactPerson,
+            suffixIcon: const Icon(Icons.person_outline),
+          ),
+          const SizedBox(height: 16),
+          CustomTextFormField(
+            controller: uiModel.notes,
+            label: l.notes,
+          ),
+          const SizedBox(height: 20),
+        ],
+      ),
+    );
+  }
+}
+
+// --- Step 2: Photo & Location ---
+class _Step2PhotoAndLocation extends StatefulWidget {
+  const _Step2PhotoAndLocation({required this.uiModel});
+
+  final UpsertProviderUiModel uiModel;
+
+  @override
+  State<_Step2PhotoAndLocation> createState() => _Step2PhotoAndLocationState();
+}
+
+class _Step2PhotoAndLocationState extends State<_Step2PhotoAndLocation>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  final Completer<GoogleMapController> _mapController = Completer();
+  late LocationCubit _locationCubit;
+  double _currentZoom = 15.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _locationCubit = LocationCubit(
+      LocationRepoImpl(LocationRemoteDataSourceImpl()),
+    )..getCurrentLocation();
   }
 
-  void _handleImagesValidation() {
-    // if (context.read<ProviderModel>().images!.isEmpty) {
-    //   showErrorSnackBar(context, "يجب اضافة صورة");
-    //   return;
-    // } else {
-    //   _moveToNextStep();
-    // }
-    _moveToNextStep();
+  @override
+  void dispose() {
+    _locationCubit.close();
+    super.dispose();
   }
 
-  void _submitRequest() {
-    // To Handle submit Later
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    final l = S.of(context);
+    final uiModel = widget.uiModel;
 
-    Navigator.pop(context);
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 10),
+          Text(l.takePhoto, style: AppTextStyles.bold16),
+          const SizedBox(height: 8),
+          ImageField(
+            initialImage: uiModel.imageFile.value,
+            onFileChanged: (file) {
+              uiModel.imageFile.value = file;
+              // Clear any previously uploaded image json so we re-upload
+              uiModel.imageJson.value = null;
+            },
+          ),
+          const SizedBox(height: 20),
+          Text(l.selectLocation, style: AppTextStyles.bold16),
+          const SizedBox(height: 8),
+          SizedBox(
+            height: 300,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: BlocProvider.value(
+                value: _locationCubit,
+                child: BlocBuilder<LocationCubit, LocationState>(
+                  builder: (context, state) {
+                    if (state is LocationLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
+                    if (state is LocationSuccess && uiModel.location.value == null) {
+                      uiModel.location.value = LatLng(
+                        state.location.latitude,
+                        state.location.longitude,
+                      );
+                    }
+
+                    if (state is LocationError) {
+                      return Center(child: Text(state.message));
+                    }
+
+                    final pos = uiModel.location.value ??
+                        const LatLng(24.7136, 46.6753); // Default Riyadh
+
+                    return Stack(
+                      children: [
+                        GoogleMap(
+                          initialCameraPosition: CameraPosition(
+                            target: pos,
+                            zoom: _currentZoom,
+                          ),
+                          onMapCreated: (controller) {
+                            if (!_mapController.isCompleted) {
+                              _mapController.complete(controller);
+                            }
+                          },
+                          onTap: (point) {
+                            setState(() {
+                              uiModel.location.value = point;
+                            });
+                            // Detect district from coordinates
+                            context
+                                .read<LookupsCubit>()
+                                .detectDistrictFromCoordinates(
+                                  lat: point.latitude,
+                                  lng: point.longitude,
+                                );
+                          },
+                          onCameraMove: (position) {
+                            _currentZoom = position.zoom;
+                          },
+                          markers: uiModel.location.value != null
+                              ? {
+                                  Marker(
+                                    markerId: const MarkerId('selected'),
+                                    position: uiModel.location.value!,
+                                  ),
+                                }
+                              : {},
+                        ),
+                        Positioned(
+                          bottom: 10,
+                          left: 10,
+                          child: FloatingActionButton(
+                            mini: true,
+                            backgroundColor: Colors.white60,
+                            onPressed: () async {
+                              if (state is LocationSuccess) {
+                                final loc = LatLng(
+                                  state.location.latitude,
+                                  state.location.longitude,
+                                );
+                                setState(() {
+                                  uiModel.location.value = loc;
+                                });
+                                final controller = await _mapController.future;
+                                controller.animateCamera(
+                                  CameraUpdate.newLatLngZoom(loc, _currentZoom),
+                                );
+                                if (context.mounted) {
+                                  context
+                                      .read<LookupsCubit>()
+                                      .detectDistrictFromCoordinates(
+                                        lat: loc.latitude,
+                                        lng: loc.longitude,
+                                      );
+                                }
+                              }
+                            },
+                            child: const Icon(
+                              Icons.my_location,
+                              color: AppColors.primaryColor,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+        ],
+      ),
+    );
+  }
+}
+
+// --- Step 3: Classification ---
+class _Step3Classification extends StatefulWidget {
+  const _Step3Classification({required this.uiModel});
+
+  final UpsertProviderUiModel uiModel;
+
+  @override
+  State<_Step3Classification> createState() => _Step3ClassificationState();
+}
+
+class _Step3ClassificationState extends State<_Step3Classification>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  bool _didAutoFill = false;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    final l = S.of(context);
+    final uiModel = widget.uiModel;
+
+    return BlocConsumer<LookupsCubit, LookupsState>(
+      listener: (context, state) {
+        // Auto-fill city/district from auto-detected district
+        if (!_didAutoFill && state.autoDetectedDistrict != null) {
+          final detected = state.autoDetectedDistrict!;
+          if (uiModel.selectedDistrict.value == null) {
+            uiModel.selectedDistrict.value = detected;
+            if (detected.city != null) {
+              uiModel.selectedCity.value = detected.city;
+            } else {
+              // Find city from lookup list
+              final city = state.cities.where((c) => c.id == detected.cityId);
+              if (city.isNotEmpty) {
+                uiModel.selectedCity.value = city.first;
+              }
+            }
+            _didAutoFill = true;
+            setState(() {});
+          }
+        }
+      },
+      builder: (context, state) {
+        if (state.isLoading && state.serviceTypes.isEmpty) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        return SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 10),
+              // Service Type Dropdown
+              _SearchableDropdown<SpTypeModel>(
+                label: l.serviceType,
+                items: state.serviceTypes,
+                selectedItem: uiModel.selectedType.value,
+                itemLabel: (t) => t.typeNameAr,
+                onSelected: (t) {
+                  setState(() => uiModel.selectedType.value = t);
+                },
+              ),
+              const SizedBox(height: 16),
+              // City Dropdown
+              _SearchableDropdown<CityModel>(
+                label: l.cityLabel,
+                items: state.cities,
+                selectedItem: uiModel.selectedCity.value,
+                itemLabel: (c) => c.cityNameAr,
+                onSelected: (c) {
+                  setState(() {
+                    uiModel.selectedCity.value = c;
+                    uiModel.selectedDistrict.value = null;
+                  });
+                  if (c != null) {
+                    context.read<LookupsCubit>().loadDistrictsForCity(c.id);
+                  }
+                },
+              ),
+              const SizedBox(height: 16),
+              // District Dropdown
+              _SearchableDropdown<DistrictModel>(
+                label: l.districtLabel,
+                items: state.districts,
+                selectedItem: uiModel.selectedDistrict.value,
+                itemLabel: (d) => d.districtNameAr,
+                onSelected: (d) {
+                  setState(() => uiModel.selectedDistrict.value = d);
+                },
+              ),
+              const SizedBox(height: 16),
+              // Multi-select Categories
+              _MultiSelectCategories(
+                label: l.categoriesLabel,
+                items: state.categories,
+                selectedItems: uiModel.selectedCategories.value,
+                onChanged: (cats) {
+                  setState(() => uiModel.selectedCategories.value = cats);
+                },
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+// --- Searchable Dropdown Widget ---
+class _SearchableDropdown<T> extends StatelessWidget {
+  const _SearchableDropdown({
+    required this.label,
+    required this.items,
+    required this.selectedItem,
+    required this.itemLabel,
+    required this.onSelected,
+  });
+
+  final String label;
+  final List<T> items;
+  final T? selectedItem;
+  final String Function(T) itemLabel;
+  final ValueChanged<T?> onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => _showSearchDialog(context),
+      child: InputDecorator(
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: AppTextStyles.regular11,
+          border: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey),
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+          ),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey),
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+          ),
+          filled: true,
+          suffixIcon: const Icon(Icons.arrow_drop_down),
+        ),
+        child: Text(
+          selectedItem != null ? itemLabel(selectedItem as T) : '',
+          style: AppTextStyles.regular13,
+        ),
+      ),
+    );
+  }
+
+  void _showSearchDialog(BuildContext context) {
+    final searchController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        List<T> filtered = List.from(items);
+        return StatefulBuilder(
+          builder: (ctx, setDialogState) {
+            return AlertDialog(
+              title: Text(label, style: AppTextStyles.bold16),
+              content: SizedBox(
+                width: double.maxFinite,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      controller: searchController,
+                      decoration: InputDecoration(
+                        hintText: label,
+                        prefixIcon: const Icon(Icons.search),
+                        border: const OutlineInputBorder(),
+                      ),
+                      onChanged: (value) {
+                        setDialogState(() {
+                          filtered = items
+                              .where((item) => itemLabel(item)
+                                  .toLowerCase()
+                                  .contains(value.toLowerCase()))
+                              .toList();
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 8),
+                    Flexible(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: filtered.length,
+                        itemBuilder: (_, i) {
+                          final item = filtered[i];
+                          return ListTile(
+                            title: Text(itemLabel(item)),
+                            selected: item == selectedItem,
+                            onTap: () {
+                              onSelected(item);
+                              Navigator.of(ctx).pop();
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+// --- Multi Select Categories Widget ---
+class _MultiSelectCategories extends StatelessWidget {
+  const _MultiSelectCategories({
+    required this.label,
+    required this.items,
+    required this.selectedItems,
+    required this.onChanged,
+  });
+
+  final String label;
+  final List<CategoryModel> items;
+  final List<CategoryModel> selectedItems;
+  final ValueChanged<List<CategoryModel>> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => _showMultiSelectDialog(context),
+      child: InputDecorator(
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: AppTextStyles.regular11,
+          border: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey),
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+          ),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey),
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+          ),
+          filled: true,
+          suffixIcon: const Icon(Icons.arrow_drop_down),
+        ),
+        child: selectedItems.isEmpty
+            ? const SizedBox.shrink()
+            : Wrap(
+                spacing: 6,
+                runSpacing: 4,
+                children: selectedItems.map((cat) {
+                  return Chip(
+                    label: Text(
+                      cat.categoryNameAr,
+                      style: AppTextStyles.regular11,
+                    ),
+                    deleteIcon: const Icon(Icons.close, size: 16),
+                    onDeleted: () {
+                      final updated = List<CategoryModel>.from(selectedItems)
+                        ..remove(cat);
+                      onChanged(updated);
+                    },
+                  );
+                }).toList(),
+              ),
+      ),
+    );
+  }
+
+  void _showMultiSelectDialog(BuildContext context) {
+    final selected = List<CategoryModel>.from(selectedItems);
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return StatefulBuilder(
+          builder: (ctx, setDialogState) {
+            return AlertDialog(
+              title: Text(label, style: AppTextStyles.bold16),
+              content: SizedBox(
+                width: double.maxFinite,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: items.length,
+                  itemBuilder: (_, i) {
+                    final cat = items[i];
+                    final isChecked = selected.any((s) => s.id == cat.id);
+                    return CheckboxListTile(
+                      title: Text(cat.categoryNameAr),
+                      value: isChecked,
+                      activeColor: AppColors.primaryColor,
+                      onChanged: (checked) {
+                        setDialogState(() {
+                          if (checked == true) {
+                            selected.add(cat);
+                          } else {
+                            selected.removeWhere((s) => s.id == cat.id);
+                          }
+                        });
+                      },
+                    );
+                  },
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  child: Text(S.of(context).cancel),
+                ),
+                TextButton(
+                  onPressed: () {
+                    onChanged(selected);
+                    Navigator.of(ctx).pop();
+                  },
+                  child: Text(S.of(context).confirm),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../features/add_provider/data/data_sources/provider_remote_data_source.dart';
 import '../../features/add_provider/data/repos/provider_submission_repository.dart';
 import '../../features/add_provider/presentation/cubit/add_provider_cubit.dart';
+import '../../features/adding_new_provider/presentation/views/add_provider_view.dart';
 import '../../features/auth/data/data_sources/auth_local_data_source.dart';
 import '../../features/auth/data/data_sources/auth_remote_data_source.dart';
 import '../../features/auth/data/repos/auth_repository.dart';
@@ -18,8 +19,12 @@ import '../../features/my_providers/data/models/provider_list_model.dart';
 import '../../features/my_providers/data/repos/my_providers_repository.dart';
 import '../../features/my_providers/presentation/cubit/my_providers_cubit.dart';
 import '../../features/my_providers/presentation/views/my_provider_view.dart';
+import '../../features/my_providers/presentation/views/provider_detail_view.dart';
+import '../../features/queue/presentation/cubit/queue_cubit.dart';
+import '../../features/queue/presentation/views/queue_view.dart';
 import '../../features/splash/presentation/splash_view.dart';
 import '../di/service_locator.dart';
+import '../offline/queue_manager.dart';
 import '../offline/submission_queue.dart';
 import 'routes.dart';
 
@@ -56,7 +61,6 @@ abstract class AppRouter {
         return MaterialPageRoute(builder: (_) => const HomeView());
 
       case Routes.addProvider:
-        // ignore: unused_local_variable
         final provider = settings.arguments as ProviderListModel?;
         return MaterialPageRoute(
           builder: (_) => MultiBlocProvider(
@@ -73,8 +77,7 @@ abstract class AppRouter {
                 )..loadInitialData(),
               ),
             ],
-            // TODO: Wire to AddProviderView with provider arg in Task 13
-            child: const Placeholder(),
+            child: AddProviderView(provider: provider),
           ),
         );
 
@@ -85,6 +88,23 @@ abstract class AppRouter {
               MyProvidersRepository(locator<MyProvidersRemoteDataSource>()),
             )..loadProviders(refresh: true),
             child: const MyProviderView(),
+          ),
+        );
+
+      case Routes.providerDetail:
+        final provider = settings.arguments as ProviderListModel;
+        return MaterialPageRoute(
+          builder: (_) => ProviderDetailView(provider: provider),
+        );
+
+      case Routes.queue:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (_) => QueueCubit(
+              locator<SubmissionQueue>(),
+              locator<QueueManager>(),
+            )..refresh(),
+            child: const QueueView(),
           ),
         );
 
