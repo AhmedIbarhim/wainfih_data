@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'app.dart';
 import 'core/di/service_locator.dart';
-import 'core/local_caching/shared_prefs.dart';
+import 'core/offline/queue_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  setupServiceLocator();
-  await SharedPrefs.init();
+  await setupServiceLocator();
+  locator<QueueManager>().startListening();
   runApp(const App());
 }

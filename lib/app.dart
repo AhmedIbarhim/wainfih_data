@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'core/di/service_locator.dart';
 import 'core/helpers/connectivity_controller.dart';
 import 'core/route/app_router.dart';
 import 'generated/l10n.dart';
@@ -40,8 +41,7 @@ class MainMaterialApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // theme: ThemeData.dark(),
-      navigatorKey: ConnectivityController.navigatorKey,
+      navigatorKey: navigatorKey,
       onGenerateRoute: AppRouter.generateRoute,
       localizationsDelegates: [
         S.delegate,
