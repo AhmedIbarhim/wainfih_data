@@ -41,7 +41,6 @@ class AddProviderView extends StatefulWidget {
 class _AddProviderViewState extends State<AddProviderView> {
   late UpsertProviderUiModel uiModel;
   late PageController pageController;
-  final GlobalKey<FormState> _step1FormKey = GlobalKey<FormState>();
   int currentIndex = 0;
 
   @override
@@ -121,7 +120,6 @@ class _AddProviderViewState extends State<AddProviderView> {
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
                     _Step1BasicInfo(
-                      formKey: _step1FormKey,
                       uiModel: uiModel,
                     ),
                     _Step2PhotoAndLocation(uiModel: uiModel),
@@ -218,11 +216,9 @@ class _AddProviderViewState extends State<AddProviderView> {
 // --- Step 1: Basic Info ---
 class _Step1BasicInfo extends StatelessWidget {
   const _Step1BasicInfo({
-    required this.formKey,
     required this.uiModel,
   });
 
-  final GlobalKey<FormState> formKey;
   final UpsertProviderUiModel uiModel;
 
   @override
@@ -336,17 +332,18 @@ class _Step2PhotoAndLocationState extends State<_Step2PhotoAndLocation>
               borderRadius: BorderRadius.circular(12),
               child: BlocProvider.value(
                 value: _locationCubit,
-                child: BlocBuilder<LocationCubit, LocationState>(
-                  builder: (context, state) {
-                    if (state is LocationLoading) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-
+                child: BlocConsumer<LocationCubit, LocationState>(
+                  listener: (context, state) {
                     if (state is LocationSuccess && uiModel.location.value == null) {
                       uiModel.location.value = LatLng(
                         state.location.latitude,
                         state.location.longitude,
                       );
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is LocationLoading) {
+                      return const Center(child: CircularProgressIndicator());
                     }
 
                     if (state is LocationError) {

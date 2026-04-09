@@ -78,6 +78,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "nextButton": MessageLookupByLibrary.simpleMessage("التالي"),
         "noInternetConnection":
             MessageLookupByLibrary.simpleMessage("لا يوجد اتصال بالإنترنت"),
+        "noProviders":
+            MessageLookupByLibrary.simpleMessage("لا يوجد مقدمي خدمة"),
         "notes": MessageLookupByLibrary.simpleMessage("ملاحظات"),
         "passwordLabel": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
         "providerDetailTitle":
@@ -116,8 +118,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "statusDeclined": MessageLookupByLibrary.simpleMessage("مرفوض"),
         "statusPending": MessageLookupByLibrary.simpleMessage("قيد المراجعة"),
         "stepBasicInfo": MessageLookupByLibrary.simpleMessage("التفاصيل"),
-        "stepClassification": MessageLookupByLibrary.simpleMessage("الموقع"),
-        "stepPhotoAndLocation": MessageLookupByLibrary.simpleMessage("الصور"),
+        "stepClassification": MessageLookupByLibrary.simpleMessage("التصنيف"),
+        "stepPhotoAndLocation":
+            MessageLookupByLibrary.simpleMessage("الصورة والموقع"),
         "submitButton": MessageLookupByLibrary.simpleMessage("إرسال"),
         "success": MessageLookupByLibrary.simpleMessage("تمت العملية بنجاح"),
         "suspendedAccountError": MessageLookupByLibrary.simpleMessage(

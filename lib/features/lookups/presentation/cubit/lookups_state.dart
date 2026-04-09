@@ -29,6 +29,7 @@ class LookupsState extends Equatable {
     List<SpTypeModel>? serviceTypes,
     List<CategoryModel>? categories,
     DistrictModel? autoDetectedDistrict,
+    bool clearAutoDetectedDistrict = false,
     bool? isLoading,
     String? error,
   }) {
@@ -37,7 +38,9 @@ class LookupsState extends Equatable {
       districts: districts ?? this.districts,
       serviceTypes: serviceTypes ?? this.serviceTypes,
       categories: categories ?? this.categories,
-      autoDetectedDistrict: autoDetectedDistrict ?? this.autoDetectedDistrict,
+      autoDetectedDistrict: clearAutoDetectedDistrict
+          ? null
+          : (autoDetectedDistrict ?? this.autoDetectedDistrict),
       isLoading: isLoading ?? this.isLoading,
       error: error,
     );

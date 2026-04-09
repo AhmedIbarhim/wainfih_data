@@ -170,22 +170,22 @@ class S {
     );
   }
 
-  /// `Photos`
+  /// `Photo & Location`
   String get stepPhotoAndLocation {
     return Intl.message(
-      'Photos',
+      'Photo & Location',
       name: 'stepPhotoAndLocation',
       desc: 'Step name: photo and location',
       args: [],
     );
   }
 
-  /// `Location`
+  /// `Classification`
   String get stepClassification {
     return Intl.message(
-      'Location',
+      'Classification',
       name: 'stepClassification',
-      desc: 'Step name: classification / location',
+      desc: 'Step name: classification',
       args: [],
     );
   }
@@ -626,6 +626,16 @@ class S {
       'No items in the queue',
       name: 'queueEmpty',
       desc: 'Message when queue is empty',
+      args: [],
+    );
+  }
+
+  /// `No service providers found`
+  String get noProviders {
+    return Intl.message(
+      'No service providers found',
+      name: 'noProviders',
+      desc: 'Message when providers list is empty',
       args: [],
     );
   }

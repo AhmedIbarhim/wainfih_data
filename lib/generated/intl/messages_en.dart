@@ -78,6 +78,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "nextButton": MessageLookupByLibrary.simpleMessage("Next"),
         "noInternetConnection":
             MessageLookupByLibrary.simpleMessage("No internet connection"),
+        "noProviders":
+            MessageLookupByLibrary.simpleMessage("No service providers found"),
         "notes": MessageLookupByLibrary.simpleMessage("Notes"),
         "passwordLabel": MessageLookupByLibrary.simpleMessage("Password"),
         "providerDetailTitle":
@@ -117,8 +119,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "statusDeclined": MessageLookupByLibrary.simpleMessage("Declined"),
         "statusPending": MessageLookupByLibrary.simpleMessage("Under Review"),
         "stepBasicInfo": MessageLookupByLibrary.simpleMessage("Details"),
-        "stepClassification": MessageLookupByLibrary.simpleMessage("Location"),
-        "stepPhotoAndLocation": MessageLookupByLibrary.simpleMessage("Photos"),
+        "stepClassification":
+            MessageLookupByLibrary.simpleMessage("Classification"),
+        "stepPhotoAndLocation":
+            MessageLookupByLibrary.simpleMessage("Photo & Location"),
         "submitButton": MessageLookupByLibrary.simpleMessage("Submit"),
         "success": MessageLookupByLibrary.simpleMessage(
             "Operation completed successfully"),

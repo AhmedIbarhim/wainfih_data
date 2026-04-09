@@ -18,8 +18,8 @@ class QueueCubit extends Cubit<QueueState> {
   }
 
   Future<void> retryItem(String itemId) async {
-    // Reset status to pending so it gets picked up
-    await _queue.updateStatus(itemId, QueueItemStatus.pending);
+    // Reset status to pending and retryCount so it gets picked up
+    await _queue.updateStatus(itemId, QueueItemStatus.pending, retryCount: 0);
     await refresh();
     // Trigger queue processing
     _queueManager.processQueue();

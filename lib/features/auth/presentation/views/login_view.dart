@@ -40,8 +40,11 @@ class _LoginViewState extends State<LoginView> {
               (route) => false,
             );
           } else if (state is AuthFailure) {
+            final message = state.message == 'ROLE_REJECTED'
+                ? S.of(context).roleRejectionError
+                : state.message;
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
+              SnackBar(content: Text(message)),
             );
           }
         },

@@ -22,7 +22,7 @@ class AuthRepository {
       (error) => left(error),
       (authModel) async {
         if (!authModel.isFieldAgent) {
-          return left('هذا الحساب غير مصرح له');
+          return left('ROLE_REJECTED');
         }
         await _localDataSource.saveToken(authModel);
         return right(authModel);

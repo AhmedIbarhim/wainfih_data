@@ -31,7 +31,7 @@ class MyProvidersState extends Equatable {
       isLoading: isLoading ?? this.isLoading,
       hasMore: hasMore ?? this.hasMore,
       currentPage: currentPage ?? this.currentPage,
-      activeFilter: activeFilter,
+      activeFilter: activeFilter ?? this.activeFilter,
       error: error,
     );
   }

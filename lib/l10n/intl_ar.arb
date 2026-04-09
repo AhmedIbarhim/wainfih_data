@@ -61,14 +61,14 @@
     "description": "Step name: basic info"
   },
 
-  "stepPhotoAndLocation": "الصور",
+  "stepPhotoAndLocation": "الصورة والموقع",
   "@stepPhotoAndLocation": {
     "description": "Step name: photo and location"
   },
 
-  "stepClassification": "الموقع",
+  "stepClassification": "التصنيف",
   "@stepClassification": {
-    "description": "Step name: classification / location"
+    "description": "Step name: classification"
   },
 
   "nextButton": "التالي",
@@ -289,6 +289,11 @@
   "queueEmpty": "لا توجد عناصر في قائمة الانتظار",
   "@queueEmpty": {
     "description": "Message when queue is empty"
+  },
+
+  "noProviders": "لا يوجد مقدمي خدمة",
+  "@noProviders": {
+    "description": "Message when providers list is empty"
   },
 
   "queuedOfflineMessage": "تم حفظ الطلب وسيُرسَل تلقائياً عند الاتصال بالإنترنت",

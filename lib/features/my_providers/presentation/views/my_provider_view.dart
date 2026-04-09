@@ -76,7 +76,7 @@ class _MyProviderViewState extends State<MyProviderView> {
                 if (state.providers.isEmpty) {
                   return Center(
                     child: Text(
-                      l.queueEmpty,
+                      l.noProviders,
                       style: TextStyle(
                         color: Colors.grey.shade600,
                         fontSize: 16,

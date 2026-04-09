@@ -61,14 +61,14 @@
     "description": "Step name: basic info"
   },
 
-  "stepPhotoAndLocation": "Photos",
+  "stepPhotoAndLocation": "Photo & Location",
   "@stepPhotoAndLocation": {
     "description": "Step name: photo and location"
   },
 
-  "stepClassification": "Location",
+  "stepClassification": "Classification",
   "@stepClassification": {
-    "description": "Step name: classification / location"
+    "description": "Step name: classification"
   },
 
   "nextButton": "Next",
@@ -289,6 +289,11 @@
   "queueEmpty": "No items in the queue",
   "@queueEmpty": {
     "description": "Message when queue is empty"
+  },
+
+  "noProviders": "No service providers found",
+  "@noProviders": {
+    "description": "Message when providers list is empty"
   },
 
   "queuedOfflineMessage": "Request saved and will be sent automatically when back online",

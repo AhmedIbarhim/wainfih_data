@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../Core/utils/app_text_styles.dart';
+import '../../../../core/utils/app_text_styles.dart';
 
 class InactiveStepItem extends StatelessWidget {
   const InactiveStepItem({super.key, required this.text, required this.index});
