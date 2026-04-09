@@ -1,112 +1,63 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
+
+import 'api_interceptor.dart';
 
 class APIClient {
   late final Dio _dio;
 
+  Dio get dio => _dio;
+
   APIClient({
-    String? baseUrl,
+    required String baseUrl,
+    required ApiInterceptor interceptor,
     Duration connectTimeout = const Duration(seconds: 30),
     Duration receiveTimeout = const Duration(seconds: 30),
-    Map<String, dynamic>? headers,
   }) {
     _dio = Dio(
       BaseOptions(
-        baseUrl: baseUrl ?? '',
+        baseUrl: baseUrl,
         connectTimeout: connectTimeout,
         receiveTimeout: receiveTimeout,
-        headers:
-            headers ??
-            {'Content-Type': 'application/json', 'Accept': 'application/json'},
+        contentType: 'application/json',
+        responseType: ResponseType.json,
       ),
     );
-
-    _addInterceptors();
-  }
-
-  Dio get dio => _dio;
-
-  void _addInterceptors() {
-    _dio.interceptors.add(TalkerDioLogger());
-
-    _dio.interceptors.add(
-      InterceptorsWrapper(
-        onRequest: (options, handler) async {
-          // final token = await SecureStorage.getToken();
-          // options.headers['Authorization'] = 'Bearer $token';
-
-          handler.next(options);
-        },
-        onResponse: (response, handler) {
-          handler.next(response);
-        },
-        onError: (DioException e, handler) {
-          // todo error handling
-          handler.next(e);
-        },
-      ),
-    );
+    _dio.interceptors.add(interceptor);
+    if (kDebugMode) {
+      _dio.interceptors.add(TalkerDioLogger());
+    }
   }
 
   Future<Response<T>> get<T>(
     String path, {
     Map<String, dynamic>? queryParameters,
     Options? options,
-    CancelToken? cancelToken,
-  }) {
-    return _dio.get<T>(
-      path,
-      queryParameters: queryParameters,
-      options: options,
-      cancelToken: cancelToken,
-    );
-  }
+  }) =>
+      _dio.get(path, queryParameters: queryParameters, options: options);
 
   Future<Response<T>> post<T>(
     String path, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
     Options? options,
-    CancelToken? cancelToken,
-  }) {
-    return _dio.post<T>(
-      path,
-      data: data,
-      queryParameters: queryParameters,
-      options: options,
-      cancelToken: cancelToken,
-    );
-  }
+  }) =>
+      _dio.post(path, data: data, queryParameters: queryParameters, options: options);
 
   Future<Response<T>> put<T>(
     String path, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
     Options? options,
-    CancelToken? cancelToken,
-  }) {
-    return _dio.put<T>(
-      path,
-      data: data,
-      queryParameters: queryParameters,
-      options: options,
-      cancelToken: cancelToken,
-    );
-  }
+  }) =>
+      _dio.put(path, data: data, queryParameters: queryParameters, options: options);
 
   Future<Response<T>> delete<T>(
     String path, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
     Options? options,
-    CancelToken? cancelToken,
-  }) {
-    return _dio.delete<T>(
-      path,
-      data: data,
-      queryParameters: queryParameters,
-      options: options,
-      cancelToken: cancelToken,
-    );
-  }
+  }) =>
+      _dio.delete(path, data: data, queryParameters: queryParameters, options: options);
 }
