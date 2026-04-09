@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import '../../../../core/errors/failure.dart';
 import '../../../../core/networking/api_client.dart';
-import '../models/user_model.dart';
+import '../models/auth_model.dart';
 
 class AuthRepo {
   final APIClient apiClient;
@@ -43,7 +43,7 @@ class AuthRepo {
     }
   }
 
-  Future<Either<Failure, AuthResponseModel>> verifyMobile({
+  Future<Either<Failure, AuthModel>> verifyMobile({
     required String mobileNumber,
     required String otp,
   }) async {
@@ -52,7 +52,7 @@ class AuthRepo {
         '/auth/verifyMobile',
         data: {'mobileNumber': mobileNumber, 'otp': int.tryParse(otp) ?? 0},
       );
-      return right(AuthResponseModel.fromJson(response.data));
+      return right(AuthModel.fromSignInResponse(response.data));
     } on DioException catch (e) {
       return left(ServerFailure(FailureInfo(exception: e.toString())));
     } catch (e) {

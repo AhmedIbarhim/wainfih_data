@@ -1,4 +1,4 @@
-import '../../../data/models/user_model.dart';
+import '../../../data/models/auth_model.dart';
 
 abstract class AuthState {}
 
@@ -17,7 +17,7 @@ class OtpResentSuccess extends AuthState {
 }
 
 class AuthSuccess extends AuthState {
-  final AuthResponseModel authResponse;
+  final AuthModel authResponse;
   AuthSuccess(this.authResponse);
 }
 
