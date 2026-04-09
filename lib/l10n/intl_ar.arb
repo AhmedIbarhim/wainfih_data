@@ -1,1 +1,428 @@
-{}
+{
+  "@@locale": "ar",
+
+  "loginTitle": "أهلاً بك مجدداً",
+  "@loginTitle": {
+    "description": "Login screen welcome title"
+  },
+
+  "loginSubtitle": "أدخل رقم جوالك لتسجيل الدخول",
+  "@loginSubtitle": {
+    "description": "Login screen subtitle"
+  },
+
+  "emailLabel": "البريد الإلكتروني",
+  "@emailLabel": {
+    "description": "Email input label"
+  },
+
+  "passwordLabel": "كلمة المرور",
+  "@passwordLabel": {
+    "description": "Password input label"
+  },
+
+  "mobileLabel": "رقم الجوال",
+  "@mobileLabel": {
+    "description": "Mobile number input label"
+  },
+
+  "loginButton": "تسجيل الدخول",
+  "@loginButton": {
+    "description": "Login button text"
+  },
+
+  "logoutButton": "تسجيل الخروج",
+  "@logoutButton": {
+    "description": "Logout button text"
+  },
+
+  "roleRejectionError": "ليس لديك صلاحية الوصول لهذا التطبيق",
+  "@roleRejectionError": {
+    "description": "Error shown when user role is not authorized"
+  },
+
+  "suspendedAccountError": "حسابك موقوف، يرجى التواصل مع الدعم",
+  "@suspendedAccountError": {
+    "description": "Error shown when account is suspended"
+  },
+
+  "invalidCredentialsError": "بيانات الدخول غير صحيحة",
+  "@invalidCredentialsError": {
+    "description": "Error shown when credentials are invalid"
+  },
+
+  "emailNotVerifiedError": "البريد الإلكتروني غير مفعّل، يرجى التحقق من بريدك",
+  "@emailNotVerifiedError": {
+    "description": "Error shown when email is not verified"
+  },
+
+  "stepBasicInfo": "التفاصيل",
+  "@stepBasicInfo": {
+    "description": "Step name: basic info"
+  },
+
+  "stepPhotoAndLocation": "الصور",
+  "@stepPhotoAndLocation": {
+    "description": "Step name: photo and location"
+  },
+
+  "stepClassification": "الموقع",
+  "@stepClassification": {
+    "description": "Step name: classification / location"
+  },
+
+  "nextButton": "التالي",
+  "@nextButton": {
+    "description": "Next button text"
+  },
+
+  "saveButton": "حفظ",
+  "@saveButton": {
+    "description": "Save button text"
+  },
+
+  "submitButton": "إرسال",
+  "@submitButton": {
+    "description": "Submit button text"
+  },
+
+  "addProviderTitle": "اضافة مقدم خدمة جديد",
+  "@addProviderTitle": {
+    "description": "Add provider screen title"
+  },
+
+  "providerNameAr": "اسم مقدم الخدمة بالعربية",
+  "@providerNameAr": {
+    "description": "Provider name in Arabic field label"
+  },
+
+  "providerNameEn": "اسم مقدم الخدمة بالإنجليزية",
+  "@providerNameEn": {
+    "description": "Provider name in English field label"
+  },
+
+  "mobileNumber": "رقم الجوال",
+  "@mobileNumber": {
+    "description": "Mobile number field label"
+  },
+
+  "secondMobile": "رقم الجوال الثاني",
+  "@secondMobile": {
+    "description": "Second mobile number field label"
+  },
+
+  "contactPerson": "اسم الشخص المسؤول",
+  "@contactPerson": {
+    "description": "Contact person field label"
+  },
+
+  "notes": "ملاحظات",
+  "@notes": {
+    "description": "Notes field label"
+  },
+
+  "serviceType": "نوع الخدمة",
+  "@serviceType": {
+    "description": "Service type dropdown label"
+  },
+
+  "cityLabel": "المدينة",
+  "@cityLabel": {
+    "description": "City dropdown label"
+  },
+
+  "districtLabel": "الحي",
+  "@districtLabel": {
+    "description": "District dropdown label"
+  },
+
+  "categoriesLabel": "التصنيفات",
+  "@categoriesLabel": {
+    "description": "Categories dropdown label"
+  },
+
+  "takePhoto": "التقاط صورة",
+  "@takePhoto": {
+    "description": "Take photo option in image picker"
+  },
+
+  "selectFromGallery": "اختيار من المعرض",
+  "@selectFromGallery": {
+    "description": "Select from gallery option in image picker"
+  },
+
+  "selectLocation": "تحديد الموقع",
+  "@selectLocation": {
+    "description": "Select location button text"
+  },
+
+  "validationAtLeastOneName": "يجب إدخال اسم مقدم الخدمة بالعربية أو الإنجليزية على الأقل",
+  "@validationAtLeastOneName": {
+    "description": "Validation: at least one name required"
+  },
+
+  "validationMobileRequired": "رقم الجوال مطلوب",
+  "@validationMobileRequired": {
+    "description": "Validation: mobile number required"
+  },
+
+  "validationImageRequired": "يجب إضافة صورة واحدة على الأقل",
+  "@validationImageRequired": {
+    "description": "Validation: at least one image required"
+  },
+
+  "validationLocationRequired": "يجب تحديد الموقع على الخريطة",
+  "@validationLocationRequired": {
+    "description": "Validation: location required"
+  },
+
+  "validationTypeRequired": "نوع الخدمة مطلوب",
+  "@validationTypeRequired": {
+    "description": "Validation: service type required"
+  },
+
+  "validationDistrictRequired": "الحي مطلوب",
+  "@validationDistrictRequired": {
+    "description": "Validation: district required"
+  },
+
+  "myProvidersTitle": "مقدمي الخدمة الخاصة بي",
+  "@myProvidersTitle": {
+    "description": "My Providers screen title"
+  },
+
+  "filterAll": "الكل",
+  "@filterAll": {
+    "description": "Filter chip: all"
+  },
+
+  "filterPending": "قيد الانتظار",
+  "@filterPending": {
+    "description": "Filter chip: pending"
+  },
+
+  "filterApproved": "مقبول",
+  "@filterApproved": {
+    "description": "Filter chip: approved"
+  },
+
+  "filterDeclined": "مرفوض",
+  "@filterDeclined": {
+    "description": "Filter chip: declined"
+  },
+
+  "filterToday": "اليوم",
+  "@filterToday": {
+    "description": "Filter chip: today"
+  },
+
+  "filterThisWeek": "هذا الأسبوع",
+  "@filterThisWeek": {
+    "description": "Filter chip: this week"
+  },
+
+  "filterThisMonth": "هذا الشهر",
+  "@filterThisMonth": {
+    "description": "Filter chip: this month"
+  },
+
+  "providerDetailTitle": "تفاصيل مقدم الخدمة",
+  "@providerDetailTitle": {
+    "description": "Provider detail screen title"
+  },
+
+  "editButton": "تعديل",
+  "@editButton": {
+    "description": "Edit button text"
+  },
+
+  "statusPending": "قيد المراجعة",
+  "@statusPending": {
+    "description": "Status label: pending"
+  },
+
+  "statusApproved": "مقبول",
+  "@statusApproved": {
+    "description": "Status label: approved"
+  },
+
+  "statusDeclined": "مرفوض",
+  "@statusDeclined": {
+    "description": "Status label: declined"
+  },
+
+  "queueTitle": "قائمة الانتظار",
+  "@queueTitle": {
+    "description": "Queue screen title"
+  },
+
+  "queueStatusPending": "في الانتظار",
+  "@queueStatusPending": {
+    "description": "Queue item status: pending"
+  },
+
+  "queueUploadingImage": "جارٍ رفع الصورة...",
+  "@queueUploadingImage": {
+    "description": "Queue status: uploading image"
+  },
+
+  "queueSubmitting": "جارٍ الإرسال...",
+  "@queueSubmitting": {
+    "description": "Queue status: submitting"
+  },
+
+  "queueFailed": "فشل الإرسال",
+  "@queueFailed": {
+    "description": "Queue status: failed"
+  },
+
+  "queueCompleted": "تم الإرسال بنجاح",
+  "@queueCompleted": {
+    "description": "Queue status: completed"
+  },
+
+  "retryButton": "إعادة المحاولة",
+  "@retryButton": {
+    "description": "Retry button text"
+  },
+
+  "queueEmpty": "لا توجد عناصر في قائمة الانتظار",
+  "@queueEmpty": {
+    "description": "Message when queue is empty"
+  },
+
+  "queuedOfflineMessage": "تم حفظ الطلب وسيُرسَل تلقائياً عند الاتصال بالإنترنت",
+  "@queuedOfflineMessage": {
+    "description": "Message when provider submission queued offline"
+  },
+
+  "loading": "جارٍ التحميل...",
+  "@loading": {
+    "description": "Generic loading text"
+  },
+
+  "error": "حدث خطأ",
+  "@error": {
+    "description": "Generic error text"
+  },
+
+  "success": "تمت العملية بنجاح",
+  "@success": {
+    "description": "Generic success text"
+  },
+
+  "cancel": "إلغاء",
+  "@cancel": {
+    "description": "Cancel button text"
+  },
+
+  "save": "حفظ",
+  "@save": {
+    "description": "Save button text (common)"
+  },
+
+  "next": "التالي",
+  "@next": {
+    "description": "Next button text (common)"
+  },
+
+  "back": "رجوع",
+  "@back": {
+    "description": "Back button text"
+  },
+
+  "logout": "تسجيل الخروج",
+  "@logout": {
+    "description": "Logout action text"
+  },
+
+  "confirm": "تأكيد",
+  "@confirm": {
+    "description": "Confirm button text"
+  },
+
+  "close": "إغلاق",
+  "@close": {
+    "description": "Close button text"
+  },
+
+  "delete": "حذف",
+  "@delete": {
+    "description": "Delete button text"
+  },
+
+  "deleteAccount": "حذف الحساب",
+  "@deleteAccount": {
+    "description": "Delete account option text"
+  },
+
+  "deleteAccountConfirmation": "هل أنت متأكد من رغبتك في حذف الحساب نهائياً؟",
+  "@deleteAccountConfirmation": {
+    "description": "Delete account confirmation message"
+  },
+
+  "deleteAccountRequestSent": "تم إرسال طلب حذف الحساب",
+  "@deleteAccountRequestSent": {
+    "description": "Confirmation that delete account request was sent"
+  },
+
+  "userInfo": "بيانات المستخدم",
+  "@userInfo": {
+    "description": "User info menu option and dialog title"
+  },
+
+  "homeWelcomeTitle": "مرحباً بك في لوحة التحكم",
+  "@homeWelcomeTitle": {
+    "description": "Home screen welcome title"
+  },
+
+  "homeWelcomeSubtitle": "إدارة مكاتب الخدمات ومقدميها بسهولة",
+  "@homeWelcomeSubtitle": {
+    "description": "Home screen welcome subtitle"
+  },
+
+  "addProviderAction": "إضافة مقدم خدمة",
+  "@addProviderAction": {
+    "description": "Home action card: add provider"
+  },
+
+  "viewProvidersAction": "عرض مقدمي الخدمة",
+  "@viewProvidersAction": {
+    "description": "Home action card: view providers"
+  },
+
+  "noInternetConnection": "لا يوجد اتصال بالإنترنت",
+  "@noInternetConnection": {
+    "description": "No internet connection message"
+  },
+
+  "getCurrentLocation": "تحديد موقعي الحالي",
+  "@getCurrentLocation": {
+    "description": "Button to get current GPS location"
+  },
+
+  "descriptionLabel": "وصف الخدمة",
+  "@descriptionLabel": {
+    "description": "Description field label"
+  },
+
+  "addressLabel": "العنوان",
+  "@addressLabel": {
+    "description": "Address field label"
+  },
+
+  "verificationTitle": "تفعيل الحساب",
+  "@verificationTitle": {
+    "description": "Account verification screen title"
+  },
+
+  "verificationSubtitle": "أدخل رمز التحقق المرسل إلى جوالك",
+  "@verificationSubtitle": {
+    "description": "Account verification screen subtitle"
+  },
+
+  "resendCode": "إعادة إرسال الرمز",
+  "@resendCode": {
+    "description": "Resend verification code button"
+  }
+}
