@@ -1,8 +1,5 @@
-import 'package:meta/meta.dart';
-
 import '../../domain/location_model.dart';
 
-@immutable
 sealed class LocationState {}
 
 final class LocationInitial extends LocationState {}

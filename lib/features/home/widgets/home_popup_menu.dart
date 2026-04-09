@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/local_caching/shared_prefs.dart';
+import '../../../core/di/service_locator.dart';
 import '../../../core/route/routes.dart';
+import '../../auth/data/data_sources/auth_local_data_source.dart';
 
 class HomePopupMenu extends StatelessWidget {
   const HomePopupMenu({super.key});
@@ -16,7 +17,7 @@ class HomePopupMenu extends StatelessWidget {
             _showUserInfo(context);
             break;
           case 'logout':
-            await SharedPrefs.clear();
+            await locator<AuthLocalDataSource>().logout();
             if (context.mounted) {
               Navigator.of(
                 context,

@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wainfih_data/features/details/presentation/views/details_section.dart';
 import 'package:wainfih_data/features/images/presentation/views/image_section.dart';
 import 'package:wainfih_data/features/map/presentation/manager/location_cubit.dart';
 import 'package:wainfih_data/features/map/presentation/views/map_section.dart';
@@ -34,7 +33,7 @@ class AddingProviderPageView extends StatelessWidget {
   }
 
   List<Widget> _addingSteps() => [
-    DetailsSection(formKey: formKey, valueListenable: valueListenable),
+    const Placeholder(), // Details step replaced in new architecture
     const ImageSection(),
     BlocProvider(
       create: (context) =>

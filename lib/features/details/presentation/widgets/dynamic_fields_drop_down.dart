@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../controllers/fields_cubit/fields_cubit.dart';
 import 'request_form_drop_down.dart';
 
 class DynamicFieldsDropDown extends StatelessWidget {
@@ -22,17 +20,13 @@ class DynamicFieldsDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FieldsCubit, FieldsState>(
-      builder: (context, state) {
-        final items = itemsBuilder(context);
-        return RequestFormDropDown(
-          value: value,
-          label: label,
-          items: items,
-          onChanged: onChanged,
-          validate: validate,
-        );
-      },
+    final items = itemsBuilder(context);
+    return RequestFormDropDown(
+      value: value,
+      label: label,
+      items: items,
+      onChanged: onChanged,
+      validate: validate,
     );
   }
 }

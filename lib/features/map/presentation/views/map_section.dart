@@ -2,9 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:latlong2/latlong.dart' as ll;
 import 'package:wainfih_data/core/theme/app_colors.dart';
-import 'package:wainfih_data/features/adding_new_provider/domain/provider_model.dart';
 import '../manager/location_cubit.dart';
 import '../manager/location_states.dart';
 
@@ -20,7 +18,7 @@ class _MapSectionState extends State<MapSection>
   @override
   bool get wantKeepAlive => true;
 
-  late ll.LatLng currentLocation;
+  LatLng? currentLocation;
   double currentZoom = 15.0;
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
@@ -40,7 +38,10 @@ class _MapSectionState extends State<MapSection>
     return BlocBuilder<LocationCubit, LocationState>(
       builder: (context, state) {
         if (state is LocationSuccess) {
-          currentLocation = state.location.toLatLng();
+          currentLocation = LatLng(
+            state.location.latitude,
+            state.location.longitude,
+          );
         }
 
         Widget body;
@@ -48,12 +49,11 @@ class _MapSectionState extends State<MapSection>
         if (state is LocationLoading) {
           body = const Center(child: CircularProgressIndicator());
         } else if (state is LocationSuccess) {
-          context.read<ProviderModel>().location ??= state.location.toLatLng();
-          final location = context.read<ProviderModel>().location!;
+          final location = currentLocation!;
 
           body = GoogleMap(
             initialCameraPosition: CameraPosition(
-              target: LatLng(location.latitude, location.longitude),
+              target: location,
               zoom: currentZoom,
             ),
             onMapCreated: (GoogleMapController controller) {
@@ -61,10 +61,7 @@ class _MapSectionState extends State<MapSection>
             },
             onTap: (point) {
               setState(() {
-                context.read<ProviderModel>().location = ll.LatLng(
-                  point.latitude,
-                  point.longitude,
-                );
+                currentLocation = point;
               });
             },
             onCameraMove: (position) {
@@ -73,7 +70,7 @@ class _MapSectionState extends State<MapSection>
             markers: {
               Marker(
                 markerId: const MarkerId('curr_loc'),
-                position: LatLng(location.latitude, location.longitude),
+                position: location,
                 icon: BitmapDescriptor.defaultMarkerWithHue(
                   BitmapDescriptor.hueRed,
                 ),
@@ -96,13 +93,10 @@ class _MapSectionState extends State<MapSection>
         return Scaffold(
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
+              if (currentLocation == null) return;
               final GoogleMapController controller = await _controller.future;
-              context.read<ProviderModel>().location = currentLocation;
               controller.animateCamera(
-                CameraUpdate.newLatLngZoom(
-                  LatLng(currentLocation.latitude, currentLocation.longitude),
-                  currentZoom,
-                ),
+                CameraUpdate.newLatLngZoom(currentLocation!, currentZoom),
               );
             },
             mini: true,

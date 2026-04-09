@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../details/data/models/district_model.dart';
-import '../../../details/data/models/city_model.dart';
-import '../../../details/data/models/details_model.dart';
-import '../../../adding_new_provider/domain/provider_model.dart';
+import '../../data/models/provider_list_model.dart';
 import 'provider_card.dart';
 
 class ProvidersListView extends StatelessWidget {
-  final List<ProviderModel> providers;
+  final List<ProviderListModel> providers;
   const ProvidersListView({super.key, required this.providers});
 
   @override
@@ -26,84 +23,3 @@ class ProvidersListView extends StatelessWidget {
     );
   }
 }
-
-final List<ProviderModel> dummyProviders = [
-  ProviderModel(
-    createdAt: DateTime.now(),
-    status: 'pending',
-    details: DetailsModel(
-      serviceProviderNameAr: 'سباك السلام',
-      category: 'سباكة',
-      description: 'خدمات سباكة وصيانة لجميع المنازل والشركات بأسعار مناسبة',
-      mobileNumber1: '01012345678',
-      email: 'alsalam.plumbing@gmail.com',
-      address: 'مدينة نصر',
-      district: DistrictModel(
-        id: 1,
-        districtNameAr: 'مدينة نصر',
-        districtNameEn: 'Nasr City',
-        cityId: 1,
-        city: CityModel(id: 1, cityNameAr: 'القاهرة', cityNameEn: 'Cairo'),
-      ),
-    ),
-  ),
-  ProviderModel(
-    createdAt: DateTime.now().subtract(const Duration(days: 2)),
-    status: 'accepted',
-    details: DetailsModel(
-      serviceProviderNameAr: 'النور للكهرباء',
-      category: 'كهرباء',
-      description:
-          'أعمال كهرباء وتشتشطيبات وصيانة أعطال الكهرباء للمنازل والمحلات',
-      mobileNumber1: '01198765432',
-      address: 'سموحة',
-      district: DistrictModel(
-        id: 2,
-        districtNameAr: 'سموحة',
-        districtNameEn: 'Smouha',
-        cityId: 2,
-        city: CityModel(
-          id: 2,
-          cityNameAr: 'الإسكندرية',
-          cityNameEn: 'Alexandria',
-        ),
-      ),
-    ),
-  ),
-  ProviderModel(
-    createdAt: DateTime.now().subtract(const Duration(days: 10)),
-    status: 'rejected',
-    details: DetailsModel(
-      serviceProviderNameAr: 'النجار ',
-      category: 'نجارة',
-      description: 'تصنيع وتركيب الأثاث المودرن والكلاسيك بأفضل الخامات',
-      mobileNumber1: '01234567890',
-      address: 'الدقي',
-      district: DistrictModel(
-        id: 3,
-        districtNameAr: 'الدقي',
-        districtNameEn: 'Dokki',
-        cityId: 3,
-        city: CityModel(id: 3, cityNameAr: 'الجيزة', cityNameEn: 'Giza'),
-      ),
-    ),
-  ),
-  ProviderModel(
-    createdAt: DateTime.now().subtract(const Duration(days: 45)),
-    status: 'pending',
-    details: DetailsModel(
-      serviceProviderNameAr: 'الهدى للتكييفات',
-      category: 'تكييف وتبريد',
-      description: 'تركيب وصيانة جميع أنواع التكييفات بخدمة سريعة وضمان',
-      mobileNumber1: '01055556666',
-      address: 'شبرا',
-      district: DistrictModel(
-        id: 4,
-        districtNameAr: 'شبرا',
-        districtNameEn: 'Shubra',
-        cityId: 1,
-        city: CityModel(id: 1, cityNameAr: 'القاهرة', cityNameEn: 'Cairo'),
-      ),
-    ),
-  ),
-];
