@@ -6,7 +6,7 @@
     "description": "Login screen welcome title"
   },
 
-  "loginSubtitle": "أدخل رقم جوالك لتسجيل الدخول",
+  "loginSubtitle": "أدخل بريدك الإلكتروني وكلمة المرور لتسجيل الدخول",
   "@loginSubtitle": {
     "description": "Login screen subtitle"
   },

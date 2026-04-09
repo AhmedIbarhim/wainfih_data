@@ -66,7 +66,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "loading": MessageLookupByLibrary.simpleMessage("Loading..."),
         "loginButton": MessageLookupByLibrary.simpleMessage("Sign In"),
         "loginSubtitle": MessageLookupByLibrary.simpleMessage(
-            "Enter your mobile number to sign in"),
+            "Enter your email and password to sign in"),
         "loginTitle": MessageLookupByLibrary.simpleMessage("Welcome Back"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "logoutButton": MessageLookupByLibrary.simpleMessage("Sign Out"),

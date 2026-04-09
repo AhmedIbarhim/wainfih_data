@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../generated/l10n.dart';
+
 class RequestStatusWidget extends StatelessWidget {
   const RequestStatusWidget({super.key, required this.status});
 
@@ -28,9 +30,9 @@ class RequestStatusWidget extends StatelessWidget {
 
   Color _getStatusColor(RequestStatus status) {
     switch (status) {
-      case RequestStatus.accepted:
+      case RequestStatus.approved:
         return Colors.green;
-      case RequestStatus.rejected:
+      case RequestStatus.declined:
         return Colors.red;
       default:
         return Colors.orange;
@@ -40,29 +42,30 @@ class RequestStatusWidget extends StatelessWidget {
 
 enum RequestStatus {
   pending,
-  accepted,
-  rejected;
+  approved,
+  declined;
 
   @override
   String toString() {
     switch (this) {
       case RequestStatus.pending:
         return 'pending';
-      case RequestStatus.accepted:
-        return 'accepted';
-      case RequestStatus.rejected:
-        return 'rejected';
+      case RequestStatus.approved:
+        return 'approved';
+      case RequestStatus.declined:
+        return 'declined';
     }
   }
 
   String name(BuildContext context) {
+    final l = S.of(context);
     switch (this) {
       case pending:
-        return 'قيد المراجعة';
-      case accepted:
-        return 'مقبول';
-      case rejected:
-        return 'مرفوض';
+        return l.statusPending;
+      case approved:
+        return l.statusApproved;
+      case declined:
+        return l.statusDeclined;
     }
   }
 
@@ -71,10 +74,10 @@ enum RequestStatus {
     switch (status.toLowerCase()) {
       case 'pending':
         return RequestStatus.pending;
-      case 'accepted':
-        return RequestStatus.accepted;
-      case 'rejected':
-        return RequestStatus.rejected;
+      case 'approved':
+        return RequestStatus.approved;
+      case 'declined':
+        return RequestStatus.declined;
       default:
         return null;
     }

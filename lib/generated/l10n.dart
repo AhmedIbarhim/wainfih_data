@@ -60,10 +60,10 @@ class S {
     );
   }
 
-  /// `Enter your mobile number to sign in`
+  /// `Enter your email and password to sign in`
   String get loginSubtitle {
     return Intl.message(
-      'Enter your mobile number to sign in',
+      'Enter your email and password to sign in',
       name: 'loginSubtitle',
       desc: 'Login screen subtitle',
       args: [],

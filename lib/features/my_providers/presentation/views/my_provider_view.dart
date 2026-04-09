@@ -281,7 +281,7 @@ class _ProviderCard extends StatelessWidget {
                       ],
                     ),
                   RequestStatusWidget(
-                    status: RequestStatus.fromString(provider.status) ??
+                    status: RequestStatus.fromString(provider.state) ??
                         RequestStatus.pending,
                   ),
                 ],

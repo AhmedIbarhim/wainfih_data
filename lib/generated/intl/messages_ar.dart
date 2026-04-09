@@ -66,7 +66,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "loading": MessageLookupByLibrary.simpleMessage("جارٍ التحميل..."),
         "loginButton": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "loginSubtitle": MessageLookupByLibrary.simpleMessage(
-            "أدخل رقم جوالك لتسجيل الدخول"),
+            "أدخل بريدك الإلكتروني وكلمة المرور لتسجيل الدخول"),
         "loginTitle": MessageLookupByLibrary.simpleMessage("أهلاً بك مجدداً"),
         "logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
         "logoutButton": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),

@@ -6,7 +6,7 @@
     "description": "Login screen welcome title"
   },
 
-  "loginSubtitle": "Enter your mobile number to sign in",
+  "loginSubtitle": "Enter your email and password to sign in",
   "@loginSubtitle": {
     "description": "Login screen subtitle"
   },
