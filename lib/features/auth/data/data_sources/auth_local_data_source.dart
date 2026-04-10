@@ -38,14 +38,22 @@ class AuthLocalDataSourceImpl extends AuthLocalDataSource {
   Future<bool> get isTokenValid async {
     final t = await token;
     if (t == null) return false;
-    return !JwtDecoder.isExpired(t);
+    try {
+      return !JwtDecoder.isExpired(t);
+    } catch (_) {
+      return true; // No exp claim — treat as valid
+    }
   }
 
   @override
   Future<bool> get isTokenExpired async {
     final t = await token;
     if (t == null) return true;
-    return JwtDecoder.isExpired(t);
+    try {
+      return JwtDecoder.isExpired(t);
+    } catch (_) {
+      return false; // No exp claim — treat as not expired
+    }
   }
 
   @override
