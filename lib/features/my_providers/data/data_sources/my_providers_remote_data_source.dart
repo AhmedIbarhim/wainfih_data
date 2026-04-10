@@ -23,7 +23,7 @@ class MyProvidersRemoteDataSource {
         'orderBy': 'createdAt:desc',
       };
       if (stateFilter != null) {
-        queryParams['filter'] = 'state eq $stateFilter';
+        queryParams['filter'] = 'state eq "$stateFilter"';
       }
       final response = await _apiClient.get(
         '/serviceProvider',
