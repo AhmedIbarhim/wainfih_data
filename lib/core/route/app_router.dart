@@ -33,6 +33,7 @@ abstract class AppRouter {
     switch (settings.name) {
       case Routes.splash:
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => BlocProvider(
             create: (_) => AuthCubit(
               AuthRepository(
@@ -46,6 +47,7 @@ abstract class AppRouter {
 
       case Routes.login:
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => BlocProvider(
             create: (_) => AuthCubit(
               AuthRepository(
@@ -58,11 +60,12 @@ abstract class AppRouter {
         );
 
       case Routes.home:
-        return MaterialPageRoute(builder: (_) => const HomeView());
+        return MaterialPageRoute(settings: settings, builder: (_) => const HomeView());
 
       case Routes.addProvider:
         final provider = settings.arguments as ProviderListModel?;
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => MultiBlocProvider(
             providers: [
               BlocProvider(
@@ -83,6 +86,7 @@ abstract class AppRouter {
 
       case Routes.myProviders:
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => BlocProvider(
             create: (_) => MyProvidersCubit(
               MyProvidersRepository(locator<MyProvidersRemoteDataSource>()),
@@ -94,11 +98,13 @@ abstract class AppRouter {
       case Routes.providerDetail:
         final provider = settings.arguments as ProviderListModel;
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => ProviderDetailView(provider: provider),
         );
 
       case Routes.queue:
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => BlocProvider(
             create: (_) => QueueCubit(
               locator<SubmissionQueue>(),
@@ -109,7 +115,7 @@ abstract class AppRouter {
         );
 
       default:
-        return MaterialPageRoute(builder: (_) => const Placeholder());
+        return MaterialPageRoute(settings: settings, builder: (_) => const Placeholder());
     }
   }
 }
