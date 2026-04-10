@@ -56,7 +56,6 @@ class _AddProviderViewState extends State<AddProviderView> {
         setState(() => currentIndex = page);
       }
     });
-    handleLocationPermission(context);
   }
 
   @override
@@ -293,7 +292,14 @@ class _Step2PhotoAndLocationState extends State<_Step2PhotoAndLocation>
     super.initState();
     _locationCubit = LocationCubit(
       LocationRepoImpl(LocationRemoteDataSourceImpl()),
-    )..getCurrentLocation();
+    );
+    // Request permission first, then get location
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final hasPermission = await handleLocationPermission(context);
+      if (hasPermission) {
+        _locationCubit.getCurrentLocation();
+      }
+    });
   }
 
   @override
@@ -453,7 +459,30 @@ class _Step3ClassificationState extends State<_Step3Classification>
   @override
   bool get wantKeepAlive => true;
 
-  bool _didAutoFill = false;
+  int? _lastAutoFilledDistrictId;
+
+  @override
+  void initState() {
+    super.initState();
+    // Check if auto-detect already happened while we weren't listening
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final state = context.read<LookupsCubit>().state;
+      if (state.autoDetectedDistrict != null && _lastAutoFilledDistrictId == null) {
+        final detected = state.autoDetectedDistrict!;
+        widget.uiModel.selectedDistrict.value = detected;
+        if (detected.city != null) {
+          widget.uiModel.selectedCity.value = detected.city;
+        } else {
+          final city = state.cities.where((c) => c.id == detected.cityId);
+          if (city.isNotEmpty) {
+            widget.uiModel.selectedCity.value = city.first;
+          }
+        }
+        _lastAutoFilledDistrictId = detected.id;
+        if (mounted) setState(() {});
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -464,22 +493,21 @@ class _Step3ClassificationState extends State<_Step3Classification>
     return BlocConsumer<LookupsCubit, LookupsState>(
       listener: (context, state) {
         // Auto-fill city/district from auto-detected district
-        if (!_didAutoFill && state.autoDetectedDistrict != null) {
+        if (state.autoDetectedDistrict != null &&
+            state.autoDetectedDistrict!.id != _lastAutoFilledDistrictId) {
           final detected = state.autoDetectedDistrict!;
-          if (uiModel.selectedDistrict.value == null) {
-            uiModel.selectedDistrict.value = detected;
-            if (detected.city != null) {
-              uiModel.selectedCity.value = detected.city;
-            } else {
-              // Find city from lookup list
-              final city = state.cities.where((c) => c.id == detected.cityId);
-              if (city.isNotEmpty) {
-                uiModel.selectedCity.value = city.first;
-              }
+          uiModel.selectedDistrict.value = detected;
+          if (detected.city != null) {
+            uiModel.selectedCity.value = detected.city;
+          } else {
+            // Find city from lookup list
+            final city = state.cities.where((c) => c.id == detected.cityId);
+            if (city.isNotEmpty) {
+              uiModel.selectedCity.value = city.first;
             }
-            _didAutoFill = true;
-            setState(() {});
           }
+          _lastAutoFilledDistrictId = detected.id;
+          setState(() {});
         }
       },
       builder: (context, state) {
