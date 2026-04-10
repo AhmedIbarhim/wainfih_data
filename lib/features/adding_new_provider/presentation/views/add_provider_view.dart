@@ -286,6 +286,7 @@ class _Step2PhotoAndLocationState extends State<_Step2PhotoAndLocation>
   final Completer<GoogleMapController> _mapController = Completer();
   late LocationCubit _locationCubit;
   double _currentZoom = 15.0;
+  LatLng? _lastCameraTarget;
 
   @override
   void initState() {
@@ -371,29 +372,36 @@ class _Step2PhotoAndLocationState extends State<_Step2PhotoAndLocation>
                               _mapController.complete(controller);
                             }
                           },
-                          onTap: (point) {
-                            setState(() {
-                              uiModel.location.value = point;
-                            });
-                            // Detect district from coordinates
-                            context
-                                .read<LookupsCubit>()
-                                .detectDistrictFromCoordinates(
-                                  lat: point.latitude,
-                                  lng: point.longitude,
-                                );
-                          },
                           onCameraMove: (position) {
                             _currentZoom = position.zoom;
+                            _lastCameraTarget = position.target;
                           },
-                          markers: uiModel.location.value != null
-                              ? {
-                                  Marker(
-                                    markerId: const MarkerId('selected'),
-                                    position: uiModel.location.value!,
-                                  ),
-                                }
-                              : {},
+                          onCameraIdle: () {
+                            if (_lastCameraTarget != null) {
+                              uiModel.location.value = _lastCameraTarget;
+                              context
+                                  .read<LookupsCubit>()
+                                  .detectDistrictFromCoordinates(
+                                    lat: _lastCameraTarget!.latitude,
+                                    lng: _lastCameraTarget!.longitude,
+                                  );
+                            }
+                          },
+                        ),
+                        // Center pin overlay — pin tip marks the selected location
+                        const Positioned.fill(
+                          child: IgnorePointer(
+                            child: Center(
+                              child: Padding(
+                                padding: EdgeInsets.only(bottom: 36),
+                                child: Icon(
+                                  Icons.location_on,
+                                  size: 48,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                         Positioned(
                           bottom: 10,
@@ -407,21 +415,10 @@ class _Step2PhotoAndLocationState extends State<_Step2PhotoAndLocation>
                                   state.location.latitude,
                                   state.location.longitude,
                                 );
-                                setState(() {
-                                  uiModel.location.value = loc;
-                                });
                                 final controller = await _mapController.future;
                                 controller.animateCamera(
                                   CameraUpdate.newLatLngZoom(loc, _currentZoom),
                                 );
-                                if (context.mounted) {
-                                  context
-                                      .read<LookupsCubit>()
-                                      .detectDistrictFromCoordinates(
-                                        lat: loc.latitude,
-                                        lng: loc.longitude,
-                                      );
-                                }
                               }
                             },
                             child: const Icon(

@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../generated/l10n.dart';
 
 class ImageField extends StatefulWidget {
   const ImageField({super.key, required this.onFileChanged, this.initialImage});
@@ -101,12 +102,12 @@ class _ImageFieldState extends State<ImageField> {
             children: <Widget>[
               ListTile(
                 leading: const Icon(Icons.camera_alt),
-                title: const Text('Camera'),
+                title: Text(S.of(context).takePhoto),
                 onTap: () => Navigator.of(context).pop(ImageSource.camera),
               ),
               ListTile(
                 leading: const Icon(Icons.photo_library),
-                title: const Text('Gallery'),
+                title: Text(S.of(context).selectFromGallery),
                 onTap: () => Navigator.of(context).pop(ImageSource.gallery),
               ),
             ],
