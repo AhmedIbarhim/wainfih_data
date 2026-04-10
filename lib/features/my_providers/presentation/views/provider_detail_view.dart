@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../core/components/custom_app_bar.dart';
 import '../../../../core/components/main_button.dart';
@@ -114,6 +115,44 @@ class ProviderDetailView extends StatelessWidget {
                         l.cityLabel,
                         provider.district!.city!.cityNameAr,
                       ),
+                  ],
+                  // Map snapshot
+                  if (provider.lat != null && provider.lng != null) ...[
+                    const SizedBox(height: 16),
+                    Text(
+                      l.selectLocation,
+                      style: AppTextStyles.regular11.copyWith(
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: 200,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: GoogleMap(
+                          initialCameraPosition: CameraPosition(
+                            target: LatLng(provider.lat!, provider.lng!),
+                            zoom: 15,
+                          ),
+                          markers: {
+                            Marker(
+                              markerId: const MarkerId('provider_location'),
+                              position: LatLng(provider.lat!, provider.lng!),
+                            ),
+                          },
+                          zoomControlsEnabled: false,
+                          scrollGesturesEnabled: false,
+                          tiltGesturesEnabled: false,
+                          rotateGesturesEnabled: false,
+                          zoomGesturesEnabled: false,
+                          myLocationButtonEnabled: false,
+                          mapToolbarEnabled: false,
+                          liteModeEnabled: true,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
                   ],
                   // Contact person
                   if (provider.contactPersonName != null &&
