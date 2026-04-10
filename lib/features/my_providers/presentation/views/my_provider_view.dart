@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/components/custom_app_bar.dart';
+import '../../../../core/helpers/connectivity_controller.dart';
 import '../../../../core/route/routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/app_text_styles.dart';
@@ -46,10 +47,39 @@ class _MyProviderViewState extends State<MyProviderView> {
 
     return Scaffold(
       appBar: buildCustomAppBar(context, title: l.myProvidersTitle),
-      body: Column(
-        children: [
-          _buildFilterChips(context, l),
-          Expanded(
+      body: ValueListenableBuilder<bool>(
+        valueListenable: ConnectivityController().isOnline,
+        builder: (context, isOnline, child) {
+          return Column(
+            children: [
+              if (!isOnline)
+                Container(
+                  width: double.infinity,
+                  color: Colors.orange.shade100,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 16,
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.wifi_off,
+                        size: 18,
+                        color: Colors.orange,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        S.of(context).noInternetConnection,
+                        style: const TextStyle(
+                          color: Colors.orange,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              _buildFilterChips(context, l),
+              Expanded(
             child: BlocBuilder<MyProvidersCubit, MyProvidersState>(
               builder: (context, state) {
                 if (state.isLoading && state.providers.isEmpty) {
@@ -114,6 +144,8 @@ class _MyProviderViewState extends State<MyProviderView> {
             ),
           ),
         ],
+          );
+        },
       ),
     );
   }
