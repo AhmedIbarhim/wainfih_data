@@ -23,7 +23,8 @@ class AuthRemoteDataSource {
       );
       return right(authModel);
     } on DioException catch (e) {
-      final message = e.response?.data?['message'] ?? e.message ?? 'Login failed';
+      final data = e.response?.data;
+      final message = (data is Map ? data['message'] : null) ?? e.message ?? 'Login failed';
       return left(message is List ? message.first.toString() : message.toString());
     }
   }

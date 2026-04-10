@@ -39,7 +39,7 @@ Future<void> setupServiceLocator() async {
   );
   locator.registerLazySingleton<APIClient>(
     () => APIClient(
-      baseUrl: 'https://wainfih.com/api',
+      baseUrl: 'https://api.dev.wainfih.com',
       interceptor: locator<ApiInterceptor>(),
     ),
   );

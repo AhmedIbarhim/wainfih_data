@@ -41,7 +41,8 @@ class ProviderRemoteDataSource {
       final id = (response.data as Map<String, dynamic>)['id'] as int;
       return right(id);
     } on DioException catch (e) {
-      final message = e.response?.data?['message'] ?? e.message ?? 'Submission failed';
+      final data = e.response?.data;
+      final message = (data is Map ? data['message'] : null) ?? e.message ?? 'Submission failed';
       return left(message is List ? message.first.toString() : message.toString());
     }
   }
@@ -58,7 +59,8 @@ class ProviderRemoteDataSource {
       final resultId = (response.data as Map<String, dynamic>)['id'] as int;
       return right(resultId);
     } on DioException catch (e) {
-      final message = e.response?.data?['message'] ?? e.message ?? 'Update failed';
+      final data = e.response?.data;
+      final message = (data is Map ? data['message'] : null) ?? e.message ?? 'Update failed';
       return left(message is List ? message.first.toString() : message.toString());
     }
   }
