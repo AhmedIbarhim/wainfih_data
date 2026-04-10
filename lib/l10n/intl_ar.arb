@@ -429,5 +429,10 @@
   "resendCode": "إعادة إرسال الرمز",
   "@resendCode": {
     "description": "Resend verification code button"
+  },
+
+  "selectCityFirst": "اختر المدينة أولاً",
+  "@selectCityFirst": {
+    "description": "Hint shown on district dropdown when no city is selected"
   }
 }

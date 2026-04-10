@@ -429,5 +429,10 @@
   "resendCode": "Resend Code",
   "@resendCode": {
     "description": "Resend verification code button"
+  },
+
+  "selectCityFirst": "Select a city first",
+  "@selectCityFirst": {
+    "description": "Hint shown on district dropdown when no city is selected"
   }
 }

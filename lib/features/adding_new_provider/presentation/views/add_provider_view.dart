@@ -551,6 +551,10 @@ class _Step3ClassificationState extends State<_Step3Classification>
                 items: state.districts,
                 selectedItem: uiModel.selectedDistrict.value,
                 itemLabel: (d) => d.districtNameAr,
+                enabled: uiModel.selectedCity.value != null && !state.isLoading,
+                disabledHint: uiModel.selectedCity.value == null
+                    ? l.selectCityFirst
+                    : null,
                 onSelected: (d) {
                   setState(() => uiModel.selectedDistrict.value = d);
                 },
@@ -582,6 +586,8 @@ class _SearchableDropdown<T> extends StatelessWidget {
     required this.selectedItem,
     required this.itemLabel,
     required this.onSelected,
+    this.enabled = true,
+    this.disabledHint,
   });
 
   final String label;
@@ -589,11 +595,13 @@ class _SearchableDropdown<T> extends StatelessWidget {
   final T? selectedItem;
   final String Function(T) itemLabel;
   final ValueChanged<T?> onSelected;
+  final bool enabled;
+  final String? disabledHint;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => _showSearchDialog(context),
+      onTap: enabled ? () => _showSearchDialog(context) : null,
       child: InputDecorator(
         decoration: InputDecoration(
           labelText: label,
@@ -602,16 +610,21 @@ class _SearchableDropdown<T> extends StatelessWidget {
             borderSide: BorderSide(color: Colors.grey),
             borderRadius: BorderRadius.all(Radius.circular(8)),
           ),
-          enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
-            borderRadius: BorderRadius.all(Radius.circular(8)),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: enabled ? Colors.grey : Colors.grey.shade300),
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
           ),
           filled: true,
+          fillColor: enabled ? null : Colors.grey.shade100,
           suffixIcon: const Icon(Icons.arrow_drop_down),
         ),
         child: Text(
-          selectedItem != null ? itemLabel(selectedItem as T) : '',
-          style: AppTextStyles.regular13,
+          !enabled && disabledHint != null
+              ? disabledHint!
+              : (selectedItem != null ? itemLabel(selectedItem as T) : ''),
+          style: AppTextStyles.regular13.copyWith(
+            color: enabled ? null : Colors.grey,
+          ),
         ),
       ),
     );
