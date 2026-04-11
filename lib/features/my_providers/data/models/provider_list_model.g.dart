@@ -29,6 +29,9 @@ _ProviderListModel _$ProviderListModelFromJson(Map<String, dynamic> json) =>
       district: json['district'] == null
           ? null
           : DistrictModel.fromJson(json['district'] as Map<String, dynamic>),
+      featured: json['featured'] as bool?,
+      bookable: json['bookable'] as bool?,
+      distance: (json['distance'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$ProviderListModelToJson(_ProviderListModel instance) =>
@@ -48,4 +51,7 @@ Map<String, dynamic> _$ProviderListModelToJson(_ProviderListModel instance) =>
       'createdAt': instance.createdAt?.toIso8601String(),
       'type': instance.type?.toJson(),
       'district': instance.district?.toJson(),
+      'featured': instance.featured,
+      'bookable': instance.bookable,
+      'distance': instance.distance,
     };

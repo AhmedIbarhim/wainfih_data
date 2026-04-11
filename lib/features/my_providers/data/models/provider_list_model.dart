@@ -24,6 +24,9 @@ abstract class ProviderListModel with _$ProviderListModel {
     DateTime? createdAt,
     SpTypeModel? type,
     DistrictModel? district,
+    bool? featured,
+    bool? bookable,
+    double? distance,
   }) = _ProviderListModel;
 
   factory ProviderListModel.fromJson(Map<String, Object?> json) =>
