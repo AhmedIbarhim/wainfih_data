@@ -14,22 +14,13 @@ class AddProviderCubit extends Cubit<AddProviderState> {
 
   AddProviderCubit(this._repository, this._queue) : super(AddProviderInitial());
 
-  Future<void> uploadImage(File file) async {
-    emit(AddProviderImageUploading());
-    final result = await _repository.uploadImage(file);
-    result.fold(
-      (error) => emit(AddProviderImageFailed(error)),
-      (imageJson) => emit(AddProviderImageUploaded(imageJson)),
-    );
-  }
-
   Future<void> submit(UpsertProviderUiModel uiModel) async {
-    // Check connectivity
+    // Check connectivity first
     final connectivityResult = await Connectivity().checkConnectivity();
     final isOnline = !connectivityResult.contains(ConnectivityResult.none);
 
     if (!isOnline) {
-      // Queue for later
+      // Queue for later — image file path is saved, queue manager uploads when online
       await _queue.enqueue(
         type: uiModel.isEditing ? 'edit' : 'create',
         serviceProviderId: uiModel.existingId,
@@ -41,6 +32,24 @@ class AddProviderCubit extends Cubit<AddProviderState> {
       return;
     }
 
+    // Online — upload image if needed
+    if (uiModel.imageFile.value != null && uiModel.imageJson.value == null) {
+      emit(AddProviderImageUploading());
+      final uploadResult = await _repository.uploadImage(uiModel.imageFile.value!);
+      final failed = uploadResult.fold(
+        (error) {
+          emit(AddProviderSubmitFailed(error));
+          return true;
+        },
+        (imageJson) {
+          uiModel.imageJson.value = imageJson;
+          return false;
+        },
+      );
+      if (failed) return;
+    }
+
+    // Submit
     emit(AddProviderSubmitting());
     final payload = uiModel.toPayload();
 

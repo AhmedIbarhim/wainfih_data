@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -89,14 +90,6 @@ class _AddProviderViewState extends State<AddProviderView> {
             (route) => false,
           );
         } else if (state is AddProviderSubmitFailed) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message)),
-          );
-        } else if (state is AddProviderImageUploaded) {
-          uiModel.imageJson.value = state.imageJson;
-          // Auto-submit after image upload completes
-          context.read<AddProviderCubit>().submit(uiModel);
-        } else if (state is AddProviderImageFailed) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.message)),
           );
@@ -195,13 +188,7 @@ class _AddProviderViewState extends State<AddProviderView> {
         );
         return;
       }
-      // Upload image first if needed, then submit
-      if (uiModel.imageFile.value != null && uiModel.imageJson.value == null) {
-        context.read<AddProviderCubit>().uploadImage(uiModel.imageFile.value!);
-        // submission will continue after image upload via listener
-      } else {
-        context.read<AddProviderCubit>().submit(uiModel);
-      }
+      context.read<AddProviderCubit>().submit(uiModel);
     }
   }
 
