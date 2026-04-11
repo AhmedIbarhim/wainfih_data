@@ -25,9 +25,9 @@ class APIClient {
       ),
     );
     _dio.interceptors.add(interceptor);
-    if (kDebugMode) {
-      _dio.interceptors.add(TalkerDioLogger());
-    }
+    // if (kDebugMode) {
+    //   _dio.interceptors.add(TalkerDioLogger());
+    // }
   }
 
   Future<Response<T>> get<T>(
