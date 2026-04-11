@@ -52,6 +52,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "البريد الإلكتروني غير مفعّل، يرجى التحقق من بريدك",
     ),
     "error": MessageLookupByLibrary.simpleMessage("حدث خطأ"),
+    "exitConfirmation": MessageLookupByLibrary.simpleMessage(
+      "هل أنت متأكد من الخروج؟ سيتم فقدان البيانات المدخلة",
+    ),
     "filterAll": MessageLookupByLibrary.simpleMessage("الكل"),
     "filterApproved": MessageLookupByLibrary.simpleMessage("مقبول"),
     "filterDeclined": MessageLookupByLibrary.simpleMessage("مرفوض"),

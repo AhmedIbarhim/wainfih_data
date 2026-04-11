@@ -346,6 +346,11 @@
     "description": "Confirm button text"
   },
 
+  "exitConfirmation": "هل أنت متأكد من الخروج؟ سيتم فقدان البيانات المدخلة",
+  "@exitConfirmation": {
+    "description": "Exit wizard confirmation message"
+  },
+
   "close": "إغلاق",
   "@close": {
     "description": "Close button text"

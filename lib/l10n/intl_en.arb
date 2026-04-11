@@ -346,6 +346,11 @@
     "description": "Confirm button text"
   },
 
+  "exitConfirmation": "Are you sure you want to leave? Your entered data will be lost",
+  "@exitConfirmation": {
+    "description": "Exit wizard confirmation message"
+  },
+
   "close": "Close",
   "@close": {
     "description": "Close button text"

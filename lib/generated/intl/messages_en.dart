@@ -54,6 +54,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Email is not verified, please check your inbox",
     ),
     "error": MessageLookupByLibrary.simpleMessage("An error occurred"),
+    "exitConfirmation": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to leave? Your entered data will be lost",
+    ),
     "filterAll": MessageLookupByLibrary.simpleMessage("All"),
     "filterApproved": MessageLookupByLibrary.simpleMessage("Approved"),
     "filterDeclined": MessageLookupByLibrary.simpleMessage("Declined"),

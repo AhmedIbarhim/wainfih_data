@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../../../../core/components/custom_app_bar.dart';
 import '../../../../core/components/custom_text_form_field.dart';
 import '../../../../core/components/main_button.dart';
 import '../../../../core/helpers/handle_location_permission.dart';
@@ -95,8 +94,23 @@ class _AddProviderViewState extends State<AddProviderView> {
           );
         }
       },
-      child: Scaffold(
-        appBar: buildCustomAppBar(context, title: title),
+      child: PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) {
+          if (didPop) return;
+          _handleBack(context);
+        },
+        child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(title, style: AppTextStyles.bold19),
+          leading: InkWell(
+            onTap: () => _handleBack(context),
+            child: const Icon(Icons.arrow_back_ios),
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -138,6 +152,7 @@ class _AddProviderViewState extends State<AddProviderView> {
             ],
           ),
         ),
+      ),
       ),
     );
   }
@@ -196,6 +211,41 @@ class _AddProviderViewState extends State<AddProviderView> {
     pageController.nextPage(
       duration: const Duration(milliseconds: 200),
       curve: Curves.easeIn,
+    );
+  }
+
+  void _handleBack(BuildContext context) {
+    if (currentIndex > 0) {
+      pageController.previousPage(
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeIn,
+      );
+    } else {
+      _showExitConfirmation(context);
+    }
+  }
+
+  void _showExitConfirmation(BuildContext context) {
+    final l = S.of(context);
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(l.confirm),
+        content: Text(l.exitConfirmation),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: Text(l.cancel),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+              Navigator.of(context).pop();
+            },
+            child: Text(l.confirm),
+          ),
+        ],
+      ),
     );
   }
 }

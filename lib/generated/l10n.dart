@@ -744,6 +744,16 @@ class S {
     );
   }
 
+  /// `Are you sure you want to leave? Your entered data will be lost`
+  String get exitConfirmation {
+    return Intl.message(
+      'Are you sure you want to leave? Your entered data will be lost',
+      name: 'exitConfirmation',
+      desc: 'Exit wizard confirmation message',
+      args: [],
+    );
+  }
+
   /// `Close`
   String get close {
     return Intl.message(
