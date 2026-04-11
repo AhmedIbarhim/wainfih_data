@@ -7,6 +7,7 @@ import '../models/category_model.dart';
 import '../models/city_model.dart';
 import '../models/district_model.dart';
 import '../models/sp_type_model.dart';
+import 'lookups_local_data_source.dart';
 
 class LookupsRemoteDataSource {
   final APIClient _apiClient;
@@ -117,6 +118,30 @@ class LookupsRemoteDataSource {
       return right(paged.content);
     } on DioException catch (e) {
       return left(e.message ?? 'Failed to load categories');
+    }
+  }
+
+  Future<Either<String, LookupsCache>> fetchAllLookups() async {
+    try {
+      final response = await _apiClient.get('/serviceProvider/agent-lookups');
+      final data = response.data as Map<String, dynamic>;
+      final cache = LookupsCache(
+        cities: (data['cities'] as List)
+            .map((e) => CityModel.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        districts: (data['districts'] as List)
+            .map((e) => DistrictModel.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        serviceTypes: (data['serviceTypes'] as List)
+            .map((e) => SpTypeModel.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        categories: (data['categories'] as List)
+            .map((e) => CategoryModel.fromJson(e as Map<String, dynamic>))
+            .toList(),
+      );
+      return right(cache);
+    } on DioException catch (e) {
+      return left(e.message ?? 'Failed to load lookups');
     }
   }
 }

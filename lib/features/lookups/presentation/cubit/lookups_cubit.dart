@@ -35,36 +35,25 @@ class LookupsCubit extends Cubit<LookupsState> {
 
   Future<void> _refreshFromNetwork() async {
     try {
-      final citiesResult = await _remoteDataSource.getCities();
-      final typesResult = await _remoteDataSource.getServiceProviderTypes();
-      final categoriesResult = await _remoteDataSource.getCategories();
-      final districtsResult = await _remoteDataSource.getAllDistricts();
-
-      final cities = citiesResult.fold((_) => state.cities, (c) => c);
-      final types = typesResult.fold((_) => state.serviceTypes, (t) => t);
-      final categories =
-          categoriesResult.fold((_) => state.categories, (c) => c);
-      final districts =
-          districtsResult.fold((_) => _allDistricts, (d) => d);
-
-      _allDistricts = districts;
-
-      emit(state.copyWith(
-        isLoading: false,
-        cities: cities,
-        serviceTypes: types,
-        categories: categories,
-      ));
-
-      // Save to cache
-      await _localDataSource.saveCache(LookupsCache(
-        cities: cities,
-        districts: districts,
-        serviceTypes: types,
-        categories: categories,
-      ));
+      final result = await _remoteDataSource.fetchAllLookups();
+      result.fold(
+        (_) {
+          // Network failed — cached data already in state
+          emit(state.copyWith(isLoading: false));
+        },
+        (cache) {
+          _allDistricts = cache.districts;
+          emit(state.copyWith(
+            isLoading: false,
+            cities: cache.cities,
+            serviceTypes: cache.serviceTypes,
+            categories: cache.categories,
+          ));
+          // Save to local cache
+          _localDataSource.saveCache(cache);
+        },
+      );
     } catch (_) {
-      // Network failed — cached data is already in state, that's fine
       emit(state.copyWith(isLoading: false));
     }
   }
