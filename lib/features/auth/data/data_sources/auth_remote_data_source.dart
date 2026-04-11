@@ -26,6 +26,8 @@ class AuthRemoteDataSource {
       final data = e.response?.data;
       final message = (data is Map ? data['message'] : null) ?? e.message ?? 'Login failed';
       return left(message is List ? message.first.toString() : message.toString());
+    } catch (e) {
+      return left('Login failed');
     }
   }
 }

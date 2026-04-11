@@ -170,6 +170,16 @@ class SubmissionQueue {
     await db.delete('queue', where: 'id = ?', whereArgs: [id]);
   }
 
+  Future<void> resetStuckItems() async {
+    final db = await database;
+    await db.update(
+      'queue',
+      {'status': 'pending'},
+      where: 'status IN (?, ?)',
+      whereArgs: ['uploadingImage', 'uploadingSubmission'],
+    );
+  }
+
   Future<void> removeCompleted() async {
     final db = await database;
     await db.delete('queue', where: 'status = ?', whereArgs: ['completed']);

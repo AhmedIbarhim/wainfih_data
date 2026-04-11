@@ -104,7 +104,7 @@ class UpsertProviderUiModel {
       contactPersonName:
           contactPerson.text.isNotEmpty ? contactPerson.text : null,
       notes: notes.text.isNotEmpty ? notes.text : null,
-      image: imageJson.value!,
+      image: imageJson.value ?? {},
       lat: location.value!.latitude,
       lng: location.value!.longitude,
       districtId: selectedDistrict.value!.id,

@@ -370,7 +370,7 @@ class _Step2PhotoAndLocationState extends State<_Step2PhotoAndLocation>
                             _lastCameraTarget = position.target;
                           },
                           onCameraIdle: () {
-                            if (_lastCameraTarget != null) {
+                            if (_lastCameraTarget != null && mounted) {
                               uiModel.location.value = _lastCameraTarget;
                               context
                                   .read<LookupsCubit>()
@@ -680,7 +680,7 @@ class _SearchableDropdown<T> extends StatelessWidget {
           },
         );
       },
-    );
+    ).then((_) => searchController.dispose());
   }
 }
 

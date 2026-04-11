@@ -43,6 +43,9 @@ class QueueManager {
     _isProcessing = true;
 
     try {
+      // Reset items stuck from a previous interrupted session
+      await _queue.resetStuckItems();
+
       // Check auth first
       final token = await _authLocalDataSource.token;
       if (token == null) return;
@@ -52,6 +55,9 @@ class QueueManager {
       for (final item in items) {
         try {
           if (item.retryCount >= maxRetries) continue;
+
+          // Check token is still valid before each item
+          if (await _authLocalDataSource.isTokenExpired) break;
 
           // Step 1: Upload image if needed
           Map<String, dynamic>? imageJson = item.imageJson;
@@ -90,6 +96,17 @@ class QueueManager {
               },
             );
             if (didFail) continue;
+          }
+
+          // Guard: if no image is available at this point, fail the item
+          if (imageJson == null) {
+            await _queue.updateStatus(
+              item.id,
+              QueueItemStatus.failed,
+              errorMessage: 'No image available',
+              retryCount: maxRetries,
+            );
+            continue;
           }
 
           // Step 2: Submit
