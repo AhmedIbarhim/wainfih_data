@@ -32,6 +32,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "back": MessageLookupByLibrary.simpleMessage("رجوع"),
     "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
     "categoriesLabel": MessageLookupByLibrary.simpleMessage("التصنيفات"),
+    "checkConnectionAndRetry": MessageLookupByLibrary.simpleMessage(
+      "تحقق من اتصالك بالإنترنت وحاول مرة أخرى",
+    ),
     "cityLabel": MessageLookupByLibrary.simpleMessage("المدينة"),
     "close": MessageLookupByLibrary.simpleMessage("إغلاق"),
     "confirm": MessageLookupByLibrary.simpleMessage("تأكيد"),
@@ -134,6 +137,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "selectLocation": MessageLookupByLibrary.simpleMessage("تحديد الموقع"),
     "serviceType": MessageLookupByLibrary.simpleMessage("نوع الخدمة"),
+    "somethingWentWrong": MessageLookupByLibrary.simpleMessage(
+      "حدث خطأ ما، حاول مرة أخرى",
+    ),
     "statusApproved": MessageLookupByLibrary.simpleMessage("مقبول"),
     "statusDeclined": MessageLookupByLibrary.simpleMessage("مرفوض"),
     "statusPending": MessageLookupByLibrary.simpleMessage("قيد المراجعة"),

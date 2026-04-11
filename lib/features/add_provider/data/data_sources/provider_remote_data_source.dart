@@ -26,7 +26,15 @@ class ProviderRemoteDataSource {
       );
       return right(response.data as Map<String, dynamic>);
     } on DioException catch (e) {
-      return left(e.message ?? 'Image upload failed');
+      if (e.type == DioExceptionType.connectionError ||
+          e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.sendTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        return left('CONNECTION_ERROR');
+      }
+      final data = e.response?.data;
+      final message = (data is Map ? data['message'] : null) ?? 'UNKNOWN_ERROR';
+      return left(message is List ? message.first.toString() : message.toString());
     }
   }
 
@@ -41,8 +49,14 @@ class ProviderRemoteDataSource {
       final id = (response.data as Map<String, dynamic>)['id'] as int;
       return right(id);
     } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionError ||
+          e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.sendTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        return left('CONNECTION_ERROR');
+      }
       final data = e.response?.data;
-      final message = (data is Map ? data['message'] : null) ?? e.message ?? 'Submission failed';
+      final message = (data is Map ? data['message'] : null) ?? 'UNKNOWN_ERROR';
       return left(message is List ? message.first.toString() : message.toString());
     }
   }
@@ -59,8 +73,14 @@ class ProviderRemoteDataSource {
       final resultId = (response.data as Map<String, dynamic>)['id'] as int;
       return right(resultId);
     } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionError ||
+          e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.sendTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        return left('CONNECTION_ERROR');
+      }
       final data = e.response?.data;
-      final message = (data is Map ? data['message'] : null) ?? e.message ?? 'Update failed';
+      final message = (data is Map ? data['message'] : null) ?? 'UNKNOWN_ERROR';
       return left(message is List ? message.first.toString() : message.toString());
     }
   }

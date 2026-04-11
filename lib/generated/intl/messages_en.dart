@@ -32,6 +32,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "back": MessageLookupByLibrary.simpleMessage("Back"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "categoriesLabel": MessageLookupByLibrary.simpleMessage("Categories"),
+    "checkConnectionAndRetry": MessageLookupByLibrary.simpleMessage(
+      "Check your internet connection and try again",
+    ),
     "cityLabel": MessageLookupByLibrary.simpleMessage("City"),
     "close": MessageLookupByLibrary.simpleMessage("Close"),
     "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
@@ -140,6 +143,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "selectLocation": MessageLookupByLibrary.simpleMessage("Select Location"),
     "serviceType": MessageLookupByLibrary.simpleMessage("Service Type"),
+    "somethingWentWrong": MessageLookupByLibrary.simpleMessage(
+      "Something went wrong, please try again",
+    ),
     "statusApproved": MessageLookupByLibrary.simpleMessage("Approved"),
     "statusDeclined": MessageLookupByLibrary.simpleMessage("Declined"),
     "statusPending": MessageLookupByLibrary.simpleMessage("Under Review"),

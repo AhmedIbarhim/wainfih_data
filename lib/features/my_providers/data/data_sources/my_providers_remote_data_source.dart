@@ -35,7 +35,15 @@ class MyProvidersRemoteDataSource {
       );
       return right(paged);
     } on DioException catch (e) {
-      return left(e.message ?? 'Failed to load providers');
+      if (e.type == DioExceptionType.connectionError ||
+          e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.sendTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        return left('CONNECTION_ERROR');
+      }
+      final data = e.response?.data;
+      final message = (data is Map ? data['message'] : null) ?? 'UNKNOWN_ERROR';
+      return left(message is List ? message.first.toString() : message.toString());
     }
   }
 
@@ -50,7 +58,15 @@ class MyProvidersRemoteDataSource {
       );
       return right(provider);
     } on DioException catch (e) {
-      return left(e.message ?? 'Failed to load provider');
+      if (e.type == DioExceptionType.connectionError ||
+          e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.sendTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        return left('CONNECTION_ERROR');
+      }
+      final data = e.response?.data;
+      final message = (data is Map ? data['message'] : null) ?? 'UNKNOWN_ERROR';
+      return left(message is List ? message.first.toString() : message.toString());
     }
   }
 }

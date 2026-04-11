@@ -87,16 +87,39 @@ class _MyProviderViewState extends State<MyProviderView> {
                 }
 
                 if (state.error != null && state.providers.isEmpty) {
+                  final isConnectionError = state.error == 'CONNECTION_ERROR';
                   return Center(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(state.error!, style: AppTextStyles.regular13),
+                        Icon(
+                          isConnectionError
+                              ? Icons.wifi_off_rounded
+                              : Icons.error_outline_rounded,
+                          size: 64,
+                          color: Colors.grey.shade400,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          isConnectionError ? l.noInternetConnection : l.error,
+                          style: AppTextStyles.bold16
+                              .copyWith(color: Colors.grey.shade600),
+                        ),
                         const SizedBox(height: 8),
-                        TextButton(
+                        Text(
+                          isConnectionError
+                              ? l.checkConnectionAndRetry
+                              : l.somethingWentWrong,
+                          style: AppTextStyles.regular13
+                              .copyWith(color: Colors.grey),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 24),
+                        TextButton.icon(
                           onPressed: () =>
                               context.read<MyProvidersCubit>().refresh(),
-                          child: Text(l.retryButton),
+                          icon: const Icon(Icons.refresh),
+                          label: Text(l.retryButton),
                         ),
                       ],
                     ),

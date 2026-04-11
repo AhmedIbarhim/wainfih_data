@@ -439,5 +439,15 @@
   "selectCityFirst": "Select a city first",
   "@selectCityFirst": {
     "description": "Hint shown on district dropdown when no city is selected"
+  },
+
+  "checkConnectionAndRetry": "Check your internet connection and try again",
+  "@checkConnectionAndRetry": {
+    "description": "Message shown below the no-internet title on the error state"
+  },
+
+  "somethingWentWrong": "Something went wrong, please try again",
+  "@somethingWentWrong": {
+    "description": "Message shown below the generic error title on the error state"
   }
 }

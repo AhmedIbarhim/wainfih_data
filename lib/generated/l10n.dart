@@ -933,6 +933,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Check your internet connection and try again`
+  String get checkConnectionAndRetry {
+    return Intl.message(
+      'Check your internet connection and try again',
+      name: 'checkConnectionAndRetry',
+      desc: 'Message shown below the no-internet title on the error state',
+      args: [],
+    );
+  }
+
+  /// `Something went wrong, please try again`
+  String get somethingWentWrong {
+    return Intl.message(
+      'Something went wrong, please try again',
+      name: 'somethingWentWrong',
+      desc: 'Message shown below the generic error title on the error state',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

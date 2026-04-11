@@ -439,5 +439,15 @@
   "selectCityFirst": "اختر المدينة أولاً",
   "@selectCityFirst": {
     "description": "Hint shown on district dropdown when no city is selected"
+  },
+
+  "checkConnectionAndRetry": "تحقق من اتصالك بالإنترنت وحاول مرة أخرى",
+  "@checkConnectionAndRetry": {
+    "description": "Message shown below the no-internet title on the error state"
+  },
+
+  "somethingWentWrong": "حدث خطأ ما، حاول مرة أخرى",
+  "@somethingWentWrong": {
+    "description": "Message shown below the generic error title on the error state"
   }
 }

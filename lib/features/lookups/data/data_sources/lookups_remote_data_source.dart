@@ -26,7 +26,15 @@ class LookupsRemoteDataSource {
       );
       return right(paged.content);
     } on DioException catch (e) {
-      return left(e.message ?? 'Failed to load cities');
+      if (e.type == DioExceptionType.connectionError ||
+          e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.sendTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        return left('CONNECTION_ERROR');
+      }
+      final data = e.response?.data;
+      final message = (data is Map ? data['message'] : null) ?? 'UNKNOWN_ERROR';
+      return left(message is List ? message.first.toString() : message.toString());
     }
   }
 
@@ -45,7 +53,15 @@ class LookupsRemoteDataSource {
       );
       return right(paged.content);
     } on DioException catch (e) {
-      return left(e.message ?? 'Failed to load districts');
+      if (e.type == DioExceptionType.connectionError ||
+          e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.sendTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        return left('CONNECTION_ERROR');
+      }
+      final data = e.response?.data;
+      final message = (data is Map ? data['message'] : null) ?? 'UNKNOWN_ERROR';
+      return left(message is List ? message.first.toString() : message.toString());
     }
   }
 
@@ -67,7 +83,15 @@ class LookupsRemoteDataSource {
       );
       return right(paged.content);
     } on DioException catch (e) {
-      return left(e.message ?? 'Failed to load districts');
+      if (e.type == DioExceptionType.connectionError ||
+          e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.sendTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        return left('CONNECTION_ERROR');
+      }
+      final data = e.response?.data;
+      final message = (data is Map ? data['message'] : null) ?? 'UNKNOWN_ERROR';
+      return left(message is List ? message.first.toString() : message.toString());
     }
   }
 
@@ -85,7 +109,15 @@ class LookupsRemoteDataSource {
       );
       return right(district);
     } on DioException catch (e) {
-      return left(e.message ?? 'District not found for this location');
+      if (e.type == DioExceptionType.connectionError ||
+          e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.sendTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        return left('CONNECTION_ERROR');
+      }
+      final data = e.response?.data;
+      final message = (data is Map ? data['message'] : null) ?? 'UNKNOWN_ERROR';
+      return left(message is List ? message.first.toString() : message.toString());
     }
   }
 
@@ -101,7 +133,15 @@ class LookupsRemoteDataSource {
       );
       return right(paged.content);
     } on DioException catch (e) {
-      return left(e.message ?? 'Failed to load service types');
+      if (e.type == DioExceptionType.connectionError ||
+          e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.sendTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        return left('CONNECTION_ERROR');
+      }
+      final data = e.response?.data;
+      final message = (data is Map ? data['message'] : null) ?? 'UNKNOWN_ERROR';
+      return left(message is List ? message.first.toString() : message.toString());
     }
   }
 
@@ -117,7 +157,15 @@ class LookupsRemoteDataSource {
       );
       return right(paged.content);
     } on DioException catch (e) {
-      return left(e.message ?? 'Failed to load categories');
+      if (e.type == DioExceptionType.connectionError ||
+          e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.sendTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        return left('CONNECTION_ERROR');
+      }
+      final data = e.response?.data;
+      final message = (data is Map ? data['message'] : null) ?? 'UNKNOWN_ERROR';
+      return left(message is List ? message.first.toString() : message.toString());
     }
   }
 
@@ -141,7 +189,15 @@ class LookupsRemoteDataSource {
       );
       return right(cache);
     } on DioException catch (e) {
-      return left(e.message ?? 'Failed to load lookups');
+      if (e.type == DioExceptionType.connectionError ||
+          e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.sendTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        return left('CONNECTION_ERROR');
+      }
+      final data = e.response?.data;
+      final message = (data is Map ? data['message'] : null) ?? 'UNKNOWN_ERROR';
+      return left(message is List ? message.first.toString() : message.toString());
     }
   }
 }

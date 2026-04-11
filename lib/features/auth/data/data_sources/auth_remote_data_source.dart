@@ -23,11 +23,17 @@ class AuthRemoteDataSource {
       );
       return right(authModel);
     } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionError ||
+          e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.sendTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        return left('CONNECTION_ERROR');
+      }
       final data = e.response?.data;
-      final message = (data is Map ? data['message'] : null) ?? e.message ?? 'Login failed';
+      final message = (data is Map ? data['message'] : null) ?? 'UNKNOWN_ERROR';
       return left(message is List ? message.first.toString() : message.toString());
     } catch (e) {
-      return left('Login failed');
+      return left('UNKNOWN_ERROR');
     }
   }
 }
