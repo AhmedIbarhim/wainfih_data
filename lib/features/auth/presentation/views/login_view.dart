@@ -3,8 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/components/custom_text_form_field.dart';
 import '../../../../core/components/main_button.dart';
+import '../../../../core/di/service_locator.dart';
 import '../../../../core/route/routes.dart';
 import '../../../../generated/l10n.dart';
+import '../../../lookups/data/data_sources/lookups_local_data_source.dart';
+import '../../../lookups/data/data_sources/lookups_remote_data_source.dart';
+import '../../../lookups/presentation/cubit/lookups_cubit.dart';
 import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
 
@@ -35,6 +39,11 @@ class _LoginViewState extends State<LoginView> {
       body: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is AuthSuccess) {
+            // Cache lookups for offline use
+            LookupsCubit(
+              locator<LookupsRemoteDataSource>(),
+              locator<LookupsLocalDataSource>(),
+            ).loadInitialData();
             Navigator.of(context).pushNamedAndRemoveUntil(
               Routes.home,
               (route) => false,
