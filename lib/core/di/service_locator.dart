@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../features/add_provider/data/data_sources/provider_remote_data_source.dart';
 import '../../features/auth/data/data_sources/auth_local_data_source.dart';
 import '../../features/auth/data/data_sources/auth_remote_data_source.dart';
+import '../../features/lookups/data/data_sources/lookups_local_data_source.dart';
 import '../../features/lookups/data/data_sources/lookups_remote_data_source.dart';
 import '../../features/my_providers/data/data_sources/my_providers_remote_data_source.dart';
 import '../networking/api_client.dart';
@@ -50,6 +51,9 @@ Future<void> setupServiceLocator() async {
   );
   locator.registerFactory<LookupsRemoteDataSource>(
     () => LookupsRemoteDataSource(locator<APIClient>()),
+  );
+  locator.registerFactory<LookupsLocalDataSource>(
+    () => LookupsLocalDataSource(),
   );
   locator.registerFactory<ProviderRemoteDataSource>(
     () => ProviderRemoteDataSource(locator<APIClient>()),

@@ -29,6 +29,25 @@ class LookupsRemoteDataSource {
     }
   }
 
+  Future<Either<String, List<DistrictModel>>> getAllDistricts() async {
+    try {
+      final response = await _apiClient.get(
+        '/district',
+        queryParameters: {
+          'take': 10000,
+          'with': 'city',
+        },
+      );
+      final paged = PagedResponse.fromJson(
+        response.data as Map<String, dynamic>,
+        DistrictModel.fromJson,
+      );
+      return right(paged.content);
+    } on DioException catch (e) {
+      return left(e.message ?? 'Failed to load districts');
+    }
+  }
+
   Future<Either<String, List<DistrictModel>>> getDistrictsByCityId(
     int cityId,
   ) async {

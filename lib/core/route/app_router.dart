@@ -11,8 +11,8 @@ import '../../features/auth/data/repos/auth_repository.dart';
 import '../../features/auth/presentation/cubit/auth_cubit.dart';
 import '../../features/auth/presentation/views/login_view.dart';
 import '../../features/home/views/home_view.dart';
+import '../../features/lookups/data/data_sources/lookups_local_data_source.dart';
 import '../../features/lookups/data/data_sources/lookups_remote_data_source.dart';
-import '../../features/lookups/data/repos/lookups_repository.dart';
 import '../../features/lookups/presentation/cubit/lookups_cubit.dart';
 import '../../features/my_providers/data/data_sources/my_providers_remote_data_source.dart';
 import '../../features/my_providers/data/models/provider_list_model.dart';
@@ -76,7 +76,8 @@ abstract class AppRouter {
               ),
               BlocProvider(
                 create: (_) => LookupsCubit(
-                  LookupsRepository(locator<LookupsRemoteDataSource>()),
+                  locator<LookupsRemoteDataSource>(),
+                  locator<LookupsLocalDataSource>(),
                 )..loadInitialData(),
               ),
             ],
