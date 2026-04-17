@@ -65,6 +65,45 @@ class ProviderDetailView extends StatelessWidget {
                     ],
                   ),
                   const Divider(height: 24),
+                  // Rejection reason — only when DECLINED and we have one
+                  if (provider.state.toUpperCase() == 'DECLINED' &&
+                      provider.declineReason != null &&
+                      provider.declineReason!.isNotEmpty) ...[
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.red.shade50,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.red.shade200),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.error_outline,
+                                size: 18,
+                                color: Colors.red,
+                              ),
+                              const SizedBox(width: 6),
+                              Text(
+                                l.rejectionReason,
+                                style: const TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 6),
+                          Text(provider.declineReason!),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
                   // Provider name
                   if (provider.serviceProviderNameAr != null &&
                       provider.serviceProviderNameAr!.isNotEmpty)

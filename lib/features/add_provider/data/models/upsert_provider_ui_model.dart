@@ -86,7 +86,7 @@ class UpsertProviderUiModel {
       selectedType: ValueNotifier(provider.type),
       selectedCity: ValueNotifier(provider.district?.city),
       selectedDistrict: ValueNotifier(provider.district),
-      selectedCategories: ValueNotifier([]),
+      selectedCategories: ValueNotifier(provider.categories ?? []),
       existingId: provider.id,
     );
   }

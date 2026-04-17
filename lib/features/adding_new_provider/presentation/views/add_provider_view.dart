@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../core/components/custom_text_form_field.dart';
@@ -200,6 +201,12 @@ class _AddProviderViewState extends State<AddProviderView> {
       if (uiModel.selectedDistrict.value == null) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(l.validationDistrictRequired)),
+        );
+        return;
+      }
+      if (uiModel.selectedCategories.value.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l.validationCategoriesRequired)),
         );
         return;
       }
@@ -452,16 +459,26 @@ class _Step2PhotoAndLocationState extends State<_Step2PhotoAndLocation>
                           child: FloatingActionButton(
                             mini: true,
                             backgroundColor: Colors.white60,
+                            // Re-reads GPS directly (not through the cubit) so
+                            // the map widget isn't unmounted by a Loading state.
                             onPressed: () async {
-                              if (state is LocationSuccess) {
-                                final loc = LatLng(
-                                  state.location.latitude,
-                                  state.location.longitude,
+                              try {
+                                final pos = await Geolocator.getCurrentPosition(
+                                  locationSettings: const LocationSettings(
+                                    accuracy: LocationAccuracy.high,
+                                  ),
                                 );
-                                final controller = await _mapController.future;
+                                final loc = LatLng(pos.latitude, pos.longitude);
+                                if (!mounted) return;
+                                uiModel.location.value = loc;
+                                if (!_mapController.isCompleted) return;
+                                final controller =
+                                    await _mapController.future;
                                 controller.animateCamera(
                                   CameraUpdate.newLatLngZoom(loc, _currentZoom),
                                 );
+                              } catch (_) {
+                                _locationCubit.getCurrentLocation();
                               }
                             },
                             child: const Icon(

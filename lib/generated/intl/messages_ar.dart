@@ -121,6 +121,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "queuedOfflineMessage": MessageLookupByLibrary.simpleMessage(
       "تم حفظ الطلب وسيُرسَل تلقائياً عند الاتصال بالإنترنت",
     ),
+    "rejectionReason": MessageLookupByLibrary.simpleMessage("سبب الرفض"),
     "resendCode": MessageLookupByLibrary.simpleMessage("إعادة إرسال الرمز"),
     "retryButton": MessageLookupByLibrary.simpleMessage("إعادة المحاولة"),
     "roleRejectionError": MessageLookupByLibrary.simpleMessage(
@@ -157,6 +158,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "userInfo": MessageLookupByLibrary.simpleMessage("بيانات المستخدم"),
     "validationAtLeastOneName": MessageLookupByLibrary.simpleMessage(
       "يجب إدخال اسم مقدم الخدمة بالعربية أو الإنجليزية على الأقل",
+    ),
+    "validationCategoriesRequired": MessageLookupByLibrary.simpleMessage(
+      "يرجى اختيار تصنيف واحد على الأقل",
     ),
     "validationDistrictRequired": MessageLookupByLibrary.simpleMessage(
       "الحي مطلوب",

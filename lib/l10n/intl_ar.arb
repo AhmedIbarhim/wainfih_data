@@ -186,6 +186,16 @@
     "description": "Validation: district required"
   },
 
+  "validationCategoriesRequired": "يرجى اختيار تصنيف واحد على الأقل",
+  "@validationCategoriesRequired": {
+    "description": "Validation: at least one category required"
+  },
+
+  "rejectionReason": "سبب الرفض",
+  "@rejectionReason": {
+    "description": "Label for the admin-provided decline reason"
+  },
+
   "myProvidersTitle": "مقدمي الخدمة الخاصة بي",
   "@myProvidersTitle": {
     "description": "My Providers screen title"

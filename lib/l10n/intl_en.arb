@@ -186,6 +186,16 @@
     "description": "Validation: district required"
   },
 
+  "validationCategoriesRequired": "Please select at least one category",
+  "@validationCategoriesRequired": {
+    "description": "Validation: at least one category required"
+  },
+
+  "rejectionReason": "Rejection reason",
+  "@rejectionReason": {
+    "description": "Label for the admin-provided decline reason"
+  },
+
   "myProvidersTitle": "My Service Providers",
   "@myProvidersTitle": {
     "description": "My Providers screen title"

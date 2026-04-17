@@ -19,7 +19,7 @@ class MyProvidersRemoteDataSource {
       final queryParams = <String, dynamic>{
         'page': page,
         'take': take,
-        'with': 'type,district.city',
+        'with': 'type,district.city,statusHistory',
         'orderBy': 'createdAt:desc',
       };
       if (stateFilter != null) {
@@ -51,7 +51,7 @@ class MyProvidersRemoteDataSource {
     try {
       final response = await _apiClient.get(
         '/serviceProvider/$id',
-        queryParameters: {'with': 'type,district.city'},
+        queryParameters: {'with': 'type,district.city,statusHistory'},
       );
       final provider = ProviderListModel.fromJson(
         response.data as Map<String, dynamic>,

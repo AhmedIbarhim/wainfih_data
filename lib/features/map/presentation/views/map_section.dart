@@ -93,10 +93,18 @@ class _MapSectionState extends State<MapSection>
         return Scaffold(
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
-              if (currentLocation == null) return;
+              // Always request a fresh GPS read so the button centers on the
+              // current device position, not a stale marker. The BlocBuilder
+              // then rebuilds with the new LocationSuccess.
+              context.read<LocationCubit>().getCurrentLocation();
+              if (!_controller.isCompleted) return;
+              final target = state is LocationSuccess
+                  ? LatLng(state.location.latitude, state.location.longitude)
+                  : currentLocation;
+              if (target == null) return;
               final GoogleMapController controller = await _controller.future;
               controller.animateCamera(
-                CameraUpdate.newLatLngZoom(currentLocation!, currentZoom),
+                CameraUpdate.newLatLngZoom(target, currentZoom),
               );
             },
             mini: true,

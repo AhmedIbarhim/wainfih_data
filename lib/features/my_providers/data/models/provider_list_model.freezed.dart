@@ -15,7 +15,10 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ProviderListModel {
 
- int get id; String? get serviceProviderNameAr; String? get serviceProviderNameEn; String? get mobileNumber1; String? get mobileNumber2; String? get contactPersonName; String? get notes; Map<String, dynamic>? get image; double? get lat; double? get lng; String get state; String get status; DateTime? get createdAt; SpTypeModel? get type; DistrictModel? get district; bool? get featured; bool? get bookable; double? get distance;
+ int get id; String? get serviceProviderNameAr; String? get serviceProviderNameEn; String? get mobileNumber1; String? get mobileNumber2; String? get contactPersonName; String? get notes; Map<String, dynamic>? get image; double? get lat; double? get lng; String get state; String get status; DateTime? get createdAt; SpTypeModel? get type; DistrictModel? get district; bool? get featured; bool? get bookable; double? get distance;// From the backend's `computed` block on the SP response.
+// - `declineReason`: latest DECLINED status history entry's reason.
+// - `categories`: flattened M2M links so the edit flow can pre-select.
+@JsonKey(readValue: _readComputedDeclineReason) String? get declineReason;@JsonKey(readValue: _readComputedCategories) List<CategoryModel>? get categories;
 /// Create a copy of ProviderListModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +31,16 @@ $ProviderListModelCopyWith<ProviderListModel> get copyWith => _$ProviderListMode
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProviderListModel&&(identical(other.id, id) || other.id == id)&&(identical(other.serviceProviderNameAr, serviceProviderNameAr) || other.serviceProviderNameAr == serviceProviderNameAr)&&(identical(other.serviceProviderNameEn, serviceProviderNameEn) || other.serviceProviderNameEn == serviceProviderNameEn)&&(identical(other.mobileNumber1, mobileNumber1) || other.mobileNumber1 == mobileNumber1)&&(identical(other.mobileNumber2, mobileNumber2) || other.mobileNumber2 == mobileNumber2)&&(identical(other.contactPersonName, contactPersonName) || other.contactPersonName == contactPersonName)&&(identical(other.notes, notes) || other.notes == notes)&&const DeepCollectionEquality().equals(other.image, image)&&(identical(other.lat, lat) || other.lat == lat)&&(identical(other.lng, lng) || other.lng == lng)&&(identical(other.state, state) || other.state == state)&&(identical(other.status, status) || other.status == status)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.type, type) || other.type == type)&&(identical(other.district, district) || other.district == district)&&(identical(other.featured, featured) || other.featured == featured)&&(identical(other.bookable, bookable) || other.bookable == bookable)&&(identical(other.distance, distance) || other.distance == distance));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProviderListModel&&(identical(other.id, id) || other.id == id)&&(identical(other.serviceProviderNameAr, serviceProviderNameAr) || other.serviceProviderNameAr == serviceProviderNameAr)&&(identical(other.serviceProviderNameEn, serviceProviderNameEn) || other.serviceProviderNameEn == serviceProviderNameEn)&&(identical(other.mobileNumber1, mobileNumber1) || other.mobileNumber1 == mobileNumber1)&&(identical(other.mobileNumber2, mobileNumber2) || other.mobileNumber2 == mobileNumber2)&&(identical(other.contactPersonName, contactPersonName) || other.contactPersonName == contactPersonName)&&(identical(other.notes, notes) || other.notes == notes)&&const DeepCollectionEquality().equals(other.image, image)&&(identical(other.lat, lat) || other.lat == lat)&&(identical(other.lng, lng) || other.lng == lng)&&(identical(other.state, state) || other.state == state)&&(identical(other.status, status) || other.status == status)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.type, type) || other.type == type)&&(identical(other.district, district) || other.district == district)&&(identical(other.featured, featured) || other.featured == featured)&&(identical(other.bookable, bookable) || other.bookable == bookable)&&(identical(other.distance, distance) || other.distance == distance)&&(identical(other.declineReason, declineReason) || other.declineReason == declineReason)&&const DeepCollectionEquality().equals(other.categories, categories));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,serviceProviderNameAr,serviceProviderNameEn,mobileNumber1,mobileNumber2,contactPersonName,notes,const DeepCollectionEquality().hash(image),lat,lng,state,status,createdAt,type,district,featured,bookable,distance);
+int get hashCode => Object.hashAll([runtimeType,id,serviceProviderNameAr,serviceProviderNameEn,mobileNumber1,mobileNumber2,contactPersonName,notes,const DeepCollectionEquality().hash(image),lat,lng,state,status,createdAt,type,district,featured,bookable,distance,declineReason,const DeepCollectionEquality().hash(categories)]);
 
 @override
 String toString() {
-  return 'ProviderListModel(id: $id, serviceProviderNameAr: $serviceProviderNameAr, serviceProviderNameEn: $serviceProviderNameEn, mobileNumber1: $mobileNumber1, mobileNumber2: $mobileNumber2, contactPersonName: $contactPersonName, notes: $notes, image: $image, lat: $lat, lng: $lng, state: $state, status: $status, createdAt: $createdAt, type: $type, district: $district, featured: $featured, bookable: $bookable, distance: $distance)';
+  return 'ProviderListModel(id: $id, serviceProviderNameAr: $serviceProviderNameAr, serviceProviderNameEn: $serviceProviderNameEn, mobileNumber1: $mobileNumber1, mobileNumber2: $mobileNumber2, contactPersonName: $contactPersonName, notes: $notes, image: $image, lat: $lat, lng: $lng, state: $state, status: $status, createdAt: $createdAt, type: $type, district: $district, featured: $featured, bookable: $bookable, distance: $distance, declineReason: $declineReason, categories: $categories)';
 }
 
 
@@ -48,7 +51,7 @@ abstract mixin class $ProviderListModelCopyWith<$Res>  {
   factory $ProviderListModelCopyWith(ProviderListModel value, $Res Function(ProviderListModel) _then) = _$ProviderListModelCopyWithImpl;
 @useResult
 $Res call({
- int id, String? serviceProviderNameAr, String? serviceProviderNameEn, String? mobileNumber1, String? mobileNumber2, String? contactPersonName, String? notes, Map<String, dynamic>? image, double? lat, double? lng, String state, String status, DateTime? createdAt, SpTypeModel? type, DistrictModel? district, bool? featured, bool? bookable, double? distance
+ int id, String? serviceProviderNameAr, String? serviceProviderNameEn, String? mobileNumber1, String? mobileNumber2, String? contactPersonName, String? notes, Map<String, dynamic>? image, double? lat, double? lng, String state, String status, DateTime? createdAt, SpTypeModel? type, DistrictModel? district, bool? featured, bool? bookable, double? distance,@JsonKey(readValue: _readComputedDeclineReason) String? declineReason,@JsonKey(readValue: _readComputedCategories) List<CategoryModel>? categories
 });
 
 
@@ -65,7 +68,7 @@ class _$ProviderListModelCopyWithImpl<$Res>
 
 /// Create a copy of ProviderListModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? serviceProviderNameAr = freezed,Object? serviceProviderNameEn = freezed,Object? mobileNumber1 = freezed,Object? mobileNumber2 = freezed,Object? contactPersonName = freezed,Object? notes = freezed,Object? image = freezed,Object? lat = freezed,Object? lng = freezed,Object? state = null,Object? status = null,Object? createdAt = freezed,Object? type = freezed,Object? district = freezed,Object? featured = freezed,Object? bookable = freezed,Object? distance = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? serviceProviderNameAr = freezed,Object? serviceProviderNameEn = freezed,Object? mobileNumber1 = freezed,Object? mobileNumber2 = freezed,Object? contactPersonName = freezed,Object? notes = freezed,Object? image = freezed,Object? lat = freezed,Object? lng = freezed,Object? state = null,Object? status = null,Object? createdAt = freezed,Object? type = freezed,Object? district = freezed,Object? featured = freezed,Object? bookable = freezed,Object? distance = freezed,Object? declineReason = freezed,Object? categories = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,serviceProviderNameAr: freezed == serviceProviderNameAr ? _self.serviceProviderNameAr : serviceProviderNameAr // ignore: cast_nullable_to_non_nullable
@@ -85,7 +88,9 @@ as SpTypeModel?,district: freezed == district ? _self.district : district // ign
 as DistrictModel?,featured: freezed == featured ? _self.featured : featured // ignore: cast_nullable_to_non_nullable
 as bool?,bookable: freezed == bookable ? _self.bookable : bookable // ignore: cast_nullable_to_non_nullable
 as bool?,distance: freezed == distance ? _self.distance : distance // ignore: cast_nullable_to_non_nullable
-as double?,
+as double?,declineReason: freezed == declineReason ? _self.declineReason : declineReason // ignore: cast_nullable_to_non_nullable
+as String?,categories: freezed == categories ? _self.categories : categories // ignore: cast_nullable_to_non_nullable
+as List<CategoryModel>?,
   ));
 }
 /// Create a copy of ProviderListModel
@@ -194,10 +199,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String? serviceProviderNameAr,  String? serviceProviderNameEn,  String? mobileNumber1,  String? mobileNumber2,  String? contactPersonName,  String? notes,  Map<String, dynamic>? image,  double? lat,  double? lng,  String state,  String status,  DateTime? createdAt,  SpTypeModel? type,  DistrictModel? district,  bool? featured,  bool? bookable,  double? distance)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String? serviceProviderNameAr,  String? serviceProviderNameEn,  String? mobileNumber1,  String? mobileNumber2,  String? contactPersonName,  String? notes,  Map<String, dynamic>? image,  double? lat,  double? lng,  String state,  String status,  DateTime? createdAt,  SpTypeModel? type,  DistrictModel? district,  bool? featured,  bool? bookable,  double? distance, @JsonKey(readValue: _readComputedDeclineReason)  String? declineReason, @JsonKey(readValue: _readComputedCategories)  List<CategoryModel>? categories)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ProviderListModel() when $default != null:
-return $default(_that.id,_that.serviceProviderNameAr,_that.serviceProviderNameEn,_that.mobileNumber1,_that.mobileNumber2,_that.contactPersonName,_that.notes,_that.image,_that.lat,_that.lng,_that.state,_that.status,_that.createdAt,_that.type,_that.district,_that.featured,_that.bookable,_that.distance);case _:
+return $default(_that.id,_that.serviceProviderNameAr,_that.serviceProviderNameEn,_that.mobileNumber1,_that.mobileNumber2,_that.contactPersonName,_that.notes,_that.image,_that.lat,_that.lng,_that.state,_that.status,_that.createdAt,_that.type,_that.district,_that.featured,_that.bookable,_that.distance,_that.declineReason,_that.categories);case _:
   return orElse();
 
 }
@@ -215,10 +220,10 @@ return $default(_that.id,_that.serviceProviderNameAr,_that.serviceProviderNameEn
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String? serviceProviderNameAr,  String? serviceProviderNameEn,  String? mobileNumber1,  String? mobileNumber2,  String? contactPersonName,  String? notes,  Map<String, dynamic>? image,  double? lat,  double? lng,  String state,  String status,  DateTime? createdAt,  SpTypeModel? type,  DistrictModel? district,  bool? featured,  bool? bookable,  double? distance)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String? serviceProviderNameAr,  String? serviceProviderNameEn,  String? mobileNumber1,  String? mobileNumber2,  String? contactPersonName,  String? notes,  Map<String, dynamic>? image,  double? lat,  double? lng,  String state,  String status,  DateTime? createdAt,  SpTypeModel? type,  DistrictModel? district,  bool? featured,  bool? bookable,  double? distance, @JsonKey(readValue: _readComputedDeclineReason)  String? declineReason, @JsonKey(readValue: _readComputedCategories)  List<CategoryModel>? categories)  $default,) {final _that = this;
 switch (_that) {
 case _ProviderListModel():
-return $default(_that.id,_that.serviceProviderNameAr,_that.serviceProviderNameEn,_that.mobileNumber1,_that.mobileNumber2,_that.contactPersonName,_that.notes,_that.image,_that.lat,_that.lng,_that.state,_that.status,_that.createdAt,_that.type,_that.district,_that.featured,_that.bookable,_that.distance);case _:
+return $default(_that.id,_that.serviceProviderNameAr,_that.serviceProviderNameEn,_that.mobileNumber1,_that.mobileNumber2,_that.contactPersonName,_that.notes,_that.image,_that.lat,_that.lng,_that.state,_that.status,_that.createdAt,_that.type,_that.district,_that.featured,_that.bookable,_that.distance,_that.declineReason,_that.categories);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -235,10 +240,10 @@ return $default(_that.id,_that.serviceProviderNameAr,_that.serviceProviderNameEn
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String? serviceProviderNameAr,  String? serviceProviderNameEn,  String? mobileNumber1,  String? mobileNumber2,  String? contactPersonName,  String? notes,  Map<String, dynamic>? image,  double? lat,  double? lng,  String state,  String status,  DateTime? createdAt,  SpTypeModel? type,  DistrictModel? district,  bool? featured,  bool? bookable,  double? distance)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String? serviceProviderNameAr,  String? serviceProviderNameEn,  String? mobileNumber1,  String? mobileNumber2,  String? contactPersonName,  String? notes,  Map<String, dynamic>? image,  double? lat,  double? lng,  String state,  String status,  DateTime? createdAt,  SpTypeModel? type,  DistrictModel? district,  bool? featured,  bool? bookable,  double? distance, @JsonKey(readValue: _readComputedDeclineReason)  String? declineReason, @JsonKey(readValue: _readComputedCategories)  List<CategoryModel>? categories)?  $default,) {final _that = this;
 switch (_that) {
 case _ProviderListModel() when $default != null:
-return $default(_that.id,_that.serviceProviderNameAr,_that.serviceProviderNameEn,_that.mobileNumber1,_that.mobileNumber2,_that.contactPersonName,_that.notes,_that.image,_that.lat,_that.lng,_that.state,_that.status,_that.createdAt,_that.type,_that.district,_that.featured,_that.bookable,_that.distance);case _:
+return $default(_that.id,_that.serviceProviderNameAr,_that.serviceProviderNameEn,_that.mobileNumber1,_that.mobileNumber2,_that.contactPersonName,_that.notes,_that.image,_that.lat,_that.lng,_that.state,_that.status,_that.createdAt,_that.type,_that.district,_that.featured,_that.bookable,_that.distance,_that.declineReason,_that.categories);case _:
   return null;
 
 }
@@ -250,7 +255,7 @@ return $default(_that.id,_that.serviceProviderNameAr,_that.serviceProviderNameEn
 
 @JsonSerializable(explicitToJson: true)
 class _ProviderListModel implements ProviderListModel {
-  const _ProviderListModel({required this.id, this.serviceProviderNameAr, this.serviceProviderNameEn, this.mobileNumber1, this.mobileNumber2, this.contactPersonName, this.notes, final  Map<String, dynamic>? image, this.lat, this.lng, required this.state, required this.status, this.createdAt, this.type, this.district, this.featured, this.bookable, this.distance}): _image = image;
+  const _ProviderListModel({required this.id, this.serviceProviderNameAr, this.serviceProviderNameEn, this.mobileNumber1, this.mobileNumber2, this.contactPersonName, this.notes, final  Map<String, dynamic>? image, this.lat, this.lng, required this.state, required this.status, this.createdAt, this.type, this.district, this.featured, this.bookable, this.distance, @JsonKey(readValue: _readComputedDeclineReason) this.declineReason, @JsonKey(readValue: _readComputedCategories) final  List<CategoryModel>? categories}): _image = image,_categories = categories;
   factory _ProviderListModel.fromJson(Map<String, dynamic> json) => _$ProviderListModelFromJson(json);
 
 @override final  int id;
@@ -279,6 +284,19 @@ class _ProviderListModel implements ProviderListModel {
 @override final  bool? featured;
 @override final  bool? bookable;
 @override final  double? distance;
+// From the backend's `computed` block on the SP response.
+// - `declineReason`: latest DECLINED status history entry's reason.
+// - `categories`: flattened M2M links so the edit flow can pre-select.
+@override@JsonKey(readValue: _readComputedDeclineReason) final  String? declineReason;
+ final  List<CategoryModel>? _categories;
+@override@JsonKey(readValue: _readComputedCategories) List<CategoryModel>? get categories {
+  final value = _categories;
+  if (value == null) return null;
+  if (_categories is EqualUnmodifiableListView) return _categories;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
 
 /// Create a copy of ProviderListModel
 /// with the given fields replaced by the non-null parameter values.
@@ -293,16 +311,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProviderListModel&&(identical(other.id, id) || other.id == id)&&(identical(other.serviceProviderNameAr, serviceProviderNameAr) || other.serviceProviderNameAr == serviceProviderNameAr)&&(identical(other.serviceProviderNameEn, serviceProviderNameEn) || other.serviceProviderNameEn == serviceProviderNameEn)&&(identical(other.mobileNumber1, mobileNumber1) || other.mobileNumber1 == mobileNumber1)&&(identical(other.mobileNumber2, mobileNumber2) || other.mobileNumber2 == mobileNumber2)&&(identical(other.contactPersonName, contactPersonName) || other.contactPersonName == contactPersonName)&&(identical(other.notes, notes) || other.notes == notes)&&const DeepCollectionEquality().equals(other._image, _image)&&(identical(other.lat, lat) || other.lat == lat)&&(identical(other.lng, lng) || other.lng == lng)&&(identical(other.state, state) || other.state == state)&&(identical(other.status, status) || other.status == status)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.type, type) || other.type == type)&&(identical(other.district, district) || other.district == district)&&(identical(other.featured, featured) || other.featured == featured)&&(identical(other.bookable, bookable) || other.bookable == bookable)&&(identical(other.distance, distance) || other.distance == distance));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProviderListModel&&(identical(other.id, id) || other.id == id)&&(identical(other.serviceProviderNameAr, serviceProviderNameAr) || other.serviceProviderNameAr == serviceProviderNameAr)&&(identical(other.serviceProviderNameEn, serviceProviderNameEn) || other.serviceProviderNameEn == serviceProviderNameEn)&&(identical(other.mobileNumber1, mobileNumber1) || other.mobileNumber1 == mobileNumber1)&&(identical(other.mobileNumber2, mobileNumber2) || other.mobileNumber2 == mobileNumber2)&&(identical(other.contactPersonName, contactPersonName) || other.contactPersonName == contactPersonName)&&(identical(other.notes, notes) || other.notes == notes)&&const DeepCollectionEquality().equals(other._image, _image)&&(identical(other.lat, lat) || other.lat == lat)&&(identical(other.lng, lng) || other.lng == lng)&&(identical(other.state, state) || other.state == state)&&(identical(other.status, status) || other.status == status)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.type, type) || other.type == type)&&(identical(other.district, district) || other.district == district)&&(identical(other.featured, featured) || other.featured == featured)&&(identical(other.bookable, bookable) || other.bookable == bookable)&&(identical(other.distance, distance) || other.distance == distance)&&(identical(other.declineReason, declineReason) || other.declineReason == declineReason)&&const DeepCollectionEquality().equals(other._categories, _categories));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,serviceProviderNameAr,serviceProviderNameEn,mobileNumber1,mobileNumber2,contactPersonName,notes,const DeepCollectionEquality().hash(_image),lat,lng,state,status,createdAt,type,district,featured,bookable,distance);
+int get hashCode => Object.hashAll([runtimeType,id,serviceProviderNameAr,serviceProviderNameEn,mobileNumber1,mobileNumber2,contactPersonName,notes,const DeepCollectionEquality().hash(_image),lat,lng,state,status,createdAt,type,district,featured,bookable,distance,declineReason,const DeepCollectionEquality().hash(_categories)]);
 
 @override
 String toString() {
-  return 'ProviderListModel(id: $id, serviceProviderNameAr: $serviceProviderNameAr, serviceProviderNameEn: $serviceProviderNameEn, mobileNumber1: $mobileNumber1, mobileNumber2: $mobileNumber2, contactPersonName: $contactPersonName, notes: $notes, image: $image, lat: $lat, lng: $lng, state: $state, status: $status, createdAt: $createdAt, type: $type, district: $district, featured: $featured, bookable: $bookable, distance: $distance)';
+  return 'ProviderListModel(id: $id, serviceProviderNameAr: $serviceProviderNameAr, serviceProviderNameEn: $serviceProviderNameEn, mobileNumber1: $mobileNumber1, mobileNumber2: $mobileNumber2, contactPersonName: $contactPersonName, notes: $notes, image: $image, lat: $lat, lng: $lng, state: $state, status: $status, createdAt: $createdAt, type: $type, district: $district, featured: $featured, bookable: $bookable, distance: $distance, declineReason: $declineReason, categories: $categories)';
 }
 
 
@@ -313,7 +331,7 @@ abstract mixin class _$ProviderListModelCopyWith<$Res> implements $ProviderListM
   factory _$ProviderListModelCopyWith(_ProviderListModel value, $Res Function(_ProviderListModel) _then) = __$ProviderListModelCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String? serviceProviderNameAr, String? serviceProviderNameEn, String? mobileNumber1, String? mobileNumber2, String? contactPersonName, String? notes, Map<String, dynamic>? image, double? lat, double? lng, String state, String status, DateTime? createdAt, SpTypeModel? type, DistrictModel? district, bool? featured, bool? bookable, double? distance
+ int id, String? serviceProviderNameAr, String? serviceProviderNameEn, String? mobileNumber1, String? mobileNumber2, String? contactPersonName, String? notes, Map<String, dynamic>? image, double? lat, double? lng, String state, String status, DateTime? createdAt, SpTypeModel? type, DistrictModel? district, bool? featured, bool? bookable, double? distance,@JsonKey(readValue: _readComputedDeclineReason) String? declineReason,@JsonKey(readValue: _readComputedCategories) List<CategoryModel>? categories
 });
 
 
@@ -330,7 +348,7 @@ class __$ProviderListModelCopyWithImpl<$Res>
 
 /// Create a copy of ProviderListModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? serviceProviderNameAr = freezed,Object? serviceProviderNameEn = freezed,Object? mobileNumber1 = freezed,Object? mobileNumber2 = freezed,Object? contactPersonName = freezed,Object? notes = freezed,Object? image = freezed,Object? lat = freezed,Object? lng = freezed,Object? state = null,Object? status = null,Object? createdAt = freezed,Object? type = freezed,Object? district = freezed,Object? featured = freezed,Object? bookable = freezed,Object? distance = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? serviceProviderNameAr = freezed,Object? serviceProviderNameEn = freezed,Object? mobileNumber1 = freezed,Object? mobileNumber2 = freezed,Object? contactPersonName = freezed,Object? notes = freezed,Object? image = freezed,Object? lat = freezed,Object? lng = freezed,Object? state = null,Object? status = null,Object? createdAt = freezed,Object? type = freezed,Object? district = freezed,Object? featured = freezed,Object? bookable = freezed,Object? distance = freezed,Object? declineReason = freezed,Object? categories = freezed,}) {
   return _then(_ProviderListModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,serviceProviderNameAr: freezed == serviceProviderNameAr ? _self.serviceProviderNameAr : serviceProviderNameAr // ignore: cast_nullable_to_non_nullable
@@ -350,7 +368,9 @@ as SpTypeModel?,district: freezed == district ? _self.district : district // ign
 as DistrictModel?,featured: freezed == featured ? _self.featured : featured // ignore: cast_nullable_to_non_nullable
 as bool?,bookable: freezed == bookable ? _self.bookable : bookable // ignore: cast_nullable_to_non_nullable
 as bool?,distance: freezed == distance ? _self.distance : distance // ignore: cast_nullable_to_non_nullable
-as double?,
+as double?,declineReason: freezed == declineReason ? _self.declineReason : declineReason // ignore: cast_nullable_to_non_nullable
+as String?,categories: freezed == categories ? _self._categories : categories // ignore: cast_nullable_to_non_nullable
+as List<CategoryModel>?,
   ));
 }
 

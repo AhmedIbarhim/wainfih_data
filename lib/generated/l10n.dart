@@ -424,6 +424,26 @@ class S {
     );
   }
 
+  /// `Please select at least one category`
+  String get validationCategoriesRequired {
+    return Intl.message(
+      'Please select at least one category',
+      name: 'validationCategoriesRequired',
+      desc: 'Validation: at least one category required',
+      args: [],
+    );
+  }
+
+  /// `Rejection reason`
+  String get rejectionReason {
+    return Intl.message(
+      'Rejection reason',
+      name: 'rejectionReason',
+      desc: 'Label for the admin-provided decline reason',
+      args: [],
+    );
+  }
+
   /// `My Service Providers`
   String get myProvidersTitle {
     return Intl.message(

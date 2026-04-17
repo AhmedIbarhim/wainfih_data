@@ -26,10 +26,15 @@ class QueueManager {
 
   void startListening() {
     _connectivitySubscription = Connectivity().onConnectivityChanged.listen(
-      (results) {
-        if (!results.contains(ConnectivityResult.none)) {
-          processQueue();
-        }
+      (results) async {
+        if (results.contains(ConnectivityResult.none)) return;
+        // Short settle delay: on Android the interface is reported UP before
+        // the routing table stabilises, and on first-resume secure-storage
+        // channel may not yet have resolved the token. Without this, the
+        // first sync after reconnect 401s / times out and only the user's
+        // manual retry succeeds.
+        await Future<void>.delayed(const Duration(milliseconds: 500));
+        processQueue();
       },
     );
   }
@@ -46,8 +51,15 @@ class QueueManager {
       // Reset items stuck from a previous interrupted session
       await _queue.resetStuckItems();
 
-      // Check auth first
-      final token = await _authLocalDataSource.token;
+      // Check auth first. If the token hasn't been read yet (secure storage
+      // channel still warming up after app resume), give it one short retry
+      // before giving up — otherwise the items stay pending and the user
+      // has to tap retry manually.
+      var token = await _authLocalDataSource.token;
+      if (token == null) {
+        await Future<void>.delayed(const Duration(milliseconds: 500));
+        token = await _authLocalDataSource.token;
+      }
       if (token == null) return;
       if (await _authLocalDataSource.isTokenExpired) return;
 

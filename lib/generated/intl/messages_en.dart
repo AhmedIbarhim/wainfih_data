@@ -125,6 +125,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "queuedOfflineMessage": MessageLookupByLibrary.simpleMessage(
       "Request saved and will be sent automatically when back online",
     ),
+    "rejectionReason": MessageLookupByLibrary.simpleMessage("Rejection reason"),
     "resendCode": MessageLookupByLibrary.simpleMessage("Resend Code"),
     "retryButton": MessageLookupByLibrary.simpleMessage("Retry"),
     "roleRejectionError": MessageLookupByLibrary.simpleMessage(
@@ -167,6 +168,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "userInfo": MessageLookupByLibrary.simpleMessage("User Information"),
     "validationAtLeastOneName": MessageLookupByLibrary.simpleMessage(
       "At least one provider name (Arabic or English) is required",
+    ),
+    "validationCategoriesRequired": MessageLookupByLibrary.simpleMessage(
+      "Please select at least one category",
     ),
     "validationDistrictRequired": MessageLookupByLibrary.simpleMessage(
       "District is required",
