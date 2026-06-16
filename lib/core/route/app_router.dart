@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../features/add_provider/data/data_sources/provider_remote_data_source.dart';
 import '../../features/add_provider/data/repos/provider_submission_repository.dart';
 import '../../features/add_provider/presentation/cubit/add_provider_cubit.dart';
-import '../../features/adding_new_provider/presentation/views/add_provider_view.dart';
+import '../../features/add_provider/presentation/views/add_provider_view.dart';
 import '../../features/auth/data/data_sources/auth_local_data_source.dart';
 import '../../features/auth/data/data_sources/auth_remote_data_source.dart';
 import '../../features/auth/data/repos/auth_repository.dart';
@@ -60,7 +60,10 @@ abstract class AppRouter {
         );
 
       case Routes.home:
-        return MaterialPageRoute(settings: settings, builder: (_) => const HomeView());
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const HomeView(),
+        );
 
       case Routes.addProvider:
         final provider = settings.arguments as ProviderListModel?;
@@ -70,7 +73,9 @@ abstract class AppRouter {
             providers: [
               BlocProvider(
                 create: (_) => AddProviderCubit(
-                  ProviderSubmissionRepository(locator<ProviderRemoteDataSource>()),
+                  ProviderSubmissionRepository(
+                    locator<ProviderRemoteDataSource>(),
+                  ),
                   locator<SubmissionQueue>(),
                 ),
               ),
@@ -107,16 +112,18 @@ abstract class AppRouter {
         return MaterialPageRoute(
           settings: settings,
           builder: (_) => BlocProvider(
-            create: (_) => QueueCubit(
-              locator<SubmissionQueue>(),
-              locator<QueueManager>(),
-            )..refresh(),
+            create: (_) =>
+                QueueCubit(locator<SubmissionQueue>(), locator<QueueManager>())
+                  ..refresh(),
             child: const QueueView(),
           ),
         );
 
       default:
-        return MaterialPageRoute(settings: settings, builder: (_) => const Placeholder());
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const Placeholder(),
+        );
     }
   }
 }

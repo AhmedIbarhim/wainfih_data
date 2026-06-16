@@ -34,7 +34,9 @@ class LookupsRemoteDataSource {
       }
       final data = e.response?.data;
       final message = (data is Map ? data['message'] : null) ?? 'UNKNOWN_ERROR';
-      return left(message is List ? message.first.toString() : message.toString());
+      return left(
+        message is List ? message.first.toString() : message.toString(),
+      );
     }
   }
 
@@ -42,10 +44,7 @@ class LookupsRemoteDataSource {
     try {
       final response = await _apiClient.get(
         '/district',
-        queryParameters: {
-          'take': 10000,
-          'with': 'city',
-        },
+        queryParameters: {'take': 10000, 'with': 'city'},
       );
       final paged = PagedResponse.fromJson(
         response.data as Map<String, dynamic>,
@@ -61,7 +60,9 @@ class LookupsRemoteDataSource {
       }
       final data = e.response?.data;
       final message = (data is Map ? data['message'] : null) ?? 'UNKNOWN_ERROR';
-      return left(message is List ? message.first.toString() : message.toString());
+      return left(
+        message is List ? message.first.toString() : message.toString(),
+      );
     }
   }
 
@@ -91,7 +92,9 @@ class LookupsRemoteDataSource {
       }
       final data = e.response?.data;
       final message = (data is Map ? data['message'] : null) ?? 'UNKNOWN_ERROR';
-      return left(message is List ? message.first.toString() : message.toString());
+      return left(
+        message is List ? message.first.toString() : message.toString(),
+      );
     }
   }
 
@@ -117,7 +120,9 @@ class LookupsRemoteDataSource {
       }
       final data = e.response?.data;
       final message = (data is Map ? data['message'] : null) ?? 'UNKNOWN_ERROR';
-      return left(message is List ? message.first.toString() : message.toString());
+      return left(
+        message is List ? message.first.toString() : message.toString(),
+      );
     }
   }
 
@@ -141,7 +146,9 @@ class LookupsRemoteDataSource {
       }
       final data = e.response?.data;
       final message = (data is Map ? data['message'] : null) ?? 'UNKNOWN_ERROR';
-      return left(message is List ? message.first.toString() : message.toString());
+      return left(
+        message is List ? message.first.toString() : message.toString(),
+      );
     }
   }
 
@@ -165,7 +172,9 @@ class LookupsRemoteDataSource {
       }
       final data = e.response?.data;
       final message = (data is Map ? data['message'] : null) ?? 'UNKNOWN_ERROR';
-      return left(message is List ? message.first.toString() : message.toString());
+      return left(
+        message is List ? message.first.toString() : message.toString(),
+      );
     }
   }
 
@@ -197,7 +206,9 @@ class LookupsRemoteDataSource {
       }
       final data = e.response?.data;
       final message = (data is Map ? data['message'] : null) ?? 'UNKNOWN_ERROR';
-      return left(message is List ? message.first.toString() : message.toString());
+      return left(
+        message is List ? message.first.toString() : message.toString(),
+      );
     }
   }
 }

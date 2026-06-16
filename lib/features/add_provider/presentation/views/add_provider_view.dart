@@ -14,9 +14,9 @@ import '../../../../core/route/routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/app_text_styles.dart';
 import '../../../../generated/l10n.dart';
-import '../../../add_provider/data/models/upsert_provider_ui_model.dart';
-import '../../../add_provider/presentation/cubit/add_provider_cubit.dart';
-import '../../../add_provider/presentation/cubit/add_provider_state.dart';
+import '../../data/models/upsert_provider_ui_model.dart';
+import '../cubit/add_provider_cubit.dart';
+import '../cubit/add_provider_state.dart';
 import '../../../images/presentation/widgets/image_field.dart';
 import '../../../lookups/data/models/category_model.dart';
 import '../../../lookups/data/models/city_model.dart';
@@ -70,9 +70,7 @@ class _AddProviderViewState extends State<AddProviderView> {
   @override
   Widget build(BuildContext context) {
     final l = S.of(context);
-    final title = uiModel.isEditing
-        ? l.editButton
-        : l.addProviderTitle;
+    final title = uiModel.isEditing ? l.editButton : l.addProviderTitle;
 
     return BlocListener<AddProviderCubit, AddProviderState>(
       listener: (context, state) {
@@ -82,17 +80,16 @@ class _AddProviderViewState extends State<AddProviderView> {
             (route) => route.settings.name == Routes.home,
           );
         } else if (state is AddProviderQueuedOffline) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l.queuedOfflineMessage)),
-          );
-          Navigator.of(context).pushNamedAndRemoveUntil(
-            Routes.home,
-            (route) => false,
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(l.queuedOfflineMessage)));
+          Navigator.of(
+            context,
+          ).pushNamedAndRemoveUntil(Routes.home, (route) => false);
         } else if (state is AddProviderSubmitFailed) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message)),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(state.message)));
         }
       },
       child: PopScope(
@@ -102,58 +99,54 @@ class _AddProviderViewState extends State<AddProviderView> {
           _handleBack(context);
         },
         child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(title, style: AppTextStyles.bold19),
-          leading: InkWell(
-            onTap: () => _handleBack(context),
-            child: const Icon(Icons.arrow_back_ios),
+          appBar: AppBar(
+            centerTitle: true,
+            title: Text(title, style: AppTextStyles.bold19),
+            leading: InkWell(
+              onTap: () => _handleBack(context),
+              child: const Icon(Icons.arrow_back_ios),
+            ),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
           ),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              const SizedBox(height: 20),
-              AddingProviderSteps(
-                currentIndex: currentIndex,
-                pageController: pageController,
-              ),
-              const SizedBox(height: 20),
-              Expanded(
-                child: PageView(
-                  controller: pageController,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    _Step1BasicInfo(
-                      uiModel: uiModel,
-                    ),
-                    _Step2PhotoAndLocation(uiModel: uiModel),
-                    _Step3Classification(uiModel: uiModel),
-                  ],
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                AddingProviderSteps(
+                  currentIndex: currentIndex,
+                  pageController: pageController,
                 ),
-              ),
-              const SizedBox(height: 20),
-              BlocBuilder<AddProviderCubit, AddProviderState>(
-                builder: (context, state) {
-                  final isSubmitting = state is AddProviderSubmitting;
-                  final isUploading = state is AddProviderImageUploading;
-                  return MainButton(
-                    text: currentIndex == 2
-                        ? l.submitButton
-                        : l.nextButton,
-                    isLoading: isSubmitting || isUploading,
-                    onTap: () => _handleNext(context),
-                  );
-                },
-              ),
-              const SizedBox(height: 30),
-            ],
+                const SizedBox(height: 20),
+                Expanded(
+                  child: PageView(
+                    controller: pageController,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      _Step1BasicInfo(uiModel: uiModel),
+                      _Step2PhotoAndLocation(uiModel: uiModel),
+                      _Step3Classification(uiModel: uiModel),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
+                BlocBuilder<AddProviderCubit, AddProviderState>(
+                  builder: (context, state) {
+                    final isSubmitting = state is AddProviderSubmitting;
+                    final isUploading = state is AddProviderImageUploading;
+                    return MainButton(
+                      text: currentIndex == 2 ? l.submitButton : l.nextButton,
+                      isLoading: isSubmitting || isUploading,
+                      onTap: () => _handleNext(context),
+                    );
+                  },
+                ),
+                const SizedBox(height: 30),
+              ],
+            ),
           ),
         ),
-      ),
       ),
     );
   }
@@ -163,51 +156,51 @@ class _AddProviderViewState extends State<AddProviderView> {
     if (currentIndex == 0) {
       // Validate basic info
       if (uiModel.nameAr.text.isEmpty && uiModel.nameEn.text.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l.validationAtLeastOneName)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l.validationAtLeastOneName)));
         return;
       }
       if (uiModel.mobile1.text.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l.validationMobileRequired)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l.validationMobileRequired)));
         return;
       }
       _moveToNextStep();
     } else if (currentIndex == 1) {
       // Validate photo and location
       if (uiModel.imageFile.value == null && uiModel.imageJson.value == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l.validationImageRequired)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l.validationImageRequired)));
         return;
       }
       if (uiModel.location.value == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l.validationLocationRequired)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l.validationLocationRequired)));
         return;
       }
       _moveToNextStep();
     } else {
       // Validate classification and submit
       if (uiModel.selectedType.value == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l.validationTypeRequired)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l.validationTypeRequired)));
         return;
       }
       if (uiModel.selectedDistrict.value == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l.validationDistrictRequired)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l.validationDistrictRequired)));
         return;
       }
       if (uiModel.selectedCategories.value.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l.validationCategoriesRequired)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l.validationCategoriesRequired)));
         return;
       }
       context.read<AddProviderCubit>().submit(uiModel);
@@ -259,9 +252,7 @@ class _AddProviderViewState extends State<AddProviderView> {
 
 // --- Step 1: Basic Info ---
 class _Step1BasicInfo extends StatelessWidget {
-  const _Step1BasicInfo({
-    required this.uiModel,
-  });
+  const _Step1BasicInfo({required this.uiModel});
 
   final UpsertProviderUiModel uiModel;
 
@@ -302,10 +293,7 @@ class _Step1BasicInfo extends StatelessWidget {
             suffixIcon: const Icon(Icons.person_outline),
           ),
           const SizedBox(height: 16),
-          CustomTextFormField(
-            controller: uiModel.notes,
-            label: l.notes,
-          ),
+          CustomTextFormField(controller: uiModel.notes, label: l.notes),
           const SizedBox(height: 20),
         ],
       ),
@@ -386,7 +374,8 @@ class _Step2PhotoAndLocationState extends State<_Step2PhotoAndLocation>
                 value: _locationCubit,
                 child: BlocConsumer<LocationCubit, LocationState>(
                   listener: (context, state) {
-                    if (state is LocationSuccess && uiModel.location.value == null) {
+                    if (state is LocationSuccess &&
+                        uiModel.location.value == null) {
                       uiModel.location.value = LatLng(
                         state.location.latitude,
                         state.location.longitude,
@@ -402,7 +391,8 @@ class _Step2PhotoAndLocationState extends State<_Step2PhotoAndLocation>
                       return Center(child: Text(state.message));
                     }
 
-                    final pos = uiModel.location.value ??
+                    final pos =
+                        uiModel.location.value ??
                         const LatLng(24.7136, 46.6753); // Default Riyadh
 
                     return Stack(
@@ -472,8 +462,7 @@ class _Step2PhotoAndLocationState extends State<_Step2PhotoAndLocation>
                                 if (!mounted) return;
                                 uiModel.location.value = loc;
                                 if (!_mapController.isCompleted) return;
-                                final controller =
-                                    await _mapController.future;
+                                final controller = await _mapController.future;
                                 controller.animateCamera(
                                   CameraUpdate.newLatLngZoom(loc, _currentZoom),
                                 );
@@ -524,7 +513,8 @@ class _Step3ClassificationState extends State<_Step3Classification>
     // Check if auto-detect already happened while we weren't listening
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final state = context.read<LookupsCubit>().state;
-      if (state.autoDetectedDistrict != null && _lastAutoFilledDistrictId == null) {
+      if (state.autoDetectedDistrict != null &&
+          _lastAutoFilledDistrictId == null) {
         final detected = state.autoDetectedDistrict!;
         widget.uiModel.selectedDistrict.value = detected;
         if (detected.city != null) {
@@ -671,7 +661,9 @@ class _SearchableDropdown<T> extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(8)),
           ),
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: enabled ? Colors.grey : Colors.grey.shade300),
+            borderSide: BorderSide(
+              color: enabled ? Colors.grey : Colors.grey.shade300,
+            ),
             borderRadius: const BorderRadius.all(Radius.circular(8)),
           ),
           filled: true,
@@ -715,9 +707,11 @@ class _SearchableDropdown<T> extends StatelessWidget {
                       onChanged: (value) {
                         setDialogState(() {
                           filtered = items
-                              .where((item) => itemLabel(item)
-                                  .toLowerCase()
-                                  .contains(value.toLowerCase()))
+                              .where(
+                                (item) => itemLabel(
+                                  item,
+                                ).toLowerCase().contains(value.toLowerCase()),
+                              )
                               .toList();
                         });
                       },

@@ -8,7 +8,7 @@ import '../../../core/route/routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/app_text_styles.dart';
 import '../../../generated/l10n.dart';
-import '../../adding_new_provider/presentation/widgets/home_action_card.dart';
+import '../widgets/home_action_card.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -154,10 +154,7 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
 }
 
 class _QueueActionCard extends StatelessWidget {
-  const _QueueActionCard({
-    required this.pendingCount,
-    required this.onTap,
-  });
+  const _QueueActionCard({required this.pendingCount, required this.onTap});
 
   final int pendingCount;
   final VoidCallback onTap;
@@ -215,8 +212,10 @@ class _QueueActionCard extends StatelessWidget {
                 top: 12,
                 left: 12,
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.errorColor,
                     borderRadius: BorderRadius.circular(12),

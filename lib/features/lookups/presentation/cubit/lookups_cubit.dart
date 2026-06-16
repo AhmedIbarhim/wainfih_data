@@ -12,7 +12,7 @@ class LookupsCubit extends Cubit<LookupsState> {
   List<DistrictModel> _allDistricts = [];
 
   LookupsCubit(this._remoteDataSource, this._localDataSource)
-      : super(const LookupsState());
+    : super(const LookupsState());
 
   Future<void> loadInitialData() async {
     emit(state.copyWith(isLoading: true));
@@ -21,12 +21,14 @@ class LookupsCubit extends Cubit<LookupsState> {
     final cache = await _localDataSource.loadCache();
     if (cache != null) {
       _allDistricts = cache.districts;
-      emit(state.copyWith(
-        isLoading: false,
-        cities: cache.cities,
-        serviceTypes: cache.serviceTypes,
-        categories: cache.categories,
-      ));
+      emit(
+        state.copyWith(
+          isLoading: false,
+          cities: cache.cities,
+          serviceTypes: cache.serviceTypes,
+          categories: cache.categories,
+        ),
+      );
     }
 
     // 2. Refresh from network in background
@@ -43,12 +45,14 @@ class LookupsCubit extends Cubit<LookupsState> {
         },
         (cache) {
           _allDistricts = cache.districts;
-          emit(state.copyWith(
-            isLoading: false,
-            cities: cache.cities,
-            serviceTypes: cache.serviceTypes,
-            categories: cache.categories,
-          ));
+          emit(
+            state.copyWith(
+              isLoading: false,
+              cities: cache.cities,
+              serviceTypes: cache.serviceTypes,
+              categories: cache.categories,
+            ),
+          );
           // Save to local cache
           _localDataSource.saveCache(cache);
         },
@@ -83,14 +87,11 @@ class LookupsCubit extends Cubit<LookupsState> {
       lat: lat,
       lng: lng,
     );
-    result.fold(
-      (_) => {},
-      (district) {
-        emit(state.copyWith(autoDetectedDistrict: district));
-        if (district.cityId > 0) {
-          loadDistrictsForCity(district.cityId);
-        }
-      },
-    );
+    result.fold((_) => {}, (district) {
+      emit(state.copyWith(autoDetectedDistrict: district));
+      if (district.cityId > 0) {
+        loadDistrictsForCity(district.cityId);
+      }
+    });
   }
 }
