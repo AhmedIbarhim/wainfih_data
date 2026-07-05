@@ -101,6 +101,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "No service providers found",
     ),
     "notes": MessageLookupByLibrary.simpleMessage("Notes"),
+    "optional": MessageLookupByLibrary.simpleMessage("Optional"),
     "passwordLabel": MessageLookupByLibrary.simpleMessage("Password"),
     "providerDetailTitle": MessageLookupByLibrary.simpleMessage(
       "Provider Details",

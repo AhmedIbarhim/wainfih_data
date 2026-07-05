@@ -1,12 +1,10 @@
 import 'dart:async';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import '../../../../core/components/custom_text_form_field.dart';
 import '../../../../core/components/main_button.dart';
 import '../../../../core/helpers/handle_location_permission.dart';
@@ -18,7 +16,7 @@ import '../../data/models/upsert_provider_ui_model.dart';
 import '../cubit/add_provider_cubit.dart';
 import '../cubit/add_provider_state.dart';
 import '../../../images/presentation/widgets/image_field.dart';
-import '../../../lookups/data/models/category_model.dart';
+// import '../../../lookups/data/models/category_model.dart';
 import '../../../lookups/data/models/city_model.dart';
 import '../../../lookups/data/models/district_model.dart';
 import '../../../lookups/data/models/sp_type_model.dart';
@@ -191,18 +189,18 @@ class _AddProviderViewState extends State<AddProviderView> {
         ).showSnackBar(SnackBar(content: Text(l.validationTypeRequired)));
         return;
       }
-      if (uiModel.selectedDistrict.value == null) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(l.validationDistrictRequired)));
-        return;
-      }
-      if (uiModel.selectedCategories.value.isEmpty) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(l.validationCategoriesRequired)));
-        return;
-      }
+      // if (uiModel.selectedDistrict.value == null) {
+      //   ScaffoldMessenger.of(
+      //     context,
+      //   ).showSnackBar(SnackBar(content: Text(l.validationDistrictRequired)));
+      //   return;
+      // }
+      // if (uiModel.selectedCategories.value.isEmpty) {
+      //   ScaffoldMessenger.of(
+      //     context,
+      //   ).showSnackBar(SnackBar(content: Text(l.validationCategoriesRequired)));
+      //   return;
+      // }
       context.read<AddProviderCubit>().submit(uiModel);
     }
   }
@@ -270,7 +268,7 @@ class _Step1BasicInfo extends StatelessWidget {
           const SizedBox(height: 16),
           CustomTextFormField(
             controller: uiModel.nameEn,
-            label: l.providerNameEn,
+            label: "${l.providerNameEn} (${l.optional})",
           ),
           const SizedBox(height: 16),
           CustomTextFormField(
@@ -282,18 +280,21 @@ class _Step1BasicInfo extends StatelessWidget {
           const SizedBox(height: 16),
           CustomTextFormField(
             controller: uiModel.mobile2,
-            label: l.secondMobile,
+            label: "${l.secondMobile} (${l.optional})",
             keyboardType: TextInputType.phone,
             suffixIcon: const Icon(Icons.phone_android),
           ),
           const SizedBox(height: 16),
           CustomTextFormField(
             controller: uiModel.contactPerson,
-            label: l.contactPerson,
+            label: "${l.contactPerson} (${l.optional})",
             suffixIcon: const Icon(Icons.person_outline),
           ),
           const SizedBox(height: 16),
-          CustomTextFormField(controller: uiModel.notes, label: l.notes),
+          CustomTextFormField(
+            controller: uiModel.notes,
+            label: "${l.notes} (${l.optional})",
+          ),
           const SizedBox(height: 20),
         ],
       ),
@@ -611,14 +612,14 @@ class _Step3ClassificationState extends State<_Step3Classification>
               ),
               const SizedBox(height: 16),
               // Multi-select Categories
-              _MultiSelectCategories(
-                label: l.categoriesLabel,
-                items: state.categories,
-                selectedItems: uiModel.selectedCategories.value,
-                onChanged: (cats) {
-                  setState(() => uiModel.selectedCategories.value = cats);
-                },
-              ),
+              // _MultiSelectCategories(
+              //   label: l.categoriesLabel,
+              //   items: state.categories,
+              //   selectedItems: uiModel.selectedCategories.value,
+              //   onChanged: (cats) {
+              //     setState(() => uiModel.selectedCategories.value = cats);
+              //   },
+              // ),
               const SizedBox(height: 20),
             ],
           ),
@@ -655,7 +656,7 @@ class _SearchableDropdown<T> extends StatelessWidget {
       child: InputDecorator(
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: AppTextStyles.regular11,
+          labelStyle: AppTextStyles.regular19,
           border: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.grey),
             borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -674,7 +675,7 @@ class _SearchableDropdown<T> extends StatelessWidget {
           !enabled && disabledHint != null
               ? disabledHint!
               : (selectedItem != null ? itemLabel(selectedItem as T) : ''),
-          style: AppTextStyles.regular13.copyWith(
+          style: AppTextStyles.bold19.copyWith(
             color: enabled ? null : Colors.grey,
           ),
         ),
@@ -746,113 +747,113 @@ class _SearchableDropdown<T> extends StatelessWidget {
 }
 
 // --- Multi Select Categories Widget ---
-class _MultiSelectCategories extends StatelessWidget {
-  const _MultiSelectCategories({
-    required this.label,
-    required this.items,
-    required this.selectedItems,
-    required this.onChanged,
-  });
+// class _MultiSelectCategories extends StatelessWidget {
+//   const _MultiSelectCategories({
+//     required this.label,
+//     required this.items,
+//     required this.selectedItems,
+//     required this.onChanged,
+//   });
 
-  final String label;
-  final List<CategoryModel> items;
-  final List<CategoryModel> selectedItems;
-  final ValueChanged<List<CategoryModel>> onChanged;
+//   final String label;
+//   final List<CategoryModel> items;
+//   final List<CategoryModel> selectedItems;
+//   final ValueChanged<List<CategoryModel>> onChanged;
 
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => _showMultiSelectDialog(context),
-      child: InputDecorator(
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: AppTextStyles.regular11,
-          border: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-          ),
-          enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-          ),
-          filled: true,
-          suffixIcon: const Icon(Icons.arrow_drop_down),
-        ),
-        child: selectedItems.isEmpty
-            ? const SizedBox.shrink()
-            : Wrap(
-                spacing: 6,
-                runSpacing: 4,
-                children: selectedItems.map((cat) {
-                  return Chip(
-                    label: Text(
-                      cat.categoryNameAr,
-                      style: AppTextStyles.regular11,
-                    ),
-                    deleteIcon: const Icon(Icons.close, size: 16),
-                    onDeleted: () {
-                      final updated = List<CategoryModel>.from(selectedItems)
-                        ..remove(cat);
-                      onChanged(updated);
-                    },
-                  );
-                }).toList(),
-              ),
-      ),
-    );
-  }
+//   @override
+//   Widget build(BuildContext context) {
+//     return InkWell(
+//       onTap: () => _showMultiSelectDialog(context),
+//       child: InputDecorator(
+//         decoration: InputDecoration(
+//           labelText: label,
+//           labelStyle: AppTextStyles.regular16,
+//           border: const OutlineInputBorder(
+//             borderSide: BorderSide(color: Colors.grey),
+//             borderRadius: BorderRadius.all(Radius.circular(8)),
+//           ),
+//           enabledBorder: const OutlineInputBorder(
+//             borderSide: BorderSide(color: Colors.grey),
+//             borderRadius: BorderRadius.all(Radius.circular(8)),
+//           ),
+//           filled: true,
+//           suffixIcon: const Icon(Icons.arrow_drop_down),
+//         ),
+//         child: selectedItems.isEmpty
+//             ? const SizedBox.shrink()
+//             : Wrap(
+//                 spacing: 6,
+//                 runSpacing: 4,
+//                 children: selectedItems.map((cat) {
+//                   return Chip(
+//                     label: Text(
+//                       cat.categoryNameAr,
+//                       style: AppTextStyles.bold19,
+//                     ),
+//                     deleteIcon: const Icon(Icons.close, size: 16),
+//                     onDeleted: () {
+//                       final updated = List<CategoryModel>.from(selectedItems)
+//                         ..remove(cat);
+//                       onChanged(updated);
+//                     },
+//                   );
+//                 }).toList(),
+//               ),
+//       ),
+//     );
+//   }
 
-  void _showMultiSelectDialog(BuildContext context) {
-    final selected = List<CategoryModel>.from(selectedItems);
-    showDialog(
-      context: context,
-      builder: (ctx) {
-        return StatefulBuilder(
-          builder: (ctx, setDialogState) {
-            return AlertDialog(
-              title: Text(label, style: AppTextStyles.bold16),
-              content: SizedBox(
-                width: double.maxFinite,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: items.length,
-                  itemBuilder: (_, i) {
-                    final cat = items[i];
-                    final isChecked = selected.any((s) => s.id == cat.id);
-                    return CheckboxListTile(
-                      title: Text(cat.categoryNameAr),
-                      value: isChecked,
-                      activeColor: AppColors.primaryColor,
-                      onChanged: (checked) {
-                        setDialogState(() {
-                          if (checked == true) {
-                            selected.add(cat);
-                          } else {
-                            selected.removeWhere((s) => s.id == cat.id);
-                          }
-                        });
-                      },
-                    );
-                  },
-                ),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(ctx).pop(),
-                  child: Text(S.of(context).cancel),
-                ),
-                TextButton(
-                  onPressed: () {
-                    onChanged(selected);
-                    Navigator.of(ctx).pop();
-                  },
-                  child: Text(S.of(context).confirm),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
-  }
-}
+//   void _showMultiSelectDialog(BuildContext context) {
+//     final selected = List<CategoryModel>.from(selectedItems);
+//     showDialog(
+//       context: context,
+//       builder: (ctx) {
+//         return StatefulBuilder(
+//           builder: (ctx, setDialogState) {
+//             return AlertDialog(
+//               title: Text(label, style: AppTextStyles.bold16),
+//               content: SizedBox(
+//                 width: double.maxFinite,
+//                 child: ListView.builder(
+//                   shrinkWrap: true,
+//                   itemCount: items.length,
+//                   itemBuilder: (_, i) {
+//                     final cat = items[i];
+//                     final isChecked = selected.any((s) => s.id == cat.id);
+//                     return CheckboxListTile(
+//                       title: Text(cat.categoryNameAr),
+//                       value: isChecked,
+//                       activeColor: AppColors.primaryColor,
+//                       onChanged: (checked) {
+//                         setDialogState(() {
+//                           if (checked == true) {
+//                             selected.add(cat);
+//                           } else {
+//                             selected.removeWhere((s) => s.id == cat.id);
+//                           }
+//                         });
+//                       },
+//                     );
+//                   },
+//                 ),
+//               ),
+//               actions: [
+//                 TextButton(
+//                   onPressed: () => Navigator.of(ctx).pop(),
+//                   child: Text(S.of(context).cancel),
+//                 ),
+//                 TextButton(
+//                   onPressed: () {
+//                     onChanged(selected);
+//                     Navigator.of(ctx).pop();
+//                   },
+//                   child: Text(S.of(context).confirm),
+//                 ),
+//               ],
+//             );
+//           },
+//         );
+//       },
+//     );
+//   }
+// }

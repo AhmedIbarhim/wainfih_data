@@ -1,463 +1,372 @@
 {
   "@@locale": "en",
-
   "loginTitle": "Welcome Back",
   "@loginTitle": {
     "description": "Login screen welcome title"
   },
-
   "loginSubtitle": "Enter your email and password to sign in",
   "@loginSubtitle": {
     "description": "Login screen subtitle"
   },
-
   "emailLabel": "Email",
   "@emailLabel": {
     "description": "Email input label"
   },
-
   "passwordLabel": "Password",
   "@passwordLabel": {
     "description": "Password input label"
   },
-
   "mobileLabel": "Mobile Number",
   "@mobileLabel": {
     "description": "Mobile number input label"
   },
-
   "loginButton": "Sign In",
   "@loginButton": {
     "description": "Login button text"
   },
-
   "logoutButton": "Sign Out",
   "@logoutButton": {
     "description": "Logout button text"
   },
-
   "roleRejectionError": "You do not have permission to access this app",
   "@roleRejectionError": {
     "description": "Error shown when user role is not authorized"
   },
-
   "suspendedAccountError": "Your account is suspended, please contact support",
   "@suspendedAccountError": {
     "description": "Error shown when account is suspended"
   },
-
   "invalidCredentialsError": "Invalid credentials",
   "@invalidCredentialsError": {
     "description": "Error shown when credentials are invalid"
   },
-
   "emailNotVerifiedError": "Email is not verified, please check your inbox",
   "@emailNotVerifiedError": {
     "description": "Error shown when email is not verified"
   },
-
   "stepBasicInfo": "Details",
   "@stepBasicInfo": {
     "description": "Step name: basic info"
   },
-
   "stepPhotoAndLocation": "Photo & Location",
   "@stepPhotoAndLocation": {
     "description": "Step name: photo and location"
   },
-
   "stepClassification": "Classification",
   "@stepClassification": {
     "description": "Step name: classification"
   },
-
   "nextButton": "Next",
   "@nextButton": {
     "description": "Next button text"
   },
-
   "saveButton": "Save",
   "@saveButton": {
     "description": "Save button text"
   },
-
   "submitButton": "Submit",
   "@submitButton": {
     "description": "Submit button text"
   },
-
   "addProviderTitle": "Add New Service Provider",
   "@addProviderTitle": {
     "description": "Add provider screen title"
   },
-
   "providerNameAr": "Provider Name (Arabic)",
   "@providerNameAr": {
     "description": "Provider name in Arabic field label"
   },
-
   "providerNameEn": "Provider Name (English)",
   "@providerNameEn": {
     "description": "Provider name in English field label"
   },
-
   "mobileNumber": "Mobile Number",
   "@mobileNumber": {
     "description": "Mobile number field label"
   },
-
   "secondMobile": "Second Mobile Number",
   "@secondMobile": {
     "description": "Second mobile number field label"
   },
-
   "contactPerson": "Contact Person",
   "@contactPerson": {
     "description": "Contact person field label"
   },
-
   "notes": "Notes",
   "@notes": {
     "description": "Notes field label"
   },
-
   "serviceType": "Service Type",
   "@serviceType": {
     "description": "Service type dropdown label"
   },
-
   "cityLabel": "City",
   "@cityLabel": {
     "description": "City dropdown label"
   },
-
   "districtLabel": "District",
   "@districtLabel": {
     "description": "District dropdown label"
   },
-
   "categoriesLabel": "Categories",
   "@categoriesLabel": {
     "description": "Categories dropdown label"
   },
-
   "takePhoto": "Take Photo",
   "@takePhoto": {
     "description": "Take photo option in image picker"
   },
-
   "selectFromGallery": "Select from Gallery",
   "@selectFromGallery": {
     "description": "Select from gallery option in image picker"
   },
-
   "selectLocation": "Select Location",
   "@selectLocation": {
     "description": "Select location button text"
   },
-
   "validationAtLeastOneName": "At least one provider name (Arabic or English) is required",
   "@validationAtLeastOneName": {
     "description": "Validation: at least one name required"
   },
-
   "validationMobileRequired": "Mobile number is required",
   "@validationMobileRequired": {
     "description": "Validation: mobile number required"
   },
-
   "validationImageRequired": "At least one image is required",
   "@validationImageRequired": {
     "description": "Validation: at least one image required"
   },
-
   "validationLocationRequired": "Please select a location on the map",
   "@validationLocationRequired": {
     "description": "Validation: location required"
   },
-
   "validationTypeRequired": "Service type is required",
   "@validationTypeRequired": {
     "description": "Validation: service type required"
   },
-
   "validationDistrictRequired": "District is required",
   "@validationDistrictRequired": {
     "description": "Validation: district required"
   },
-
   "validationCategoriesRequired": "Please select at least one category",
   "@validationCategoriesRequired": {
     "description": "Validation: at least one category required"
   },
-
   "rejectionReason": "Rejection reason",
   "@rejectionReason": {
     "description": "Label for the admin-provided decline reason"
   },
-
   "myProvidersTitle": "My Service Providers",
   "@myProvidersTitle": {
     "description": "My Providers screen title"
   },
-
   "filterAll": "All",
   "@filterAll": {
     "description": "Filter chip: all"
   },
-
   "filterPending": "Pending",
   "@filterPending": {
     "description": "Filter chip: pending"
   },
-
   "filterApproved": "Approved",
   "@filterApproved": {
     "description": "Filter chip: approved"
   },
-
   "filterDeclined": "Declined",
   "@filterDeclined": {
     "description": "Filter chip: declined"
   },
-
   "filterToday": "Today",
   "@filterToday": {
     "description": "Filter chip: today"
   },
-
   "filterThisWeek": "This Week",
   "@filterThisWeek": {
     "description": "Filter chip: this week"
   },
-
   "filterThisMonth": "This Month",
   "@filterThisMonth": {
     "description": "Filter chip: this month"
   },
-
   "providerDetailTitle": "Provider Details",
   "@providerDetailTitle": {
     "description": "Provider detail screen title"
   },
-
   "editButton": "Edit",
   "@editButton": {
     "description": "Edit button text"
   },
-
   "statusPending": "Under Review",
   "@statusPending": {
     "description": "Status label: pending"
   },
-
   "statusApproved": "Approved",
   "@statusApproved": {
     "description": "Status label: approved"
   },
-
   "statusDeclined": "Declined",
   "@statusDeclined": {
     "description": "Status label: declined"
   },
-
   "queueTitle": "Submission Queue",
   "@queueTitle": {
     "description": "Queue screen title"
   },
-
   "queueStatusPending": "Pending",
   "@queueStatusPending": {
     "description": "Queue item status: pending"
   },
-
   "queueUploadingImage": "Uploading image...",
   "@queueUploadingImage": {
     "description": "Queue status: uploading image"
   },
-
   "queueSubmitting": "Submitting...",
   "@queueSubmitting": {
     "description": "Queue status: submitting"
   },
-
   "queueFailed": "Submission failed",
   "@queueFailed": {
     "description": "Queue status: failed"
   },
-
   "queueCompleted": "Submitted successfully",
   "@queueCompleted": {
     "description": "Queue status: completed"
   },
-
   "retryButton": "Retry",
   "@retryButton": {
     "description": "Retry button text"
   },
-
   "queueEmpty": "No items in the queue",
   "@queueEmpty": {
     "description": "Message when queue is empty"
   },
-
   "noProviders": "No service providers found",
   "@noProviders": {
     "description": "Message when providers list is empty"
   },
-
   "queuedOfflineMessage": "Request saved and will be sent automatically when back online",
   "@queuedOfflineMessage": {
     "description": "Message when provider submission queued offline"
   },
-
   "loading": "Loading...",
   "@loading": {
     "description": "Generic loading text"
   },
-
   "error": "An error occurred",
   "@error": {
     "description": "Generic error text"
   },
-
   "success": "Operation completed successfully",
   "@success": {
     "description": "Generic success text"
   },
-
   "cancel": "Cancel",
   "@cancel": {
     "description": "Cancel button text"
   },
-
   "save": "Save",
   "@save": {
     "description": "Save button text (common)"
   },
-
   "next": "Next",
   "@next": {
     "description": "Next button text (common)"
   },
-
   "back": "Back",
   "@back": {
     "description": "Back button text"
   },
-
   "logout": "Logout",
   "@logout": {
     "description": "Logout action text"
   },
-
   "confirm": "Confirm",
   "@confirm": {
     "description": "Confirm button text"
   },
-
   "exitConfirmation": "Are you sure you want to leave? Your entered data will be lost",
   "@exitConfirmation": {
     "description": "Exit wizard confirmation message"
   },
-
   "close": "Close",
   "@close": {
     "description": "Close button text"
   },
-
   "delete": "Delete",
   "@delete": {
     "description": "Delete button text"
   },
-
   "deleteAccount": "Delete Account",
   "@deleteAccount": {
     "description": "Delete account option text"
   },
-
   "deleteAccountConfirmation": "Are you sure you want to permanently delete your account?",
   "@deleteAccountConfirmation": {
     "description": "Delete account confirmation message"
   },
-
   "deleteAccountRequestSent": "Account deletion request has been sent",
   "@deleteAccountRequestSent": {
     "description": "Confirmation that delete account request was sent"
   },
-
   "userInfo": "User Information",
   "@userInfo": {
     "description": "User info menu option and dialog title"
   },
-
   "homeWelcomeTitle": "Welcome to the Dashboard",
   "@homeWelcomeTitle": {
     "description": "Home screen welcome title"
   },
-
   "homeWelcomeSubtitle": "Manage service offices and providers with ease",
   "@homeWelcomeSubtitle": {
     "description": "Home screen welcome subtitle"
   },
-
   "addProviderAction": "Add Service Provider",
   "@addProviderAction": {
     "description": "Home action card: add provider"
   },
-
   "viewProvidersAction": "View Service Providers",
   "@viewProvidersAction": {
     "description": "Home action card: view providers"
   },
-
   "noInternetConnection": "No internet connection",
   "@noInternetConnection": {
     "description": "No internet connection message"
   },
-
   "getCurrentLocation": "Get My Current Location",
   "@getCurrentLocation": {
     "description": "Button to get current GPS location"
   },
-
   "descriptionLabel": "Service Description",
   "@descriptionLabel": {
     "description": "Description field label"
   },
-
   "addressLabel": "Address",
   "@addressLabel": {
     "description": "Address field label"
   },
-
   "verificationTitle": "Account Verification",
   "@verificationTitle": {
     "description": "Account verification screen title"
   },
-
   "verificationSubtitle": "Enter the verification code sent to your mobile",
   "@verificationSubtitle": {
     "description": "Account verification screen subtitle"
   },
-
   "resendCode": "Resend Code",
   "@resendCode": {
     "description": "Resend verification code button"
   },
-
   "selectCityFirst": "Select a city first",
   "@selectCityFirst": {
     "description": "Hint shown on district dropdown when no city is selected"
   },
-
   "checkConnectionAndRetry": "Check your internet connection and try again",
   "@checkConnectionAndRetry": {
     "description": "Message shown below the no-internet title on the error state"
   },
-
   "somethingWentWrong": "Something went wrong, please try again",
   "@somethingWentWrong": {
     "description": "Message shown below the generic error title on the error state"
-  }
+  },
+  "optional": "Optional"
 }

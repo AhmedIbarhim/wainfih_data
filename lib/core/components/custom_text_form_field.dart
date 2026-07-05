@@ -37,7 +37,7 @@ class CustomTextFormField extends StatelessWidget {
         border: _buildBorder(),
         enabledBorder: _buildBorder(),
         labelText: label,
-        labelStyle: AppTextStyles.regular11,
+        labelStyle: AppTextStyles.regular16,
         suffixIcon: suffixIcon,
       ),
       obscureText: obscureText,

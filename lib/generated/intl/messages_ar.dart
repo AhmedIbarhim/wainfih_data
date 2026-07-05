@@ -97,6 +97,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "noProviders": MessageLookupByLibrary.simpleMessage("لا يوجد مقدمي خدمة"),
     "notes": MessageLookupByLibrary.simpleMessage("ملاحظات"),
+    "optional": MessageLookupByLibrary.simpleMessage("اختياري"),
     "passwordLabel": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
     "providerDetailTitle": MessageLookupByLibrary.simpleMessage(
       "تفاصيل مقدم الخدمة",
