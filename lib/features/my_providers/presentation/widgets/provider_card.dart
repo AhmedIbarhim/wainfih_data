@@ -51,16 +51,19 @@ class ProviderCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
+            Text(
+              provider.serviceProviderNameEn ?? '',
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(width: 8),
             if (provider.district != null)
               Row(
                 children: [
                   const Icon(Icons.location_on_outlined, size: 18),
                   const SizedBox(width: 4),
-                  Expanded(
-                    child: Text(
-                      provider.district!.districtNameAr,
-                    ),
-                  ),
+                  Expanded(child: Text(provider.district!.districtNameAr)),
                 ],
               ),
             const SizedBox(height: 8),

@@ -80,93 +80,100 @@ class _MyProviderViewState extends State<MyProviderView> {
                 ),
               _buildFilterChips(context, l),
               Expanded(
-            child: BlocBuilder<MyProvidersCubit, MyProvidersState>(
-              builder: (context, state) {
-                if (state.isLoading && state.providers.isEmpty) {
-                  return const Center(child: CircularProgressIndicator());
-                }
+                child: BlocBuilder<MyProvidersCubit, MyProvidersState>(
+                  builder: (context, state) {
+                    if (state.isLoading && state.providers.isEmpty) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
 
-                if (state.error != null && state.providers.isEmpty) {
-                  final isConnectionError = state.error == 'CONNECTION_ERROR';
-                  return Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          isConnectionError
-                              ? Icons.wifi_off_rounded
-                              : Icons.error_outline_rounded,
-                          size: 64,
-                          color: Colors.grey.shade400,
+                    if (state.error != null && state.providers.isEmpty) {
+                      final isConnectionError =
+                          state.error == 'CONNECTION_ERROR';
+                      return Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              isConnectionError
+                                  ? Icons.wifi_off_rounded
+                                  : Icons.error_outline_rounded,
+                              size: 64,
+                              color: Colors.grey.shade400,
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              isConnectionError
+                                  ? l.noInternetConnection
+                                  : l.error,
+                              style: AppTextStyles.bold16.copyWith(
+                                color: Colors.grey.shade600,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              isConnectionError
+                                  ? l.checkConnectionAndRetry
+                                  : l.somethingWentWrong,
+                              style: AppTextStyles.regular13.copyWith(
+                                color: Colors.grey,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 24),
+                            TextButton.icon(
+                              onPressed: () =>
+                                  context.read<MyProvidersCubit>().refresh(),
+                              icon: const Icon(Icons.refresh),
+                              label: Text(l.retryButton),
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 16),
-                        Text(
-                          isConnectionError ? l.noInternetConnection : l.error,
-                          style: AppTextStyles.bold16
-                              .copyWith(color: Colors.grey.shade600),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          isConnectionError
-                              ? l.checkConnectionAndRetry
-                              : l.somethingWentWrong,
-                          style: AppTextStyles.regular13
-                              .copyWith(color: Colors.grey),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 24),
-                        TextButton.icon(
-                          onPressed: () =>
-                              context.read<MyProvidersCubit>().refresh(),
-                          icon: const Icon(Icons.refresh),
-                          label: Text(l.retryButton),
-                        ),
-                      ],
-                    ),
-                  );
-                }
+                      );
+                    }
 
-                if (state.providers.isEmpty) {
-                  return Center(
-                    child: Text(
-                      l.noProviders,
-                      style: TextStyle(
-                        color: Colors.grey.shade600,
-                        fontSize: 16,
-                      ),
-                    ),
-                  );
-                }
+                    if (state.providers.isEmpty) {
+                      return Center(
+                        child: Text(
+                          l.noProviders,
+                          style: TextStyle(
+                            color: Colors.grey.shade600,
+                            fontSize: 16,
+                          ),
+                        ),
+                      );
+                    }
 
-                return RefreshIndicator(
-                  onRefresh: () => context.read<MyProvidersCubit>().refresh(),
-                  child: ListView.builder(
-                    controller: _scrollController,
-                    itemCount: state.providers.length + (state.hasMore ? 1 : 0),
-                    padding: const EdgeInsets.only(bottom: 16),
-                    itemBuilder: (_, index) {
-                      if (index >= state.providers.length) {
-                        return const Padding(
-                          padding: EdgeInsets.all(16),
-                          child: Center(child: CircularProgressIndicator()),
-                        );
-                      }
-                      return _ProviderCard(
-                        provider: state.providers[index],
-                        onTap: () {
-                          Navigator.of(context).pushNamed(
-                            Routes.providerDetail,
-                            arguments: state.providers[index],
+                    return RefreshIndicator(
+                      onRefresh: () =>
+                          context.read<MyProvidersCubit>().refresh(),
+                      child: ListView.builder(
+                        controller: _scrollController,
+                        itemCount:
+                            state.providers.length + (state.hasMore ? 1 : 0),
+                        padding: const EdgeInsets.only(bottom: 16),
+                        itemBuilder: (_, index) {
+                          if (index >= state.providers.length) {
+                            return const Padding(
+                              padding: EdgeInsets.all(16),
+                              child: Center(child: CircularProgressIndicator()),
+                            );
+                          }
+                          return _ProviderCard(
+                            provider: state.providers[index],
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                Routes.providerDetail,
+                                arguments: state.providers[index],
+                              );
+                            },
                           );
                         },
-                      );
-                    },
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
           );
         },
       ),
@@ -185,13 +192,25 @@ class _MyProviderViewState extends State<MyProviderView> {
               _buildChip(context, l.filterAll, null, state.activeFilter),
               const SizedBox(width: 8),
               _buildChip(
-                  context, l.filterPending, 'PENDING', state.activeFilter),
+                context,
+                l.filterPending,
+                'PENDING',
+                state.activeFilter,
+              ),
               const SizedBox(width: 8),
               _buildChip(
-                  context, l.filterApproved, 'APPROVED', state.activeFilter),
+                context,
+                l.filterApproved,
+                'APPROVED',
+                state.activeFilter,
+              ),
               const SizedBox(width: 8),
               _buildChip(
-                  context, l.filterDeclined, 'DECLINED', state.activeFilter),
+                context,
+                l.filterDeclined,
+                'DECLINED',
+                state.activeFilter,
+              ),
             ],
           ),
         );
@@ -209,7 +228,8 @@ class _MyProviderViewState extends State<MyProviderView> {
     return ChoiceChip(
       label: Text(label),
       selected: isSelected,
-      onSelected: (_) => context.read<MyProvidersCubit>().setFilter(filterValue),
+      onSelected: (_) =>
+          context.read<MyProvidersCubit>().setFilter(filterValue),
       selectedColor: AppColors.primaryColor,
       labelStyle: TextStyle(
         color: isSelected ? Colors.white : Colors.black,
@@ -251,10 +271,9 @@ class _ProviderCard extends StatelessWidget {
                   Expanded(
                     child: Text(
                       provider.serviceProviderNameAr ?? '',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium
-                          ?.copyWith(fontWeight: FontWeight.bold),
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   if (provider.type != null)
@@ -264,8 +283,9 @@ class _ProviderCard extends StatelessWidget {
                         vertical: 4,
                       ),
                       decoration: BoxDecoration(
-                        color:
-                            AppColors.primaryShadeColor.withValues(alpha: 0.3),
+                        color: AppColors.primaryShadeColor.withValues(
+                          alpha: 0.3,
+                        ),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
@@ -279,6 +299,12 @@ class _ProviderCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 8),
+              Text(
+                provider.serviceProviderNameEn ?? '',
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+              ),
               if (provider.notes != null && provider.notes!.isNotEmpty)
                 Text(
                   provider.notes!,
@@ -336,7 +362,8 @@ class _ProviderCard extends StatelessWidget {
                       ],
                     ),
                   RequestStatusWidget(
-                    status: RequestStatus.fromString(provider.state) ??
+                    status:
+                        RequestStatus.fromString(provider.state) ??
                         RequestStatus.pending,
                   ),
                 ],
