@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/components/custom_app_bar.dart';
+import '../../../../core/enums/fitler_period_enum.dart';
 import '../../../../core/helpers/connectivity_controller.dart';
 import '../../../../core/route/routes.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -10,6 +11,7 @@ import '../../../../generated/l10n.dart';
 import '../../data/models/provider_list_model.dart';
 import '../cubit/my_providers_cubit.dart';
 import '../cubit/my_providers_state.dart';
+import '../utils/provider_filter_utils.dart';
 import '../widgets/request_status_widget.dart';
 
 class MyProviderView extends StatefulWidget {
@@ -79,6 +81,7 @@ class _MyProviderViewState extends State<MyProviderView> {
                   ),
                 ),
               _buildFilterChips(context, l),
+              _buildPeriodFilterChips(context, l),
               Expanded(
                 child: BlocBuilder<MyProvidersCubit, MyProvidersState>(
                   builder: (context, state) {
@@ -131,7 +134,12 @@ class _MyProviderViewState extends State<MyProviderView> {
                       );
                     }
 
-                    if (state.providers.isEmpty) {
+                    final filteredProviders = filterProvidersByPeriod(
+                      state.providers,
+                      state.activePeriod,
+                    );
+
+                    if (filteredProviders.isEmpty) {
                       return Center(
                         child: Text(
                           l.noProviders,
@@ -148,22 +156,22 @@ class _MyProviderViewState extends State<MyProviderView> {
                           context.read<MyProvidersCubit>().refresh(),
                       child: ListView.builder(
                         controller: _scrollController,
-                        itemCount:
-                            state.providers.length + (state.hasMore ? 1 : 0),
+                        itemCount: filteredProviders.length + (state.hasMore ? 1 : 0),
                         padding: const EdgeInsets.only(bottom: 16),
                         itemBuilder: (_, index) {
-                          if (index >= state.providers.length) {
+                          if (index >= filteredProviders.length) {
                             return const Padding(
                               padding: EdgeInsets.all(16),
                               child: Center(child: CircularProgressIndicator()),
                             );
                           }
+                          final provider = filteredProviders[index];
                           return _ProviderCard(
-                            provider: state.providers[index],
+                            provider: provider,
                             onTap: () {
                               Navigator.of(context).pushNamed(
                                 Routes.providerDetail,
-                                arguments: state.providers[index],
+                                arguments: provider,
                               );
                             },
                           );
@@ -182,11 +190,13 @@ class _MyProviderViewState extends State<MyProviderView> {
 
   Widget _buildFilterChips(BuildContext context, S l) {
     return BlocBuilder<MyProvidersCubit, MyProvidersState>(
-      buildWhen: (prev, curr) => prev.activeFilter != curr.activeFilter,
+      buildWhen: (prev, curr) =>
+          prev.activeFilter != curr.activeFilter ||
+          prev.activePeriod != curr.activePeriod,
       builder: (context, state) {
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
           child: Row(
             children: [
               _buildChip(context, l.filterAll, null, state.activeFilter),
@@ -218,6 +228,31 @@ class _MyProviderViewState extends State<MyProviderView> {
     );
   }
 
+  Widget _buildPeriodFilterChips(BuildContext context, S l) {
+    return BlocBuilder<MyProvidersCubit, MyProvidersState>(
+      buildWhen: (prev, curr) =>
+          prev.activeFilter != curr.activeFilter ||
+          prev.activePeriod != curr.activePeriod,
+      builder: (context, state) {
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          child: Row(
+            children: [
+              _buildPeriodChip(context, l.filterAll, FilterPeriod.all, state.activePeriod),
+              const SizedBox(width: 8),
+              _buildPeriodChip(context, l.filterToday, FilterPeriod.day, state.activePeriod),
+              const SizedBox(width: 8),
+              _buildPeriodChip(context, l.filterThisWeek, FilterPeriod.week, state.activePeriod),
+              const SizedBox(width: 8),
+              _buildPeriodChip(context, l.filterThisMonth, FilterPeriod.month, state.activePeriod),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   Widget _buildChip(
     BuildContext context,
     String label,
@@ -230,6 +265,32 @@ class _MyProviderViewState extends State<MyProviderView> {
       selected: isSelected,
       onSelected: (_) =>
           context.read<MyProvidersCubit>().setFilter(filterValue),
+      selectedColor: AppColors.primaryColor,
+      labelStyle: TextStyle(
+        color: isSelected ? Colors.white : Colors.black,
+        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+      ),
+      showCheckmark: false,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+        side: BorderSide(
+          color: isSelected ? AppColors.primaryColor : Colors.grey.shade300,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPeriodChip(
+    BuildContext context,
+    String label,
+    FilterPeriod period,
+    FilterPeriod activePeriod,
+  ) {
+    final isSelected = activePeriod == period;
+    return ChoiceChip(
+      label: Text(label),
+      selected: isSelected,
+      onSelected: (_) => context.read<MyProvidersCubit>().setPeriod(period),
       selectedColor: AppColors.primaryColor,
       labelStyle: TextStyle(
         color: isSelected ? Colors.white : Colors.black,

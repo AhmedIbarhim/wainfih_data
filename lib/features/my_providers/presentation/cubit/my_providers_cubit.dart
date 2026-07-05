@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/enums/fitler_period_enum.dart';
 import '../../data/repos/my_providers_repository.dart';
 import 'my_providers_state.dart';
 
@@ -22,7 +23,9 @@ class MyProvidersCubit extends Cubit<MyProvidersState> {
     result.fold(
       (error) => emit(state.copyWith(isLoading: false, error: error)),
       (paged) {
-        final providers = refresh ? paged.content : [...state.providers, ...paged.content];
+        final providers = refresh
+            ? paged.content
+            : [...state.providers, ...paged.content];
         emit(state.copyWith(
           providers: providers,
           isLoading: false,
@@ -34,8 +37,12 @@ class MyProvidersCubit extends Cubit<MyProvidersState> {
   }
 
   void setFilter(String? filter) {
-    emit(MyProvidersState(activeFilter: filter));
+    emit(state.copyWith(activeFilter: filter));
     loadProviders(refresh: true);
+  }
+
+  void setPeriod(FilterPeriod period) {
+    emit(state.copyWith(activePeriod: period));
   }
 
   Future<void> refresh() => loadProviders(refresh: true);

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import '../../../../core/enums/fitler_period_enum.dart';
 import '../../data/models/provider_list_model.dart';
 
 class MyProvidersState extends Equatable {
@@ -7,6 +8,7 @@ class MyProvidersState extends Equatable {
   final bool hasMore;
   final int currentPage;
   final String? activeFilter;
+  final FilterPeriod activePeriod;
   final String? error;
 
   const MyProvidersState({
@@ -15,6 +17,7 @@ class MyProvidersState extends Equatable {
     this.hasMore = true,
     this.currentPage = 1,
     this.activeFilter,
+    this.activePeriod = FilterPeriod.all,
     this.error,
   });
 
@@ -24,6 +27,7 @@ class MyProvidersState extends Equatable {
     bool? hasMore,
     int? currentPage,
     String? activeFilter,
+    FilterPeriod? activePeriod,
     String? error,
   }) {
     return MyProvidersState(
@@ -32,6 +36,7 @@ class MyProvidersState extends Equatable {
       hasMore: hasMore ?? this.hasMore,
       currentPage: currentPage ?? this.currentPage,
       activeFilter: activeFilter ?? this.activeFilter,
+      activePeriod: activePeriod ?? this.activePeriod,
       error: error,
     );
   }
@@ -43,6 +48,7 @@ class MyProvidersState extends Equatable {
         hasMore,
         currentPage,
         activeFilter,
+        activePeriod,
         error,
       ];
 }
