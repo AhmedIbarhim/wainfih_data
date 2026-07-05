@@ -26,12 +26,14 @@ class MyProvidersCubit extends Cubit<MyProvidersState> {
         final providers = refresh
             ? paged.content
             : [...state.providers, ...paged.content];
-        emit(state.copyWith(
-          providers: providers,
-          isLoading: false,
-          hasMore: paged.hasNextPage,
-          currentPage: page + 1,
-        ));
+        emit(
+          state.copyWith(
+            providers: providers,
+            isLoading: false,
+            hasMore: paged.hasNextPage,
+            currentPage: page + 1,
+          ),
+        );
       },
     );
   }

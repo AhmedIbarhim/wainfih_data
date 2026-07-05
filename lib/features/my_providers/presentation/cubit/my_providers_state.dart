@@ -43,12 +43,12 @@ class MyProvidersState extends Equatable {
 
   @override
   List<Object?> get props => [
-        providers,
-        isLoading,
-        hasMore,
-        currentPage,
-        activeFilter,
-        activePeriod,
-        error,
-      ];
+    providers,
+    isLoading,
+    hasMore,
+    currentPage,
+    activeFilter,
+    activePeriod,
+    error,
+  ];
 }

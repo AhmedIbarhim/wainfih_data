@@ -156,7 +156,8 @@ class _MyProviderViewState extends State<MyProviderView> {
                           context.read<MyProvidersCubit>().refresh(),
                       child: ListView.builder(
                         controller: _scrollController,
-                        itemCount: filteredProviders.length + (state.hasMore ? 1 : 0),
+                        itemCount:
+                            filteredProviders.length + (state.hasMore ? 1 : 0),
                         padding: const EdgeInsets.only(bottom: 16),
                         itemBuilder: (_, index) {
                           if (index >= filteredProviders.length) {
@@ -239,13 +240,33 @@ class _MyProviderViewState extends State<MyProviderView> {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           child: Row(
             children: [
-              _buildPeriodChip(context, l.filterAll, FilterPeriod.all, state.activePeriod),
+              _buildPeriodChip(
+                context,
+                l.filterAll,
+                FilterPeriod.all,
+                state.activePeriod,
+              ),
               const SizedBox(width: 8),
-              _buildPeriodChip(context, l.filterToday, FilterPeriod.day, state.activePeriod),
+              _buildPeriodChip(
+                context,
+                l.filterToday,
+                FilterPeriod.day,
+                state.activePeriod,
+              ),
               const SizedBox(width: 8),
-              _buildPeriodChip(context, l.filterThisWeek, FilterPeriod.week, state.activePeriod),
+              _buildPeriodChip(
+                context,
+                l.filterThisWeek,
+                FilterPeriod.week,
+                state.activePeriod,
+              ),
               const SizedBox(width: 8),
-              _buildPeriodChip(context, l.filterThisMonth, FilterPeriod.month, state.activePeriod),
+              _buildPeriodChip(
+                context,
+                l.filterThisMonth,
+                FilterPeriod.month,
+                state.activePeriod,
+              ),
             ],
           ),
         );
