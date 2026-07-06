@@ -7,7 +7,6 @@ import '../models/category_model.dart';
 import '../models/city_model.dart';
 import '../models/district_model.dart';
 import '../models/sp_type_model.dart';
-import 'lookups_local_data_source.dart';
 
 class LookupsRemoteDataSource {
   final APIClient _apiClient;
@@ -178,37 +177,9 @@ class LookupsRemoteDataSource {
     }
   }
 
-  Future<Either<String, LookupsCache>> fetchAllLookups() async {
-    // `agent-lookups` now returns only leaf categories. Cities, districts and
-    // service-provider types are sourced from their own dedicated endpoints.
-    final citiesRes = await getCities();
-    final districtsRes = await getAllDistricts();
-    final typesRes = await getServiceProviderTypes();
-    final categoriesRes = await _getLeafCategories();
-
-    return citiesRes.fold(
-      (l) => left(l),
-      (cities) => districtsRes.fold(
-        (l) => left(l),
-        (districts) => typesRes.fold(
-          (l) => left(l),
-          (serviceTypes) => categoriesRes.fold(
-            (l) => left(l),
-            (categories) => right(
-              LookupsCache(
-                cities: cities,
-                districts: districts,
-                serviceTypes: serviceTypes,
-                categories: categories,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Future<Either<String, List<CategoryModel>>> _getLeafCategories() async {
+  /// `agent-lookups` now returns only leaf categories. Cities, districts and
+  /// service-provider types are sourced from their own dedicated endpoints.
+  Future<Either<String, List<CategoryModel>>> getLeafCategories() async {
     try {
       final response = await _apiClient.get('/serviceProvider/agent-lookups');
       final data = response.data as Map<String, dynamic>;

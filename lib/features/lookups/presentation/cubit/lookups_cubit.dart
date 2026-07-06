@@ -37,25 +37,37 @@ class LookupsCubit extends Cubit<LookupsState> {
 
   Future<void> _refreshFromNetwork() async {
     try {
-      final result = await _remoteDataSource.fetchAllLookups();
-      result.fold(
-        (_) {
-          // Network failed — cached data already in state
-          emit(state.copyWith(isLoading: false));
-        },
-        (cache) {
-          _allDistricts = cache.districts;
-          emit(
-            state.copyWith(
-              isLoading: false,
-              cities: cache.cities,
-              serviceTypes: cache.serviceTypes,
-              categories: cache.categories,
-            ),
-          );
-          // Save to local cache
-          _localDataSource.saveCache(cache);
-        },
+      // Fetch all four lookups independently — a failure in one must not
+      // wipe out the others. Each falls back to its existing cached value.
+      final (citiesRes, districtsRes, typesRes, categoriesRes) = await (
+        _remoteDataSource.getCities(),
+        _remoteDataSource.getAllDistricts(),
+        _remoteDataSource.getServiceProviderTypes(),
+        _remoteDataSource.getLeafCategories(),
+      ).wait;
+
+      final cities = citiesRes.getOrElse(() => state.cities);
+      _allDistricts = districtsRes.getOrElse(() => _allDistricts);
+      final serviceTypes = typesRes.getOrElse(() => state.serviceTypes);
+      final categories = categoriesRes.getOrElse(() => state.categories);
+
+      emit(
+        state.copyWith(
+          isLoading: false,
+          cities: cities,
+          serviceTypes: serviceTypes,
+          categories: categories,
+        ),
+      );
+
+      // Save the combined result to local cache for offline use.
+      _localDataSource.saveCache(
+        LookupsCache(
+          cities: cities,
+          districts: _allDistricts,
+          serviceTypes: serviceTypes,
+          categories: categories,
+        ),
       );
     } catch (_) {
       emit(state.copyWith(isLoading: false));
