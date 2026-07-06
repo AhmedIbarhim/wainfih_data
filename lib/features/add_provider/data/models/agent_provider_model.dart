@@ -17,7 +17,6 @@ abstract class AgentProviderModel with _$AgentProviderModel {
     required double lat,
     required double lng,
     int? districtId,
-    int? typeId,
     List<int>? categoryIds,
   }) = _AgentProviderModel;
 

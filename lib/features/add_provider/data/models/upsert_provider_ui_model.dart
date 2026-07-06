@@ -107,7 +107,6 @@ class UpsertProviderUiModel {
       lat: location.value!.latitude,
       lng: location.value!.longitude,
       districtId: selectedDistrict.value?.id,
-      typeId: null,
       categoryIds: selectedCategory.value != null
           ? [selectedCategory.value!.id]
           : null,

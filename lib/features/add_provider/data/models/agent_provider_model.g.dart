@@ -18,7 +18,6 @@ _AgentProviderModel _$AgentProviderModelFromJson(Map<String, dynamic> json) =>
       lat: (json['lat'] as num).toDouble(),
       lng: (json['lng'] as num).toDouble(),
       districtId: (json['districtId'] as num?)?.toInt(),
-      typeId: (json['typeId'] as num?)?.toInt(),
       categoryIds: (json['categoryIds'] as List<dynamic>?)
           ?.map((e) => (e as num).toInt())
           .toList(),
@@ -36,6 +35,5 @@ Map<String, dynamic> _$AgentProviderModelToJson(_AgentProviderModel instance) =>
       'lat': instance.lat,
       'lng': instance.lng,
       'districtId': instance.districtId,
-      'typeId': instance.typeId,
       'categoryIds': instance.categoryIds,
     };

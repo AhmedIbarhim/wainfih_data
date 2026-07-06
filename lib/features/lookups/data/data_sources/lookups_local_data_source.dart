@@ -6,25 +6,21 @@ import 'package:path_provider/path_provider.dart';
 import '../models/category_model.dart';
 import '../models/city_model.dart';
 import '../models/district_model.dart';
-import '../models/sp_type_model.dart';
 
 class LookupsCache {
   final List<CityModel> cities;
   final List<DistrictModel> districts;
-  final List<SpTypeModel> serviceTypes;
   final List<CategoryModel> categories;
 
   LookupsCache({
     required this.cities,
     required this.districts,
-    required this.serviceTypes,
     required this.categories,
   });
 
   Map<String, dynamic> toJson() => {
         'cities': cities.map((c) => c.toJson()).toList(),
         'districts': districts.map((d) => d.toJson()).toList(),
-        'serviceTypes': serviceTypes.map((t) => t.toJson()).toList(),
         'categories': categories.map((c) => c.toJson()).toList(),
       };
 
@@ -34,9 +30,6 @@ class LookupsCache {
             .toList(),
         districts: (json['districts'] as List)
             .map((e) => DistrictModel.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        serviceTypes: (json['serviceTypes'] as List)
-            .map((e) => SpTypeModel.fromJson(e as Map<String, dynamic>))
             .toList(),
         categories: (json['categories'] as List)
             .map((e) => CategoryModel.fromJson(e as Map<String, dynamic>))

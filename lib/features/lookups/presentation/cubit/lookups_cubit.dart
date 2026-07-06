@@ -25,7 +25,6 @@ class LookupsCubit extends Cubit<LookupsState> {
         state.copyWith(
           isLoading: false,
           cities: cache.cities,
-          serviceTypes: cache.serviceTypes,
           categories: cache.categories,
         ),
       );
@@ -37,25 +36,22 @@ class LookupsCubit extends Cubit<LookupsState> {
 
   Future<void> _refreshFromNetwork() async {
     try {
-      // Fetch all four lookups independently — a failure in one must not
+      // Fetch all three lookups independently — a failure in one must not
       // wipe out the others. Each falls back to its existing cached value.
-      final (citiesRes, districtsRes, typesRes, categoriesRes) = await (
+      final (citiesRes, districtsRes, categoriesRes) = await (
         _remoteDataSource.getCities(),
         _remoteDataSource.getAllDistricts(),
-        _remoteDataSource.getServiceProviderTypes(),
         _remoteDataSource.getLeafCategories(),
       ).wait;
 
       final cities = citiesRes.getOrElse(() => state.cities);
       _allDistricts = districtsRes.getOrElse(() => _allDistricts);
-      final serviceTypes = typesRes.getOrElse(() => state.serviceTypes);
       final categories = categoriesRes.getOrElse(() => state.categories);
 
       emit(
         state.copyWith(
           isLoading: false,
           cities: cities,
-          serviceTypes: serviceTypes,
           categories: categories,
         ),
       );
@@ -65,7 +61,6 @@ class LookupsCubit extends Cubit<LookupsState> {
         LookupsCache(
           cities: cities,
           districts: _allDistricts,
-          serviceTypes: serviceTypes,
           categories: categories,
         ),
       );
