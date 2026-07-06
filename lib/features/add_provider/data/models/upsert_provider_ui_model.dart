@@ -6,7 +6,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../lookups/data/models/category_model.dart';
 import '../../../lookups/data/models/city_model.dart';
 import '../../../lookups/data/models/district_model.dart';
-import '../../../lookups/data/models/sp_type_model.dart';
 import '../../../my_providers/data/models/provider_list_model.dart';
 import 'agent_provider_model.dart';
 
@@ -25,10 +24,9 @@ class UpsertProviderUiModel {
   final ValueNotifier<LatLng?> location;
 
   // Step 3: Classification
-  final ValueNotifier<SpTypeModel?> selectedType;
+  final ValueNotifier<CategoryModel?> selectedCategory;
   final ValueNotifier<CityModel?> selectedCity;
   final ValueNotifier<DistrictModel?> selectedDistrict;
-  final ValueNotifier<List<CategoryModel>> selectedCategories;
 
   // Editing context
   final int? existingId;
@@ -43,10 +41,9 @@ class UpsertProviderUiModel {
     required this.imageFile,
     required this.imageJson,
     required this.location,
-    required this.selectedType,
+    required this.selectedCategory,
     required this.selectedCity,
     required this.selectedDistrict,
-    required this.selectedCategories,
     this.existingId,
   });
 
@@ -61,10 +58,9 @@ class UpsertProviderUiModel {
       imageFile: ValueNotifier(null),
       imageJson: ValueNotifier(null),
       location: ValueNotifier(null),
-      selectedType: ValueNotifier(null),
+      selectedCategory: ValueNotifier(null),
       selectedCity: ValueNotifier(null),
       selectedDistrict: ValueNotifier(null),
-      selectedCategories: ValueNotifier([]),
     );
   }
 
@@ -83,10 +79,13 @@ class UpsertProviderUiModel {
             ? LatLng(provider.lat!, provider.lng!)
             : null,
       ),
-      selectedType: ValueNotifier(provider.type),
+      selectedCategory: ValueNotifier(
+        provider.categories != null && provider.categories!.isNotEmpty
+            ? provider.categories!.first
+            : null,
+      ),
       selectedCity: ValueNotifier(provider.district?.city),
       selectedDistrict: ValueNotifier(provider.district),
-      selectedCategories: ValueNotifier(provider.categories ?? []),
       existingId: provider.id,
     );
   }
@@ -107,10 +106,10 @@ class UpsertProviderUiModel {
       image: imageJson.value ?? {},
       lat: location.value!.latitude,
       lng: location.value!.longitude,
-      districtId: selectedDistrict.value!.id,
-      typeId: selectedType.value!.id,
-      categoryIds: selectedCategories.value.isNotEmpty
-          ? selectedCategories.value.map((c) => c.id).toList()
+      districtId: selectedDistrict.value?.id,
+      typeId: null,
+      categoryIds: selectedCategory.value != null
+          ? [selectedCategory.value!.id]
           : null,
     );
   }
@@ -125,9 +124,8 @@ class UpsertProviderUiModel {
     imageFile.dispose();
     imageJson.dispose();
     location.dispose();
-    selectedType.dispose();
+    selectedCategory.dispose();
     selectedCity.dispose();
     selectedDistrict.dispose();
-    selectedCategories.dispose();
   }
 }

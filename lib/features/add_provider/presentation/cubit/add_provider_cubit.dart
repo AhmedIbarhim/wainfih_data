@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -36,10 +34,10 @@ class AddProviderCubit extends Cubit<AddProviderState> {
           if (uiModel.notes.text.isNotEmpty) 'notes': uiModel.notes.text,
           'lat': uiModel.location.value!.latitude,
           'lng': uiModel.location.value!.longitude,
-          'districtId': uiModel.selectedDistrict.value!.id,
-          'typeId': uiModel.selectedType.value!.id,
-          if (uiModel.selectedCategories.value.isNotEmpty)
-            'categoryIds': uiModel.selectedCategories.value.map((c) => c.id).toList(),
+          if (uiModel.selectedDistrict.value != null)
+            'districtId': uiModel.selectedDistrict.value!.id,
+          if (uiModel.selectedCategory.value != null)
+            'categoryIds': [uiModel.selectedCategory.value!.id],
         },
         imageFilePath: uiModel.imageFile.value?.path,
         imageJson: uiModel.imageJson.value,

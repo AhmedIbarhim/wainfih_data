@@ -16,8 +16,8 @@ abstract class AgentProviderModel with _$AgentProviderModel {
     required Map<String, dynamic> image,
     required double lat,
     required double lng,
-    required int districtId,
-    required int typeId,
+    int? districtId,
+    int? typeId,
     List<int>? categoryIds,
   }) = _AgentProviderModel;
 

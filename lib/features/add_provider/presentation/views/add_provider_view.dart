@@ -16,10 +16,9 @@ import '../../data/models/upsert_provider_ui_model.dart';
 import '../cubit/add_provider_cubit.dart';
 import '../cubit/add_provider_state.dart';
 import '../../../images/presentation/widgets/image_field.dart';
-// import '../../../lookups/data/models/category_model.dart';
+import '../../../lookups/data/models/category_model.dart';
 import '../../../lookups/data/models/city_model.dart';
 import '../../../lookups/data/models/district_model.dart';
-import '../../../lookups/data/models/sp_type_model.dart';
 import '../../../lookups/presentation/cubit/lookups_cubit.dart';
 import '../../../lookups/presentation/cubit/lookups_state.dart';
 import '../../../map/data/location_remote_data_source.dart';
@@ -183,10 +182,10 @@ class _AddProviderViewState extends State<AddProviderView> {
       _moveToNextStep();
     } else {
       // Validate classification and submit
-      if (uiModel.selectedType.value == null) {
+      if (uiModel.selectedCategory.value == null) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text(l.validationTypeRequired)));
+        ).showSnackBar(SnackBar(content: Text(l.validationCategoriesRequired)));
         return;
       }
       // if (uiModel.selectedDistrict.value == null) {
@@ -559,7 +558,7 @@ class _Step3ClassificationState extends State<_Step3Classification>
         }
       },
       builder: (context, state) {
-        if (state.isLoading && state.serviceTypes.isEmpty) {
+        if (state.isLoading && state.categories.isEmpty) {
           return const Center(child: CircularProgressIndicator());
         }
 
@@ -568,14 +567,14 @@ class _Step3ClassificationState extends State<_Step3Classification>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 10),
-              // Service Type Dropdown
-              _SearchableDropdown<SpTypeModel>(
-                label: l.serviceType,
-                items: state.serviceTypes,
-                selectedItem: uiModel.selectedType.value,
-                itemLabel: (t) => t.typeNameAr,
-                onSelected: (t) {
-                  setState(() => uiModel.selectedType.value = t);
+              // Category Dropdown
+              _SearchableDropdown<CategoryModel>(
+                label: l.categoriesLabel,
+                items: state.categories,
+                selectedItem: uiModel.selectedCategory.value,
+                itemLabel: (c) => c.categoryNameAr,
+                onSelected: (c) {
+                  setState(() => uiModel.selectedCategory.value = c);
                 },
               ),
               const SizedBox(height: 16),

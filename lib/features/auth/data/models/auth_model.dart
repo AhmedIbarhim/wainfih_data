@@ -10,10 +10,8 @@ abstract class AuthModel with _$AuthModel {
   const AuthModel._();
 
   @JsonSerializable(explicitToJson: true)
-  const factory AuthModel({
-    required String token,
-    required UserModel user,
-  }) = _AuthModel;
+  const factory AuthModel({required String token, required UserModel user}) =
+      _AuthModel;
 
   factory AuthModel.fromJson(Map<String, Object?> json) =>
       _$AuthModelFromJson(json);

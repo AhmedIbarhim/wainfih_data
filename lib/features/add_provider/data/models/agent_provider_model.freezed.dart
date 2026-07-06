@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AgentProviderModel {
 
- String? get serviceProviderNameAr; String? get serviceProviderNameEn; String get mobileNumber1; String? get mobileNumber2; String? get contactPersonName; String? get notes; Map<String, dynamic> get image; double get lat; double get lng; int get districtId; int get typeId; List<int>? get categoryIds;
+ String? get serviceProviderNameAr; String? get serviceProviderNameEn; String get mobileNumber1; String? get mobileNumber2; String? get contactPersonName; String? get notes; Map<String, dynamic> get image; double get lat; double get lng; int? get districtId; int? get typeId; List<int>? get categoryIds;
 /// Create a copy of AgentProviderModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $AgentProviderModelCopyWith<$Res>  {
   factory $AgentProviderModelCopyWith(AgentProviderModel value, $Res Function(AgentProviderModel) _then) = _$AgentProviderModelCopyWithImpl;
 @useResult
 $Res call({
- String? serviceProviderNameAr, String? serviceProviderNameEn, String mobileNumber1, String? mobileNumber2, String? contactPersonName, String? notes, Map<String, dynamic> image, double lat, double lng, int districtId, int typeId, List<int>? categoryIds
+ String? serviceProviderNameAr, String? serviceProviderNameEn, String mobileNumber1, String? mobileNumber2, String? contactPersonName, String? notes, Map<String, dynamic> image, double lat, double lng, int? districtId, int? typeId, List<int>? categoryIds
 });
 
 
@@ -65,7 +65,7 @@ class _$AgentProviderModelCopyWithImpl<$Res>
 
 /// Create a copy of AgentProviderModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? serviceProviderNameAr = freezed,Object? serviceProviderNameEn = freezed,Object? mobileNumber1 = null,Object? mobileNumber2 = freezed,Object? contactPersonName = freezed,Object? notes = freezed,Object? image = null,Object? lat = null,Object? lng = null,Object? districtId = null,Object? typeId = null,Object? categoryIds = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? serviceProviderNameAr = freezed,Object? serviceProviderNameEn = freezed,Object? mobileNumber1 = null,Object? mobileNumber2 = freezed,Object? contactPersonName = freezed,Object? notes = freezed,Object? image = null,Object? lat = null,Object? lng = null,Object? districtId = freezed,Object? typeId = freezed,Object? categoryIds = freezed,}) {
   return _then(_self.copyWith(
 serviceProviderNameAr: freezed == serviceProviderNameAr ? _self.serviceProviderNameAr : serviceProviderNameAr // ignore: cast_nullable_to_non_nullable
 as String?,serviceProviderNameEn: freezed == serviceProviderNameEn ? _self.serviceProviderNameEn : serviceProviderNameEn // ignore: cast_nullable_to_non_nullable
@@ -76,9 +76,9 @@ as String?,notes: freezed == notes ? _self.notes : notes // ignore: cast_nullabl
 as String?,image: null == image ? _self.image : image // ignore: cast_nullable_to_non_nullable
 as Map<String, dynamic>,lat: null == lat ? _self.lat : lat // ignore: cast_nullable_to_non_nullable
 as double,lng: null == lng ? _self.lng : lng // ignore: cast_nullable_to_non_nullable
-as double,districtId: null == districtId ? _self.districtId : districtId // ignore: cast_nullable_to_non_nullable
-as int,typeId: null == typeId ? _self.typeId : typeId // ignore: cast_nullable_to_non_nullable
-as int,categoryIds: freezed == categoryIds ? _self.categoryIds : categoryIds // ignore: cast_nullable_to_non_nullable
+as double,districtId: freezed == districtId ? _self.districtId : districtId // ignore: cast_nullable_to_non_nullable
+as int?,typeId: freezed == typeId ? _self.typeId : typeId // ignore: cast_nullable_to_non_nullable
+as int?,categoryIds: freezed == categoryIds ? _self.categoryIds : categoryIds // ignore: cast_nullable_to_non_nullable
 as List<int>?,
   ));
 }
@@ -164,7 +164,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? serviceProviderNameAr,  String? serviceProviderNameEn,  String mobileNumber1,  String? mobileNumber2,  String? contactPersonName,  String? notes,  Map<String, dynamic> image,  double lat,  double lng,  int districtId,  int typeId,  List<int>? categoryIds)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? serviceProviderNameAr,  String? serviceProviderNameEn,  String mobileNumber1,  String? mobileNumber2,  String? contactPersonName,  String? notes,  Map<String, dynamic> image,  double lat,  double lng,  int? districtId,  int? typeId,  List<int>? categoryIds)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AgentProviderModel() when $default != null:
 return $default(_that.serviceProviderNameAr,_that.serviceProviderNameEn,_that.mobileNumber1,_that.mobileNumber2,_that.contactPersonName,_that.notes,_that.image,_that.lat,_that.lng,_that.districtId,_that.typeId,_that.categoryIds);case _:
@@ -185,7 +185,7 @@ return $default(_that.serviceProviderNameAr,_that.serviceProviderNameEn,_that.mo
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? serviceProviderNameAr,  String? serviceProviderNameEn,  String mobileNumber1,  String? mobileNumber2,  String? contactPersonName,  String? notes,  Map<String, dynamic> image,  double lat,  double lng,  int districtId,  int typeId,  List<int>? categoryIds)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? serviceProviderNameAr,  String? serviceProviderNameEn,  String mobileNumber1,  String? mobileNumber2,  String? contactPersonName,  String? notes,  Map<String, dynamic> image,  double lat,  double lng,  int? districtId,  int? typeId,  List<int>? categoryIds)  $default,) {final _that = this;
 switch (_that) {
 case _AgentProviderModel():
 return $default(_that.serviceProviderNameAr,_that.serviceProviderNameEn,_that.mobileNumber1,_that.mobileNumber2,_that.contactPersonName,_that.notes,_that.image,_that.lat,_that.lng,_that.districtId,_that.typeId,_that.categoryIds);case _:
@@ -205,7 +205,7 @@ return $default(_that.serviceProviderNameAr,_that.serviceProviderNameEn,_that.mo
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? serviceProviderNameAr,  String? serviceProviderNameEn,  String mobileNumber1,  String? mobileNumber2,  String? contactPersonName,  String? notes,  Map<String, dynamic> image,  double lat,  double lng,  int districtId,  int typeId,  List<int>? categoryIds)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? serviceProviderNameAr,  String? serviceProviderNameEn,  String mobileNumber1,  String? mobileNumber2,  String? contactPersonName,  String? notes,  Map<String, dynamic> image,  double lat,  double lng,  int? districtId,  int? typeId,  List<int>? categoryIds)?  $default,) {final _that = this;
 switch (_that) {
 case _AgentProviderModel() when $default != null:
 return $default(_that.serviceProviderNameAr,_that.serviceProviderNameEn,_that.mobileNumber1,_that.mobileNumber2,_that.contactPersonName,_that.notes,_that.image,_that.lat,_that.lng,_that.districtId,_that.typeId,_that.categoryIds);case _:
@@ -220,7 +220,7 @@ return $default(_that.serviceProviderNameAr,_that.serviceProviderNameEn,_that.mo
 
 @JsonSerializable(explicitToJson: true)
 class _AgentProviderModel implements AgentProviderModel {
-  const _AgentProviderModel({this.serviceProviderNameAr, this.serviceProviderNameEn, required this.mobileNumber1, this.mobileNumber2, this.contactPersonName, this.notes, required final  Map<String, dynamic> image, required this.lat, required this.lng, required this.districtId, required this.typeId, final  List<int>? categoryIds}): _image = image,_categoryIds = categoryIds;
+  const _AgentProviderModel({this.serviceProviderNameAr, this.serviceProviderNameEn, required this.mobileNumber1, this.mobileNumber2, this.contactPersonName, this.notes, required final  Map<String, dynamic> image, required this.lat, required this.lng, this.districtId, this.typeId, final  List<int>? categoryIds}): _image = image,_categoryIds = categoryIds;
   factory _AgentProviderModel.fromJson(Map<String, dynamic> json) => _$AgentProviderModelFromJson(json);
 
 @override final  String? serviceProviderNameAr;
@@ -238,8 +238,8 @@ class _AgentProviderModel implements AgentProviderModel {
 
 @override final  double lat;
 @override final  double lng;
-@override final  int districtId;
-@override final  int typeId;
+@override final  int? districtId;
+@override final  int? typeId;
  final  List<int>? _categoryIds;
 @override List<int>? get categoryIds {
   final value = _categoryIds;
@@ -283,7 +283,7 @@ abstract mixin class _$AgentProviderModelCopyWith<$Res> implements $AgentProvide
   factory _$AgentProviderModelCopyWith(_AgentProviderModel value, $Res Function(_AgentProviderModel) _then) = __$AgentProviderModelCopyWithImpl;
 @override @useResult
 $Res call({
- String? serviceProviderNameAr, String? serviceProviderNameEn, String mobileNumber1, String? mobileNumber2, String? contactPersonName, String? notes, Map<String, dynamic> image, double lat, double lng, int districtId, int typeId, List<int>? categoryIds
+ String? serviceProviderNameAr, String? serviceProviderNameEn, String mobileNumber1, String? mobileNumber2, String? contactPersonName, String? notes, Map<String, dynamic> image, double lat, double lng, int? districtId, int? typeId, List<int>? categoryIds
 });
 
 
@@ -300,7 +300,7 @@ class __$AgentProviderModelCopyWithImpl<$Res>
 
 /// Create a copy of AgentProviderModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? serviceProviderNameAr = freezed,Object? serviceProviderNameEn = freezed,Object? mobileNumber1 = null,Object? mobileNumber2 = freezed,Object? contactPersonName = freezed,Object? notes = freezed,Object? image = null,Object? lat = null,Object? lng = null,Object? districtId = null,Object? typeId = null,Object? categoryIds = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? serviceProviderNameAr = freezed,Object? serviceProviderNameEn = freezed,Object? mobileNumber1 = null,Object? mobileNumber2 = freezed,Object? contactPersonName = freezed,Object? notes = freezed,Object? image = null,Object? lat = null,Object? lng = null,Object? districtId = freezed,Object? typeId = freezed,Object? categoryIds = freezed,}) {
   return _then(_AgentProviderModel(
 serviceProviderNameAr: freezed == serviceProviderNameAr ? _self.serviceProviderNameAr : serviceProviderNameAr // ignore: cast_nullable_to_non_nullable
 as String?,serviceProviderNameEn: freezed == serviceProviderNameEn ? _self.serviceProviderNameEn : serviceProviderNameEn // ignore: cast_nullable_to_non_nullable
@@ -311,9 +311,9 @@ as String?,notes: freezed == notes ? _self.notes : notes // ignore: cast_nullabl
 as String?,image: null == image ? _self._image : image // ignore: cast_nullable_to_non_nullable
 as Map<String, dynamic>,lat: null == lat ? _self.lat : lat // ignore: cast_nullable_to_non_nullable
 as double,lng: null == lng ? _self.lng : lng // ignore: cast_nullable_to_non_nullable
-as double,districtId: null == districtId ? _self.districtId : districtId // ignore: cast_nullable_to_non_nullable
-as int,typeId: null == typeId ? _self.typeId : typeId // ignore: cast_nullable_to_non_nullable
-as int,categoryIds: freezed == categoryIds ? _self._categoryIds : categoryIds // ignore: cast_nullable_to_non_nullable
+as double,districtId: freezed == districtId ? _self.districtId : districtId // ignore: cast_nullable_to_non_nullable
+as int?,typeId: freezed == typeId ? _self.typeId : typeId // ignore: cast_nullable_to_non_nullable
+as int?,categoryIds: freezed == categoryIds ? _self._categoryIds : categoryIds // ignore: cast_nullable_to_non_nullable
 as List<int>?,
   ));
 }
