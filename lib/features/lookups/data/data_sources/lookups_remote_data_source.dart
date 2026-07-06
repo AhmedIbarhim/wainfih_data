@@ -179,24 +179,43 @@ class LookupsRemoteDataSource {
   }
 
   Future<Either<String, LookupsCache>> fetchAllLookups() async {
+    // `agent-lookups` now returns only leaf categories. Cities, districts and
+    // service-provider types are sourced from their own dedicated endpoints.
+    final citiesRes = await getCities();
+    final districtsRes = await getAllDistricts();
+    final typesRes = await getServiceProviderTypes();
+    final categoriesRes = await _getLeafCategories();
+
+    return citiesRes.fold(
+      (l) => left(l),
+      (cities) => districtsRes.fold(
+        (l) => left(l),
+        (districts) => typesRes.fold(
+          (l) => left(l),
+          (serviceTypes) => categoriesRes.fold(
+            (l) => left(l),
+            (categories) => right(
+              LookupsCache(
+                cities: cities,
+                districts: districts,
+                serviceTypes: serviceTypes,
+                categories: categories,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<Either<String, List<CategoryModel>>> _getLeafCategories() async {
     try {
       final response = await _apiClient.get('/serviceProvider/agent-lookups');
       final data = response.data as Map<String, dynamic>;
-      final cache = LookupsCache(
-        cities: (data['cities'] as List)
-            .map((e) => CityModel.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        districts: (data['districts'] as List)
-            .map((e) => DistrictModel.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        serviceTypes: (data['serviceTypes'] as List)
-            .map((e) => SpTypeModel.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        categories: (data['categories'] as List)
-            .map((e) => CategoryModel.fromJson(e as Map<String, dynamic>))
-            .toList(),
-      );
-      return right(cache);
+      final categories = (data['categories'] as List? ?? const [])
+          .map((e) => CategoryModel.fromJson(e as Map<String, dynamic>))
+          .toList();
+      return right(categories);
     } on DioException catch (e) {
       if (e.type == DioExceptionType.connectionError ||
           e.type == DioExceptionType.connectionTimeout ||
